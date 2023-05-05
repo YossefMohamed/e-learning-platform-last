@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .btn-primary {
+    @apply py-1 px-4 font-bold shadow  bg-primary text-tinverse border-4 rounded w-fit hover:main-shadow text-center cursor-pointer border-primary   transition-all;
+  }
+
+  .btn-secondary {
+    @apply py-1  shadow px-4 font-bold bg-light text-tsecondary border-4 rounded w-fit hover:main-shadow text-center cursor-pointer border-light   transition-all;
+  }
+  .main-shadow {
+    @apply shadow-2xl -translate-y-0.5;
+  }
+  .text-input {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+  }
+  .label {
+    @apply block mb-2 text-sm font-medium text-gray-900;
+  }
+  .title {
+    @apply text-3xl italic py-2 font-semibold text-gray-800 border-b-4 border-b-primary w-fit my-10;
+  }
+
+  .sec-title {
+    @apply uppercase text-2xl  py-2 font-semibold text-center border-b-4 text-primary my-10;
+  }
+  .tag {
+    @apply cursor-pointer text-sm inline-flex items-center font-bold   px-3 py-1 rounded-full bg-white text-gray-700 border hover:bg-primary hover:text-ttertiary;
+  }
+  .alert {
+    @apply px-4 py-5 border-l-4 bg-primary bg-opacity-20 border-primary text-left text-tsecondary text-lg;
+  }
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.ql-editor {
+  min-height: 150px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
