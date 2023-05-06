@@ -6,15 +6,7 @@ const LessonLayout: React.FC<{
   children: JSX.Element | JSX.Element[];
 }> = ({ children }) => {
   const router = useRouter();
-  console.log(
-    "years/" +
-      router.query.id +
-      "/courses/" +
-      router.query.course +
-      "/lesson/" +
-      router.query.lesson +
-      "/quiz"
-  );
+
   return (
     <div className="p-10">
       <nav className="flex" aria-label="Breadcrumb">

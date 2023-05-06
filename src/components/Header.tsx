@@ -21,7 +21,6 @@ export const Header = () => {
       html.scrollHeight,
       html.offsetHeight
     );
-    console.log((window.scrollY / (height - 600)) * 100);
 
     if (window.scrollY >= 66) {
       setNavbar(true);

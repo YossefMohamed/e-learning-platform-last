@@ -1,6 +1,7 @@
 import React from "react";
 import LessonLayout from "../../../../../../../../layouts/LessonLayout";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Quiz() {
   const [video, setVideo] = React.useState(false);
@@ -8,6 +9,7 @@ function Quiz() {
   React.useEffect(() => {
     setVideo(true);
   }, []);
+  const router = useRouter();
 
   return (
     <LessonLayout>
@@ -49,7 +51,18 @@ function Quiz() {
                   There is now quizes for this lesson
                 </div>
 
-                <Link href="/quiz/123" className="btn btn-primary px-8 ">
+                <Link
+                  href={
+                    "/years/" +
+                    router.query.id +
+                    "/courses/" +
+                    router.query.course +
+                    "/lesson/" +
+                    router.query.lesson +
+                    "/create-quiz"
+                  }
+                  className="btn btn-primary px-8 "
+                >
                   Create a quiz
                 </Link>
               </div>
