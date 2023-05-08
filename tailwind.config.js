@@ -17,7 +17,7 @@ module.exports = {
         tertiary: "#293241",
         light: "#fff",
         tprimary: "#000",
-        tsecondary: "#4a4a96",
+        tsecondary: "#3d5a80",
         ttertiary: "#293241",
         tmuted: "#999797",
         tinverse: "#fff",

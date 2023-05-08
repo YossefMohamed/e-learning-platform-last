@@ -22,7 +22,7 @@ const CheckModal: React.FC<{
       >
         <div className="mt-3  flex flex-col gap-4">
           <div className="sec-title p-0 m-0 border-0 text-left">
-            Delete User
+            Delete Resource
           </div>
 
           <div className="group label">

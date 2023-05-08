@@ -34,7 +34,7 @@ function Lesson() {
       !lessonResponse.data && lessonResponse.refetch();
     }
   }, [router, lessonResponse]);
-  console.log(lessonResponse);
+  console.log(lessonResponse.data, "lesson");
   return (
     <LessonLayout>
       <>
