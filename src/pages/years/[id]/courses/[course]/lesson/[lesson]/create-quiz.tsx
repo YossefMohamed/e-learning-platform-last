@@ -80,6 +80,7 @@ function Quiz() {
       !quizResponse.data && quizResponse.refetch();
     }
   }, [router, quizResponse]);
+
   return quizResponse.isLoading ? (
     <div className="flex   flex-col px-[10%] mt-14 ">
       <Spinner />
@@ -89,16 +90,18 @@ function Quiz() {
       <div className="flex flex-col items-start w-full  gap-4">
         <div className="sec-title p-0 m-0">Quiz : Integraion by parts </div>
         <div className="quiz flex gap-4 justify-between w-full">
-          {quizResponse.data.questions.map((_: any, idx: number) => {
-            return (
-              <div
-                key={idx}
-                className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light"
-              >
-                1
-              </div>
-            );
-          })}
+          {quizResponse.isSuccess &&
+            quizResponse.data.questions?.map((_: any, idx: number) => {
+              return (
+                <div
+                  key={idx}
+                  onClick={() => router.push()}
+                  className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light"
+                >
+                  1
+                </div>
+              );
+            })}
           <div className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light">
             <BsPlus />
           </div>
