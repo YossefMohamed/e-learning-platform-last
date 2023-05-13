@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsPlus, BsStopwatch } from "react-icons/bs";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 function Quiz() {
   const [index, setIndex] = useState(0);
   const [questions, setQuestions] = useState<any>([]);
@@ -25,19 +25,15 @@ function Quiz() {
   const handleSelect = (index: number) => {
     const newOptions = options.map((option: Option, idx) => {
       if (idx !== index) return { ...option, selected: false };
-      console.log(index);
       return { ...option, selected: true };
     });
     setOptions(newOptions);
-    console.log(options);
   };
   const onChangeValue = (index: number, value: string) => {
-    console.log(index, value);
     const newOptions = options.map((option: Option, idx) => {
       if (idx !== index) return { ...option, selected: false };
       return { ...option, value: value };
     });
-    console.log(newOptions, "here");
     setOptions(newOptions);
   };
 
@@ -64,7 +60,7 @@ function Quiz() {
     "quiz",
     async () => {
       const res = await request({
-        url: `/api/quizzes/lesson/${router.query.lesson}`,
+        url: `/api/quizzes/${router.query.quiz}`,
         method: "get",
       }).then((res) => {
         return res.data;
@@ -75,8 +71,46 @@ function Quiz() {
       enabled: false,
     }
   );
+
+  const {
+    data,
+    isLoading,
+    mutate: createNewQuestion,
+    isSuccess,
+    isError,
+    error,
+  } = useMutation(async (data: any) => {
+    const token: string = localStorage.getItem("token") || "";
+    console.log(data);
+    const res = await request({
+      url: `/api/quizzes/questions/${router.query.quiz}`,
+      method: "post",
+      data,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      return res.data;
+    });
+
+    return res;
+  });
+
+  const handleOnSubmit = () => {
+    alert(title);
+    !isLoading &&
+      createNewQuestion({
+        options,
+        text: title,
+      });
+    isSuccess && quizResponse.refetch();
+  };
+
   React.useEffect(() => {
     if (router.isReady) {
+      if (!router.query.question) {
+        router.push(router.asPath + "&question=" + "new");
+      }
       !quizResponse.data && quizResponse.refetch();
     }
   }, [router, quizResponse]);
@@ -86,7 +120,7 @@ function Quiz() {
       <Spinner />
     </div>
   ) : (
-    <div className="flex   flex-col px-[10%] mt-14 ">
+    <div className="flex   flex-col px-[10%] my-14 ">
       <div className="flex flex-col items-start w-full  gap-4">
         <div className="sec-title p-0 m-0">Quiz : Integraion by parts </div>
         <div className="quiz flex gap-4 justify-between w-full">
@@ -98,7 +132,7 @@ function Quiz() {
                   onClick={() => router.push()}
                   className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light"
                 >
-                  1
+                  {++idx}
                 </div>
               );
             })}
@@ -155,27 +189,49 @@ function Quiz() {
           <div
             className="btn-primary w-full"
             onClick={() => {
+              if (isLoading) {
+                toast.loading("submitting the question");
+                return;
+              }
               if (!title) {
                 toast.error("Add a valid question");
                 return;
               }
+              if (!options.some((e) => e.selected === true)) {
+                toast.error("Select the correct answer");
+                return;
+              }
+              if (options.some((e) => !e.value)) {
+                toast.error("Some answers are empty");
+                return;
+              }
+              handleOnSubmit();
 
-              setQuestions((prev: any) => [
-                ...prev,
-                {
-                  title,
-                  options,
-                },
-              ]);
-              setTitle("");
-              console.log(questions);
-              setIndex((prev) => ++prev);
+              if (!isLoading && isSuccess) {
+                setOptions([
+                  {
+                    label: "",
+                    selected: false,
+                    value: "",
+                  },
+                  {
+                    label: "",
+                    value: "",
+                    selected: false,
+                  },
+                ]);
+                setTitle("");
+                setIndex((prev) => ++prev);
+                quizResponse.refetch();
+              }
+              if (!isLoading && isError) {
+                toast.error(error);
+              }
             }}
           >
-            Next
+            {isLoading ? <Spinner /> : "Next"}
           </div>
         </div>
-        <div className="btn-primary w-full">submit</div>
       </div>
     </div>
   );
