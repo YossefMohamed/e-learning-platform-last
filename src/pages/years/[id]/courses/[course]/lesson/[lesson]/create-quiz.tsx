@@ -97,7 +97,6 @@ function Quiz() {
   });
 
   const handleOnSubmit = () => {
-    alert(title);
     !isLoading &&
       createNewQuestion({
         options,
@@ -115,6 +114,27 @@ function Quiz() {
     }
   }, [router, quizResponse]);
 
+  React.useEffect(() => {
+    if (isSuccess) {
+      setOptions([
+        {
+          label: "",
+          selected: false,
+          value: "",
+        },
+        {
+          label: "",
+          value: "",
+          selected: false,
+        },
+      ]);
+      setTitle("");
+      setIndex((prev) => ++prev);
+      quizResponse.refetch();
+    }
+    isError && toast.error(error);
+  }, [isError, isSuccess, error]);
+
   return quizResponse.isLoading ? (
     <div className="flex   flex-col px-[10%] mt-14 ">
       <Spinner />
@@ -129,7 +149,7 @@ function Quiz() {
               return (
                 <div
                   key={idx}
-                  onClick={() => router.push()}
+                  onClick={() => router.push("/awd")}
                   className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light"
                 >
                   {++idx}
@@ -206,27 +226,6 @@ function Quiz() {
                 return;
               }
               handleOnSubmit();
-
-              if (!isLoading && isSuccess) {
-                setOptions([
-                  {
-                    label: "",
-                    selected: false,
-                    value: "",
-                  },
-                  {
-                    label: "",
-                    value: "",
-                    selected: false,
-                  },
-                ]);
-                setTitle("");
-                setIndex((prev) => ++prev);
-                quizResponse.refetch();
-              }
-              if (!isLoading && isError) {
-                toast.error(error);
-              }
             }}
           >
             {isLoading ? <Spinner /> : "Next"}

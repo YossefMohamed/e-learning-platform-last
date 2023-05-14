@@ -41,10 +41,10 @@ function ButtonOption({
     ["#446bae", "#304c7b"],
     ["rgb(207 83 110)", "rgb(181 45 74)"],
   ];
-  const [colseModal, setCloseModal] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
   return (
     <>
-      {colseModal && (
+      {closeModal && (
         <CheckModal
           closeModal={() => setCloseModal(false)}
           onSubmit={() => {

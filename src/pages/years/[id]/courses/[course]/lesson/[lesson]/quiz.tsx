@@ -129,7 +129,7 @@ function Quiz() {
                 }
               )}
           </div>
-          {quizResponse.data?.length && (
+          {!quizResponse.data?.length && (
             <div className="flex gap-6">
               <div className="flex-1 border p-4 flex flex-col">
                 <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
