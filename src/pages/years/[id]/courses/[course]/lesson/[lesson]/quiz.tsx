@@ -58,17 +58,7 @@ function Quiz() {
     isError && toast.error(error);
     isSuccess && quizResponse.refetch();
     isSuccess && toast.success("Quiz created");
-    isSuccess &&
-      router.push(
-        "/years/" +
-          router.query.id +
-          "/courses/" +
-          router.query.course +
-          "/lesson/" +
-          router.query.lesson +
-          "/create-quiz?quiz=" +
-          data._id
-      );
+    isSuccess && router.push("/quiz/" + "/create-quiz?quiz=" + data._id);
   }, [isSuccess, error, isError, router]);
 
   React.useEffect(() => {
@@ -129,7 +119,7 @@ function Quiz() {
                 }
               )}
           </div>
-          {!quizResponse.data?.length && (
+          {true && (
             <div className="flex gap-6">
               <div className="flex-1 border p-4 flex flex-col">
                 <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
