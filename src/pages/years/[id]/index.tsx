@@ -5,8 +5,11 @@ import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import Spinner from "@/components/Spinner";
+import { Rootstate } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 function Courses() {
+  const { token } = useSelector((state: Rootstate) => state.userState);
   const router = useRouter();
   const coursesResponse = useQuery(
     "courses",
@@ -14,6 +17,9 @@ function Courses() {
       const res = await request({
         url: `/api/courses/${router.query.id}`,
         method: "get",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }).then((res) => {
         return res.data;
       });

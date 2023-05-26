@@ -7,9 +7,11 @@ import { useSelector } from "react-redux";
 
 export const Header = () => {
   const [navbar, setNavbar] = useState(false);
-  const { isAuthenticated, user } = useSelector(
+  const { isAuthenticated, user, token } = useSelector(
     (state: Rootstate) => state.userState
   );
+
+  console.log({ isAuthenticated, user, token });
   const changeBackground = () => {
     var body = document.body,
       html = document.documentElement;
@@ -56,9 +58,7 @@ export const Header = () => {
       <div className={textColor}>
         <Link href="/">Home</Link>
         <Link href="/years">Years</Link>
-        {isAuthenticated && user.isAdmin && (
-          <Link href="/dashboard">Dashboard</Link>
-        )}
+        {isAuthenticated && true && <Link href="/dashboard">Dashboard</Link>}
         {isAuthenticated && <Link href="/logout">Logout</Link>}
         {isAuthenticated ? (
           <Link

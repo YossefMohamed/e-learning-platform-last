@@ -24,7 +24,17 @@ function login() {
     if (isSuccess && !isError) {
       toast.success("Login Successful!");
       localStorage.setItem("token", data.token);
-      isSuccess && !isError && dispatch(addUser(data));
+      console.log(data.token);
+      console.log(data.token);
+      console.log(data.token);
+      isSuccess &&
+        !isError &&
+        dispatch(
+          addUser({
+            token: data.token,
+            user: data.user,
+          })
+        );
       router.push("/");
     } else if (isError) {
       toast.error(error);

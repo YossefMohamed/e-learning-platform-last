@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: {
   isAuthenticated: boolean;
   loading: boolean;
+  token: string;
   user: any;
 } = {
   isAuthenticated: false,
   loading: false,
+  token: "",
   user: {},
 };
 
@@ -15,10 +17,11 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action: PayloadAction<any>) => {
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      localStorage.setItem("token", action.payload.token);
       state.isAuthenticated = true;
       state.loading = false;
-      state.user = action.payload;
+      state.token = action.payload.token;
+      state.user = action.payload.user;
     },
     loading: (state) => {
       state.loading = true;
@@ -26,7 +29,10 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
       state.loading = false;
-      state.user = {};
+      state.token = "";
+      state.user = {
+        isAdmin: false,
+      };
     },
   },
 });
