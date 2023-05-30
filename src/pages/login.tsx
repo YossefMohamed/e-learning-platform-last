@@ -24,9 +24,6 @@ function login() {
     if (isSuccess && !isError) {
       toast.success("Login Successful!");
       localStorage.setItem("token", data.token);
-      console.log(data.token);
-      console.log(data.token);
-      console.log(data.token);
       isSuccess &&
         !isError &&
         dispatch(

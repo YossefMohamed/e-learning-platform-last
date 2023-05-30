@@ -52,8 +52,6 @@ function Quiz() {
   };
   const router = useRouter();
 
-  const [video, setVideo] = React.useState(false);
-
   React.useEffect(() => {
     isError && toast.error(error);
     isSuccess && quizResponse.refetch();
@@ -62,8 +60,6 @@ function Quiz() {
   }, [isSuccess, error, isError, router]);
 
   React.useEffect(() => {
-    setVideo(true);
-
     if (router.isReady) {
       !quizResponse.data && quizResponse.refetch();
     }

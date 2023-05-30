@@ -25,11 +25,18 @@ const Auth = ({ children }: any) => {
     if (router.pathname !== "/") {
       if (window && localStorage.getItem("token")) {
         const token = localStorage.getItem("token") || "";
+        const user = localStorage.getItem("user")
+          ? JSON.parse(localStorage.getItem("user")!)
+          : {};
         Auth(token);
-        console.log(data, "user");
+        console.log(data);
         data && dispatch(addUser({ token: token, user: data }));
       }
-      if (window && !localStorage.getItem("token")) {
+      if (
+        window &&
+        router.pathname !== "/login" &&
+        !localStorage.getItem("token")
+      ) {
         router.push("/login");
       }
     }

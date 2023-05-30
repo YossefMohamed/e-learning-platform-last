@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retry: 3,
-      retryDelay: 8000,
+      retryDelay: 8000,  
     },
     mutations: {
       retry: false,

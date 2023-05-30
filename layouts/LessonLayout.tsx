@@ -84,7 +84,15 @@ const LessonLayout: React.FC<{
           Extra resources
         </Link>
         <Link
-          href="/years/lesson/1/submit"
+          href={
+            "/years/" +
+            router.query.id +
+            "/courses/" +
+            router.query.course +
+            "/lesson/" +
+            router.query.lesson +
+            "/submit"
+          }
           className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
         >
           Submit

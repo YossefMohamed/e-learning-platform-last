@@ -92,7 +92,7 @@ function Year() {
     createUnitResponse.isSuccess && unitsResponse.refetch();
     createUnitResponse.isSuccess && closeModal();
   }, [createUnitResponse.isError, createUnitResponse.isSuccess]);
-  console.log(lessonsResponse);
+
   React.useEffect(() => {
     if (router.isReady) {
       if (
