@@ -9,7 +9,9 @@ const initialState: {
   isAuthenticated: false,
   loading: false,
   token: "",
-  user: {},
+  user: {
+    isAdmin: false,
+  },
 };
 
 export const userSlice = createSlice({
@@ -21,7 +23,11 @@ export const userSlice = createSlice({
       state.isAuthenticated = true;
       state.loading = false;
       state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.user = action.payload.user
+        ? action.payload.user
+        : {
+            isAdmin: false,
+          };
     },
     loading: (state) => {
       state.loading = true;

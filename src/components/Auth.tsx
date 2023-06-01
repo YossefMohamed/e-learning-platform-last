@@ -7,7 +7,7 @@ import { AppDispatch, Rootstate } from "@/redux/store";
 import Spinner from "./Spinner";
 const Auth = ({ children }: any) => {
   const router = useRouter();
-
+  const [isClient, setIsClient] = React.useState(false);
   const {
     data,
     isLoading,
@@ -35,9 +35,20 @@ const Auth = ({ children }: any) => {
     ) {
       router.push("/login");
     }
+    if (window) {
+      setIsClient(true);
+    }
   }, [router, data]);
 
-  return <>{isLoading ? <Spinner /> : children}</>;
+  return isLoading || !router.isReady ? (
+    <Spinner />
+  ) : isAuthenticated ||
+    router.pathname === "/login" ||
+    router.pathname === "/" ? (
+    <>{children}</>
+  ) : (
+    <Spinner />
+  );
 };
 
 export default Auth;
