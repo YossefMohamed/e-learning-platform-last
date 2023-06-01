@@ -46,7 +46,7 @@ export const Header = () => {
       <div className={textColor}>
         <Link href="/">Home</Link>
         <Link href="/years">Years</Link>
-        {isAuthenticated && true && <Link href="/dashboard">Dashboard</Link>}
+        {user.isAdmin && true && <Link href="/dashboard">Dashboard</Link>}
         {isAuthenticated && <Link href="/logout">Logout</Link>}
         {isAuthenticated ? (
           <Link

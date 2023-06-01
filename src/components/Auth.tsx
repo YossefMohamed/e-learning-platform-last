@@ -22,25 +22,21 @@ const Auth = ({ children }: any) => {
   );
 
   React.useEffect(() => {
-    if (router.pathname !== "/") {
-      if (window && localStorage.getItem("token")) {
-        const token = localStorage.getItem("token") || "";
-        const user = localStorage.getItem("user")
-          ? JSON.parse(localStorage.getItem("user")!)
-          : {};
-        Auth(token);
-        console.log(data);
-        data && dispatch(addUser({ token: token, user: data }));
-      }
-      if (
-        window &&
-        router.pathname !== "/login" &&
-        !localStorage.getItem("token")
-      ) {
-        router.push("/login");
-      }
+    if (window && localStorage.getItem("token") && !isAuthenticated) {
+      const token = localStorage.getItem("token") || "";
+      Auth(token);
+      data && dispatch(addUser({ token: token, user: data }));
     }
-  }, [router]);
+    if (
+      window &&
+      router.pathname !== "/login" &&
+      router.pathname !== "/" &&
+      !localStorage.getItem("token")
+    ) {
+      router.push("/login");
+    }
+  }, [router, data]);
+
   return <>{isLoading ? <Spinner /> : children}</>;
 };
 

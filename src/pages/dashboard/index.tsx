@@ -216,6 +216,7 @@ const index = () => {
                       course: { name: string };
                       status: string;
                       id: string;
+                      isAdmin: boolean;
                     }) => {
                       return (
                         <tr
@@ -233,7 +234,8 @@ const index = () => {
                             />
                             <div className="pl-3">
                               <div className="text-base font-semibold">
-                                {user.name}
+                                {user.name}{" "}
+                                {user.isAdmin ? <span>Admin</span> : ""}
                               </div>
                               <div className="font-normal text-gray-500">
                                 {user.phoneNumber}

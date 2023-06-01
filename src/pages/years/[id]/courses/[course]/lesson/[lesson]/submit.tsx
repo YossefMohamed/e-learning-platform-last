@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { Rootstate } from "@/redux/store";
 import { toast } from "react-hot-toast";
+import { SubmitCard } from "@/components/SubmitCard";
 
 function Submit() {
   const router = useRouter();
@@ -19,9 +20,8 @@ function Submit() {
     "submit",
     async () => {
       const res = await request({
-        url: user.isAdmin
-          ? `/api/submits/users/${router.query.lesson}`
-          : `/api/submits/users/${router.query.lesson}`,
+        url: `/api/submits/${router.query.lesson}`,
+
         method: "get",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token") || "",
@@ -83,42 +83,36 @@ function Submit() {
   return (
     <LessonLayout>
       <>
-        {submitResponse.isLoading && !submitResponse.data ? (
+        {submitResponse.isLoading ? (
           <Spinner />
-        ) : submitResponse.data && submitResponse.data.file ? (
-          <div className="flex gap-6">
-            <div className="flex-1 border p-4 flex flex-col">
-              <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
-                <div className="group flex-1 flex flex-col gap-4  overflow-y-auto ">
-                  <div className=" m-0 text-xl   border-b-4 py-2">
-                    <span className="font-bold uppercase">
-                      Submit your work :
-                    </span>{" "}
-                    {submitResponse.data.lesson.name}
-                  </div>
-                  <div className="description py-4 max-h-[100%] overflow-y-auto flex flex-col gap-8">
-                    <div className="flex justify-between">
-                      <div className="text-xl font-bold">
-                        You submitted your work
-                      </div>
-                      <div className="text-xl font-bold text-green-600">
-                        Submitted
-                      </div>
-                    </div>
-                    <div className="text-md">Your work is under reviewing</div>
-                    <div className="flex justify-between">
-                      <div className="alert py-0 flex items-center px-8">
-                        _ / 10
-                      </div>
-                      <div className="btn btn-primary px-8 ml-auto">
-                        Download your work
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        ) : submitResponse.data && submitResponse.data.length ? (
+          submitResponse.data.map(
+            (submit: {
+              _id: string;
+              user: {
+                name: string;
+              };
+              lesson: {
+                name: string;
+              };
+              file: string;
+              refMark: number;
+              mark: number;
+              reviewed: boolean;
+            }) => (
+              <SubmitCard
+                key={submit._id}
+                id={submit._id}
+                userName={submit.user.name}
+                lessonName={submit.lesson.name}
+                file={submit.file}
+                refMark={submit.refMark}
+                mark={submit.mark}
+                reviewed={submit.reviewed}
+                getSubmit={submitResponse.refetch}
+              />
+            )
+          )
         ) : (
           submitResponse.data && (
             <div className="flex gap-6">
@@ -127,9 +121,8 @@ function Submit() {
                   <div className="group flex-1 flex flex-col gap-4  overflow-y-auto ">
                     <div className=" m-0 text-xl   border-b-4 py-2">
                       <span className="font-bold uppercase">
-                        Submit your work :
-                      </span>{" "}
-                      {submitResponse.data.lesson.name}
+                        Submit your work to be reviewed
+                      </span>
                     </div>
                     <div className="description py-4 max-h-[100%] overflow-y-auto flex flex-col gap-8">
                       <div className="flex justify-between">
