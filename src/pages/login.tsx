@@ -23,13 +23,14 @@ function login() {
   useEffect(() => {
     if (isSuccess && !isError) {
       toast.success("Login Successful!");
+
       localStorage.setItem("token", data.token);
       isSuccess &&
         !isError &&
         dispatch(
           addUser({
             token: data.token,
-            user: data.user,
+            user: data,
           })
         );
       router.push("/");

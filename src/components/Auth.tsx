@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, Rootstate } from "@/redux/store";
 import Spinner from "./Spinner";
 const Auth = ({ children }: any) => {
+  const isSSR = typeof window === "undefined";
+
   const router = useRouter();
-  const [isClient, setIsClient] = React.useState(false);
   const {
     data,
     isLoading,
@@ -15,40 +16,32 @@ const Auth = ({ children }: any) => {
     isSuccess,
     isError,
     error,
+    status,
   } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated, token } = useSelector(
     (state: Rootstate) => state.userState
   );
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (window && localStorage.getItem("token") && !isAuthenticated) {
       const token = localStorage.getItem("token") || "";
       Auth(token);
       data && dispatch(addUser({ token: token, user: data }));
     }
     if (
-      window &&
       router.pathname !== "/login" &&
       router.pathname !== "/" &&
-      !localStorage.getItem("token")
+      !isAuthenticated &&
+      status !== "loading"
     ) {
       router.push("/login");
     }
-    if (window) {
-      setIsClient(true);
-    }
   }, [router, data]);
 
-  return isLoading || !router.isReady ? (
-    <Spinner />
-  ) : isAuthenticated ||
-    router.pathname === "/login" ||
-    router.pathname === "/" ? (
-    <>{children}</>
-  ) : (
-    <Spinner />
-  );
+  if (isLoading) return <Spinner />;
+
+  return children;
 };
 
 export default Auth;

@@ -1,8 +1,6 @@
 import React from "react";
 import { CourseCard } from "../components/CourseCard";
 
-import Link from "next/link";
-import { useAuth } from "@/custom-hooks/useAuth";
 import Spinner from "@/components/Spinner";
 import request from "@/endpoints/request";
 import { useQuery } from "react-query";
@@ -18,7 +16,7 @@ export default function Home() {
 
     return res;
   });
-  console.log(yearsResponse);
+
   return (
     <>
       <section className="my-10">
