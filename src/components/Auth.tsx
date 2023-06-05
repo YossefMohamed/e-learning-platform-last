@@ -1,12 +1,16 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "@/custom-hooks/useAuth";
-import { addUser } from "@/redux/slices/userSlices";
+import {
+  addUser,
+  loading as loadingAction,
+  stopLoading as stopLoadingAction,
+} from "@/redux/slices/userSlices";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, Rootstate } from "@/redux/store";
 import Spinner from "./Spinner";
 const Auth = ({ children }: any) => {
-  const isSSR = typeof window === "undefined";
+  const { loading } = useSelector((state: Rootstate) => state.userState);
 
   const router = useRouter();
   const {
@@ -19,29 +23,32 @@ const Auth = ({ children }: any) => {
     status,
   } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
-  const { isAuthenticated, token } = useSelector(
+  const { isAuthenticated, token, user } = useSelector(
     (state: Rootstate) => state.userState
   );
 
-  React.useLayoutEffect(() => {
-    if (window && localStorage.getItem("token") && !isAuthenticated) {
+  React.useEffect(() => {
+    !user.isAdmin && router.push("/");
+    dispatch(loadingAction());
+    console.log(localStorage.getItem("token"));
+    if (localStorage.getItem("token")) {
+      console.log(data, "hereeeeeeeeeeeeeeeeeeee data");
       const token = localStorage.getItem("token") || "";
-      Auth(token);
+      !data && Auth(token);
+      data && dispatch(stopLoadingAction());
+
       data && dispatch(addUser({ token: token, user: data }));
-    }
-    if (
+    } else if (
       router.pathname !== "/login" &&
       router.pathname !== "/" &&
-      !isAuthenticated &&
-      status !== "loading"
+      !data
     ) {
+      dispatch(stopLoadingAction());
       router.push("/login");
     }
   }, [router, data]);
 
-  if (isLoading) return <Spinner />;
-
-  return children;
+  return loading ? <Spinner /> : children;
 };
 
 export default Auth;

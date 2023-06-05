@@ -7,7 +7,7 @@ const initialState: {
   user: any;
 } = {
   isAuthenticated: false,
-  loading: false,
+  loading: true,
   token: "",
   user: {
     isAdmin: false,
@@ -32,6 +32,10 @@ export const userSlice = createSlice({
     loading: (state) => {
       state.loading = true;
     },
+
+    stopLoading: (state) => {
+      state.loading = false;
+    },
     logout: (state) => {
       state.isAuthenticated = false;
       state.loading = false;
@@ -43,4 +47,4 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUser, loading, logout } = userSlice.actions;
+export const { addUser, loading, logout, stopLoading } = userSlice.actions;

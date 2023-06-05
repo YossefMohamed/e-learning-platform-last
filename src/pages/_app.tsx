@@ -6,8 +6,8 @@ import Footer from "../components/Footer";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "react-hot-toast";
 import Auth from "@/components/Auth";
-import { store } from "@/redux/store";
-import { Provider } from "react-redux";
+import { Rootstate, store } from "@/redux/store";
+import { Provider, useSelector } from "react-redux";
 import React from "react";
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,7 +15,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       retry: 3,
-      retryDelay: 8000,  
+      retryDelay: 8000,
     },
     mutations: {
       retry: false,
@@ -29,14 +29,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <Layout>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
+          <Header />
           <Auth>
-            <Header />
             <Toaster position="top-center" reverseOrder={false} />
             <div className="duration-100	flex-1">
               <Component {...pageProps} />
             </div>
-            <Footer />
           </Auth>
+
+          <Footer />
         </QueryClientProvider>
       </Provider>
     </Layout>
