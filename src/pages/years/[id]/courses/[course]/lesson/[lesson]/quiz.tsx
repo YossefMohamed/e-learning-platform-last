@@ -6,14 +6,21 @@ import { useMutation, useQuery } from "react-query";
 import request from "@/endpoints/request";
 import Spinner from "@/components/Spinner";
 import { toast } from "react-hot-toast";
+import { Rootstate } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 function Quiz() {
+  const { token } = useSelector((state: Rootstate) => state.userState);
   const quizResponse = useQuery(
     "quiz",
     async () => {
       const res = await request({
         url: `/api/quizzes/lesson/${router.query.lesson}`,
         method: "get",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
+        },
       }).then((res) => {
         return res.data;
       });
@@ -21,6 +28,7 @@ function Quiz() {
     },
     {
       enabled: false,
+      cacheTime: 0,
     }
   );
 
@@ -33,7 +41,6 @@ function Quiz() {
     error,
   } = useMutation(async () => {
     const token: string = localStorage.getItem("token") || "";
-
     const res = await request({
       url: `/api/quizzes/${router.query.lesson}`,
       method: "post",
@@ -64,7 +71,7 @@ function Quiz() {
       !quizResponse.data && quizResponse.refetch();
     }
   }, [router, quizResponse]);
-
+  console.log(quizResponse.data);
   return (
     <LessonLayout>
       {quizResponse.isLoading || isLoading ? (
@@ -72,7 +79,7 @@ function Quiz() {
       ) : (
         <>
           <div className="flex flex-col gap-10">
-            {!isLoading &&
+            {quizResponse.data &&
               quizResponse.data?.map(
                 ({ _id }: { _id: string }, idx: number) => {
                   return (
@@ -93,14 +100,18 @@ function Quiz() {
                               </div>
                               <div className="alert flex">_ / 10</div>
                               <div className="flex gap-4">
-                                <Link
-                                  href="/quiz/123"
+                                <div
+                                  onClick={() =>
+                                    router.push(
+                                      "/quiz/" + "/create-quiz?quiz=" + _id
+                                    )
+                                  }
                                   className="btn btn-secondary px-8 "
                                 >
                                   Edit your quiz
-                                </Link>
+                                </div>
                                 <Link
-                                  href="/quiz/123"
+                                  href={`/quiz/${_id}`}
                                   className="btn btn-primary px-8 "
                                 >
                                   Start your quiz

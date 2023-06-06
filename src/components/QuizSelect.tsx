@@ -14,6 +14,7 @@ interface QuizSelectProps {
   onChange?: (index: number, value: string) => void;
   onAddOption: () => void;
   onDeleteOption: (index: number) => void;
+  quiz?: boolean;
 }
 import { BsCheck, BsPlus } from "react-icons/bs";
 import ButtonOption from "./ButtonOption";
@@ -32,10 +33,11 @@ function QuizSelect(props: QuizSelectProps) {
               onSelect={() => props.onSelect(idx)}
               onChange={props.onChange}
               onDeleteOption={props.onDeleteOption}
+              quiz={props.quiz}
             />
           );
         })}
-        {props.options.length < 4 && (
+        {props.options.length < 4 && !props.quiz && (
           <button
             className={`bg-primary shadow-[0px_10px_black] flex-1 flex-grow-1 w-0 h-[250px] flex items-center justify-center rounded-xl text-6xl text-light contrast-100 hover:opacity-95 relative p-8`}
             onClick={() => props.onAddOption()}

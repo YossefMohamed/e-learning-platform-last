@@ -9,6 +9,7 @@ interface ButtonOptionProps {
   onSelect: (idx: number) => void;
   onChange?: ((index: number, value: string) => void) | undefined;
   onDeleteOption: (index: number) => void;
+  quiz?: boolean;
 }
 
 function ButtonOption({
@@ -17,6 +18,7 @@ function ButtonOption({
   onSelect,
   onChange,
   onDeleteOption,
+  quiz,
 }: ButtonOptionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
@@ -70,7 +72,7 @@ function ButtonOption({
           </div>
         </div>
 
-        {idx !== 0 && idx !== 1 && (
+        {idx !== 0 && idx !== 1 && !quiz && (
           <div
             className="  absolute top-1 left-1 p-3 flex items-center justify-center  text-light
        opacity-80 hover:opacity-100"
@@ -80,7 +82,7 @@ function ButtonOption({
           </div>
         )}
         <div
-          contentEditable={!!onChange}
+          contentEditable={!quiz}
           placeholder="Add an answer"
           onInput={handleInput}
           onClick={handleClick}

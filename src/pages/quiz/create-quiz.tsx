@@ -9,7 +9,7 @@ import { BsPlus, BsStopwatch } from "react-icons/bs";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 function Quiz() {
-  const { token } = useSelector((state: Rootstate) => state.userState);
+  const { token, user } = useSelector((state: Rootstate) => state.userState);
   const [index, setIndex] = useState(0);
   const [questionIndex, setQuestionIndex] = useState<string | null>(null);
   const [options, setOptions] = useState<Option[]>([
@@ -162,19 +162,17 @@ function Quiz() {
     }
   );
   React.useEffect(() => {
+    !user.isAdmin && router.push("/");
     if (router.isReady) {
-      if (!router.query.question) {
-        router.push(router.asPath + "&question=" + "new");
-      } else {
-        router.query.question !== "new" &&
-          setQuestionIndex(`${router.query.question}`);
-        router.query.question !== "new" &&
+      if (router.query.question) {
+        router.query.question && setQuestionIndex(`${router.query.question}`);
+        router.query.question &&
           !questionResponse.isLoading &&
           questionResponse.refetch();
       }
       !quizResponse.data && quizResponse.refetch();
     }
-    if (router.query.question === "new") {
+    if (!router.query.question) {
       setOptions([
         {
           label: "",
@@ -277,9 +275,7 @@ function Quiz() {
             )}
           <div
             onClick={() => {
-              router.push(
-                router.asPath.split("&question=")[0] + "&question=new"
-              );
+              router.push(router.asPath.split("&question=")[0]);
             }}
             className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light cursor-pointer"
           >

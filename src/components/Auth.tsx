@@ -28,13 +28,12 @@ const Auth = ({ children }: any) => {
   );
 
   React.useEffect(() => {
-    !user.isAdmin && router.push("/");
     dispatch(loadingAction());
     console.log(localStorage.getItem("token"));
     if (localStorage.getItem("token")) {
-      console.log(data, "hereeeeeeeeeeeeeeeeeeee data");
       const token = localStorage.getItem("token") || "";
       !data && Auth(token);
+
       data && dispatch(stopLoadingAction());
 
       data && dispatch(addUser({ token: token, user: data }));
