@@ -84,7 +84,7 @@ function Quiz() {
       const questionsIndex = questionIndex
         ? quizResponse.data.questions.indexOf(questionIndex) + 1
         : 0;
-      console.log(quizResponse.data.questions, questionIndex);
+      console.log(quizResponse.data.questions, questionIndex, questionsIndex);
       if (quizResponse.data.questions.length - 1 < questionsIndex)
         router.push("/");
       else {
@@ -118,8 +118,11 @@ function Quiz() {
         );
       }
 
-      if (quizResponse.data && router.query.question) {
-        setQuestionIndex(`${router.query.question}`);
+      if (quizResponse.data) {
+        quizResponse.data.takenBy.includes;
+        if (router.query.question) {
+          setQuestionIndex(`${router.query.question}`);
+        }
       }
     }
   }, [router.query, quizResponse.isSuccess]);

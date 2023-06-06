@@ -10,9 +10,9 @@ import { Rootstate } from "@/redux/store";
 import { useSelector } from "react-redux";
 
 function Quiz() {
-  const { token } = useSelector((state: Rootstate) => state.userState);
+  const { token, user } = useSelector((state: Rootstate) => state.userState);
   const quizResponse = useQuery(
-    "quiz",
+    "quiz_lesson",
     async () => {
       const res = await request({
         url: `/api/quizzes/lesson/${router.query.lesson}`,
@@ -79,9 +79,13 @@ function Quiz() {
       ) : (
         <>
           <div className="flex flex-col gap-10">
-            {quizResponse.data &&
+            {quizResponse.isSuccess &&
               quizResponse.data?.map(
-                ({ _id }: { _id: string }, idx: number) => {
+                (
+                  { _id, questions }: { _id: string; questions: [string] },
+                  idx: number
+                ) => {
+                  if (!questions.length && user.isAdmin) return;
                   return (
                     <div className="flex gap-6" key={_id}>
                       <div className="flex-1 border p-4 flex flex-col">
@@ -89,7 +93,7 @@ function Quiz() {
                           <div className="group flex-1 flex flex-col gap-4  overflow-y-auto ">
                             <div className=" m-0 text-xl   border-b-4 py-2">
                               <span className="font-bold uppercase">
-                                Quiz {++idx} :
+                                Quiz :
                               </span>{" "}
                               Integration by parts rule with examples
                             </div>
