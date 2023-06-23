@@ -11,7 +11,6 @@ import Spinner from "@/components/Spinner";
 
 function Add() {
   const [extra, setExtra] = React.useState("");
-  const [quiz, setQuiz] = React.useState("");
   const [video, setVideo] = React.useState<any>("");
   const [name, setName] = React.useState("");
   const [assignment, setAssignment] = React.useState<any>("");
@@ -52,7 +51,6 @@ function Add() {
     formData.append("file", file);
     formData.append("name", name);
     formData.append("extra", extra);
-    formData.append("quiz", quiz);
     formData.append("description", description);
     !isLoading && createNewLesson(formData);
   };
@@ -121,9 +119,6 @@ function Add() {
       <TextArea value={description} setValue={setDescription} />
       <div className="sec-title w-fit">Extra resources</div>
       <TextArea value={extra} setValue={setExtra} />
-
-      <div className="sec-title w-fit">Quiz</div>
-      <TextArea value={quiz} setValue={setQuiz} />
 
       <div className="btn-primary mt-16 text-light" onClick={onSubmit}>
         {isLoading ? <Spinner /> : "Submit"}

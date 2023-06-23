@@ -9,7 +9,6 @@ import { Rootstate } from "@/redux/store";
 import { useSelector } from "react-redux";
 
 function Courses() {
-  const { token } = useSelector((state: Rootstate) => state.userState);
   const router = useRouter();
   const coursesResponse = useQuery(
     "courses",
@@ -18,7 +17,7 @@ function Courses() {
         url: `/api/courses/${router.query.id}`,
         method: "get",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }).then((res) => {
         return res.data;
@@ -31,13 +30,15 @@ function Courses() {
     }
   );
   React.useEffect(() => {
-    router.query.id && coursesResponse.refetch();
+    if (router.isReady) {
+      coursesResponse.refetch();
+    }
   }, [router.query.id]);
   return (
     <section className="px-[5%] my-10">
       <div className="sec-title w-fit">Choose a Course</div>
 
-      <div className="flex  flex-wrap gap-8 w-full ">
+      <div className="md:flex  flex-wrap gap-8 w-full ">
         {coursesResponse.isLoading ? (
           <Spinner />
         ) : (

@@ -125,7 +125,7 @@ function Year() {
                 href="#"
                 className="text-gray-700 hover:text-gray-900 ml-1 md:ml-2 text-sm font-medium"
               >
-                Year 10
+                Year
               </a>
             </div>
           </li>
@@ -183,7 +183,7 @@ function Year() {
             }
           )}
 
-          <div className="t-head w-full text-2xl border p-6 text-tsecondary font-bold flex justify-between">
+          <div className="t-head w-full text-2xl border p-6 text-tsecondary font-bold flex justify-between md:flex-row flex-col gap-6">
             <span>Add new unit</span>
             <span className="btn-primary text-sm" onClick={openModal}>
               Add Unit

@@ -11,9 +11,13 @@ const DashboardLayout: React.FC<{
 }> = ({ children }) => {
   const { user } = useSelector((state: Rootstate) => state.userState);
   const router = useRouter();
-  if (!user.isAdmin) {
-    router.push("/");
-  }
+  React.useEffect(() => {
+    if (router.isReady) {
+      if (!user.isAdmin) {
+        router.push("/");
+      }
+    }
+  }, [router]);
 
   return (
     <div className="flex min-h-screen">

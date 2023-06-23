@@ -11,12 +11,12 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
     (state: Rootstate) => state.userState
   );
   return (
-    <div className="t-data w-full text-md border p-6 text-tsecondary justify-between items-center font-bold bg-gray-50 flex">
+    <div className="t-data w-full text-md border p-6 text-tsecondary justify-between md:items-center font-bold bg-gray-50 flex md:flex-row flex-col gap-6">
       <div className="section-title">{name}</div>
-      <div className="icons flex  gap-4">
+      <div className="icons flex  gap-4 md:flex-row flex-col ">
         <Link
           href={`${router.asPath}/lesson/${id}`}
-          className="play  btn-secondary flex items-center gap-1 font-normal"
+          className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
         >
           Watch
           <span className="font-bold ">
@@ -25,7 +25,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
         </Link>
         <Link
           href={`${router.asPath}/lesson/${id}`}
-          className="play  btn-secondary flex items-center gap-1 font-normal"
+          className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
         >
           Exam
           <span className="font-bold ">
@@ -34,7 +34,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
         </Link>
         <Link
           href={`${router.asPath}/lesson/${id}`}
-          className="play  btn-secondary flex items-center gap-1 font-normal"
+          className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
         >
           Home work
           <span className="font-bold ">
@@ -45,7 +45,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
         {user.isAdmin && (
           <Link
             href={`${router.asPath}/lesson/${id}`}
-            className="play  btn-secondary flex items-center gap-1 font-normal"
+            className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
           >
             Edit
             <span className="font-bold ">

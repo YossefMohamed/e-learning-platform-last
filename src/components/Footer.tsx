@@ -8,7 +8,7 @@ function Footer() {
 
       <div className="w-full px-10 mx-auto py-4 ">
         <div className="sm:flex sm:items-center sm:justify-between">
-          <div className="logo text-5xl text-tsecondary bg-light">
+          <div className="logo text-5xl text-tsecondary bg-light mb-6 md:mb-0">
             <FaElementor />
           </div>
           <ul className="flex flex-wrap items-center mb-6 text-sm  text-tsecondary font-bold sm:mb-0">

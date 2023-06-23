@@ -22,9 +22,8 @@ const Unit = ({
   );
 
   const router = useRouter();
-
   return (
-    <div className="t-head w-full text-2xl border p-6 text-tsecondary font-bold flex justify-between">
+    <div className="t-head w-full text-2xl border p-6 text-tsecondary font-bold flex justify-between md:flex-row flex-col gap-6">
       <span>
         Unit {idx} : {name}
       </span>

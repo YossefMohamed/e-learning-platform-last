@@ -6,22 +6,37 @@ import { useQuery } from "react-query";
 import Spinner from "@/components/Spinner";
 
 function index() {
-  const yearsResponse = useQuery("years", async () => {
-    const res = await request({
-      url: `/api/years/`,
-      method: "get",
-    }).then((res) => {
-      return res.data;
-    });
+  const yearsResponse = useQuery(
+    "years",
+    async () => {
+      const res = await request({
+        url: `/api/years/`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }).then((res) => {
+        return res.data;
+      });
 
-    return res;
-  });
+      return res;
+    },
+    {
+      enabled: false,
+      cacheTime: 0,
+    }
+  );
+
+  React.useEffect(() => {
+    yearsResponse.refetch();
+    console.log({ Authorization: `Bearer ${localStorage.getItem("token")}` });
+  }, []);
 
   return (
     <>
       <section className="my-10">
-        <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl flex ">
-          <img className="w-1/2" src="/math1.png" alt="dashboard image" />
+        <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex ">
+          <img className="md:w-1/2" src="/math1.png" alt="dashboard image" />
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
               Let's create more tools and ideas.
@@ -38,7 +53,7 @@ function index() {
       <section className="px-[5%] my-10">
         <div className="sec-title w-fit">Choose Your Year</div>
 
-        <div className="flex  flex-wrap gap-8 w-full ">
+        <div className="md:flex  flex-wrap gap-8 w-full ">
           {yearsResponse.isLoading ? (
             <Spinner />
           ) : (

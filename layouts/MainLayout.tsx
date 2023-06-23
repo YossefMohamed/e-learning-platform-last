@@ -9,8 +9,9 @@ export const Layout = ({ children }: any) => {
           rel="stylesheet"
           href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css"
         />
+        <link rel="icon" type="image/png" href="/favicon.jpg" />
 
-        <title>Learn</title>
+        <title>Math with Ezz</title>
       </Head>
 
       <div className="min-h-screen flex flex-col">{children}</div>

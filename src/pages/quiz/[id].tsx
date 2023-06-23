@@ -8,6 +8,8 @@ import { toast } from "react-hot-toast";
 import { BsPlus, BsStopwatch } from "react-icons/bs";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
+import katex from "katex";
+
 function Quiz() {
   const { token, user } = useSelector((state: Rootstate) => state.userState);
   const [index, setIndex] = useState<number | null>(null);
@@ -15,6 +17,8 @@ function Quiz() {
   const [options, setOptions] = useState<Option[]>([]);
   const [title, setTitle] = useState("");
   const router = useRouter();
+  const [scores, setScores] = useState<boolean[]>([]);
+
   const quizResponse = useQuery(
     "quiz",
     async () => {
@@ -22,7 +26,7 @@ function Quiz() {
         url: `/api/quizzes/${router.query.id}`,
         method: "get",
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
       }).then((res) => {
         return res.data;
@@ -30,6 +34,7 @@ function Quiz() {
       return res;
     },
     {
+      cacheTime: 0,
       enabled: false,
     }
   );
@@ -42,6 +47,29 @@ function Quiz() {
         method: "get",
         headers: {
           Authorization: "Bearer " + token,
+        },
+      }).then((res) => {
+        return res.data;
+      });
+      return res;
+    },
+    {
+      enabled: false,
+      cacheTime: 0,
+    }
+  );
+
+  const scoreResponse = useQuery(
+    "score",
+    async () => {
+      const res = await request({
+        url: `/api/quizzes/score/${router.query.id}`,
+        method: "post",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        data: {
+          score: scores.filter((item) => item).length,
         },
       }).then((res) => {
         return res.data;
@@ -81,19 +109,43 @@ function Quiz() {
 
   React.useEffect(() => {
     if (checkQuestionAnswer.isSuccess) {
-      const questionsIndex = questionIndex
-        ? quizResponse.data.questions.indexOf(questionIndex) + 1
-        : 0;
-      console.log(quizResponse.data.questions, questionIndex, questionsIndex);
-      if (quizResponse.data.questions.length - 1 < questionsIndex)
-        router.push("/");
-      else {
-        setIndex(questionsIndex);
-        index !== null && setQuestionIndex(quizResponse.data.questions[index]);
+      console.log(checkQuestionAnswer.data.score);
+      setScores((scores) => [...scores, checkQuestionAnswer.data.score]);
+
+      if (scores.length + 1 >= quizResponse.data.questions.length) {
+        scoreResponse.refetch();
+      } else {
+        router.push(
+          router.asPath.split("?")[0] +
+            "?question=" +
+            quizResponse.data.questions[
+              quizResponse.data.questions.indexOf(questionIndex) + 1
+            ]
+        );
       }
     }
     checkQuestionAnswer.isError && toast.error(checkQuestionAnswer.error);
   }, [checkQuestionAnswer.isSuccess, checkQuestionAnswer.isError]);
+
+  React.useEffect(() => {
+    if (scoreResponse.isSuccess) {
+      console.log(scoreResponse.data);
+
+      //   {
+      //     "statue": "ok",
+      //     "data": {
+      //         "score": 0,
+      //         "question": "6484b2f43123b448ce7b1752",
+      //         "student": "644ab0ea250ab721c3c12975",
+      //         "_id": "6492bc053126ba828bd1828f",
+      //         "__v": 0
+      //     }
+      // }
+      toast.success("Quiz Completed");
+      router.push("/");
+    }
+  }, [scoreResponse.isSuccess]);
+
   React.useEffect(() => {
     if (questionResponse.data) {
       setOptions(
@@ -119,7 +171,26 @@ function Quiz() {
       }
 
       if (quizResponse.data) {
-        quizResponse.data.takenBy.includes;
+        if (
+          quizResponse.data.takenBy.filter(
+            ({ user: userArray }: { user: string }) => userArray === user._id
+          ).length
+        ) {
+          console.log(quizResponse.data);
+          toast.error(
+            "You have already taken this quiz :" +
+              quizResponse.data.takenBy.length
+          );
+          router.push(
+            "/years/" +
+              quizResponse.data.lesson.course.year +
+              "/courses/" +
+              quizResponse.data.lesson.course._id +
+              "/lesson/" +
+              quizResponse.data.lesson._id +
+              "/quiz"
+          );
+        }
         if (router.query.question) {
           setQuestionIndex(`${router.query.question}`);
         }
@@ -147,6 +218,7 @@ function Quiz() {
     <div className="flex   flex-col px-[10%] my-14 ">
       <div className="flex flex-col items-start w-full  gap-4">
         <div className="sec-title p-0 m-0">Quiz : Integraion by parts </div>
+
         <div className="quiz flex gap-4 justify-between w-full">
           {quizResponse.isSuccess &&
             quizResponse.data.questions?.map(
@@ -154,13 +226,6 @@ function Quiz() {
                 return (
                   <div
                     key={idx}
-                    onClick={() => {
-                      router.push(
-                        router.asPath.split("?question=")[0] +
-                          "?question=" +
-                          questionData
-                      );
-                    }}
                     className={`ball cursor-pointer w-11 h-11 flex items-center justify-center  aspect-square rounded-full text-light ${
                       questionData === questionIndex
                         ? "bg-primary"
@@ -173,26 +238,22 @@ function Quiz() {
               }
             )}
 
-          <div className="ml-auto flex items-center text-2xl gap-3">
-            <input
-              type="number"
-              name=""
-              id=""
-              className="text-input w-16"
-              max={300}
-              maxLength={300}
-            />{" "}
-            <BsStopwatch />
-          </div>
+          <div className="ml-auto flex items-center text-2xl gap-3"></div>
         </div>
         <h4 className="my-5 text-xl text-gray-600">Question 1 of 10</h4>
         {questionResponse.isLoading ? (
           <Spinner />
         ) : (
           <>
-            <div className=" h-[150px] font-bold bg-gray-200 text-tprimary flex items-center justify-center rounded-xl text-2xl  contrast-100 hover:opacity-95 relative p-8  w-full">
-              {title}
-            </div>
+            <div
+              className=" h-[150px] font-bold bg-gray-200 text-tprimary flex items-center justify-center rounded-xl text-2xl  contrast-100 hover:opacity-95 relative p-8  w-full"
+              dangerouslySetInnerHTML={{
+                __html: katex.renderToString(title, {
+                  throwOnError: false,
+                  displayMode: true,
+                }),
+              }}
+            />
             <div className="radio-button-group w-full">
               <QuizSelect
                 title="Select a Quiz"

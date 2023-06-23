@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { BsCheck, BsTrash, BsTrashFill } from "react-icons/bs";
 import { Option } from "./QuizSelect";
 import CheckModal from "./CheckModal";
+import katex from "katex";
 
 interface ButtonOptionProps {
   option: Option;
@@ -75,23 +76,44 @@ function ButtonOption({
         {idx !== 0 && idx !== 1 && !quiz && (
           <div
             className="  absolute top-1 left-1 p-3 flex items-center justify-center  text-light
-       opacity-80 hover:opacity-100"
+       opacity-80 hover:opacity-100 "
             onClick={() => setCloseModal(true)}
           >
             {<BsTrashFill />}
           </div>
         )}
-        <div
-          contentEditable={!quiz}
-          placeholder="Add an answer"
-          onInput={handleInput}
-          onClick={handleClick}
-          ref={ref}
-          suppressContentEditableWarning={true}
-          className="max-w-full w-full overflow-auto h-fit max-h-full border-0 outline-0 focus:border-0 focus:outline-0 focus:-0 text-light p-1 align-middle"
-        >
-          {(option.label && option.value) || "Add new Answer"}
-        </div>
+        {quiz ? (
+          <div
+            contentEditable={!quiz}
+            placeholder="Add an answer"
+            onInput={handleInput}
+            onClick={handleClick}
+            ref={ref}
+            dangerouslySetInnerHTML={{
+              __html: katex.renderToString(
+                (option.label && option.value) || "Add new Answer",
+                {
+                  throwOnError: false,
+                  displayMode: true,
+                }
+              ),
+            }}
+            suppressContentEditableWarning={true}
+            className="max-w-full w-full overflow-auto flex justify-center items-center h-full border-0 outline-0 focus:border-0 focus:outline-0 focus:-0 text-light p-1 align-middle"
+          ></div>
+        ) : (
+          <div
+            contentEditable={!quiz}
+            placeholder="Add an answer"
+            onInput={handleInput}
+            onClick={handleClick}
+            ref={ref}
+            suppressContentEditableWarning={true}
+            className="max-w-full w-full overflow-auto h-fit max-h-full border-0 outline-0 focus:border-0 focus:outline-0 focus:-0 text-light p-1 align-middle"
+          >
+            {(option.label && option.value) || "Add new Answer"}
+          </div>
+        )}
       </button>
     </>
   );

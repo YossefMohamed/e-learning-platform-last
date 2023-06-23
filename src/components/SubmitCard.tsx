@@ -26,7 +26,7 @@ export const SubmitCard: React.FC<{
   refMark: studentRefMark,
 }) => {
   const { user } = useSelector((state: Rootstate) => state.userState);
-  const [mark, setMark] = React.useState<number | "">("");
+  const [mark, setMark] = React.useState<number | null>(null);
   const [refMark, setRefMark] = React.useState<number>(10);
   const [edit, setEdit] = React.useState(false);
   const {
@@ -53,7 +53,8 @@ export const SubmitCard: React.FC<{
     return res;
   });
   const reviewSubmit = () => {
-    if (!mark || !refMark) toast.error("Please enter a valid marks");
+    if (mark === null || mark < 0 || mark > refMark)
+      return toast.error("Please enter a valid marks");
     if (typeof mark === "number" && typeof refMark === "number")
       !isLoading && reviewSubmitMutation({ refMark, mark });
   };
@@ -68,12 +69,12 @@ export const SubmitCard: React.FC<{
       <div className="flex-1 border p-4 flex flex-col">
         <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
           <div className="group flex-1 flex flex-col gap-4  overflow-y-auto ">
-            <div className=" m-0 text-xl   border-b-4 py-2">
+            <div className=" m-0 text-xl   border-b-4 py-2 flex gap-4 md:flex-row flex-col ">
               <span className="font-bold uppercase">{userName}'s work :</span>{" "}
               {lessonName}
             </div>
             <div className="description py-4 max-h-[100%] overflow-y-auto flex flex-col gap-8">
-              <div className="flex justify-between">
+              <div className="flex justify-between md:flex-row flex-col gap-6">
                 <div className="text-xl font-bold">You submitted your work</div>
                 {reviewed ? (
                   <div className="text-xl font-bold text-green-600">
@@ -94,9 +95,9 @@ export const SubmitCard: React.FC<{
                   Click here Download your work
                 </Link>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between md:flex-row flex-col gap-6">
                 {reviewed && !edit ? (
-                  <div className="alert py-0 flex items-center px-8">
+                  <div className="alert md:py-0 flex items-center px-8 py-4">
                     {studentMark} / {studentRefMark}
                   </div>
                 ) : (
@@ -107,7 +108,7 @@ export const SubmitCard: React.FC<{
                           type="number"
                           name="mark"
                           className="border-none border-transparent focus:border-transparent focus:ring-0 p-0 bg-transparent  w-12 appearance-text"
-                          value={mark}
+                          value={mark === null ? 0 : mark}
                           min={0}
                           max={1000}
                           onChange={(e) => {
@@ -141,14 +142,14 @@ export const SubmitCard: React.FC<{
                   <>
                     {!reviewed || edit ? (
                       <div
-                        className="btn btn-primary px-8 ml-auto"
+                        className="btn btn-primary px-8 ml-auto  w-full  md:w-fit"
                         onClick={reviewSubmit}
                       >
                         {isLoading ? "Loading..." : "Submit"}
                       </div>
                     ) : (
                       <div
-                        className="btn btn-primary px-8 ml-auto"
+                        className="btn btn-primary px-8 ml-auto  w-full  md:w-fit"
                         onClick={() => {
                           setEdit(true);
                           console.log(edit);

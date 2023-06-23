@@ -121,7 +121,10 @@ function Quiz() {
 
   const handleOnSubmit = () => {
     if (!isLoading) {
-      if (questionIndex && questionIndex !== "new") {
+      console.log(questionIndex && router.query.question !== "new");
+      if (questionIndex && router.query.question !== "new") {
+        alert("ss");
+
         editCurrentQuestionResponse.mutate({
           options,
           text: title,
@@ -135,6 +138,11 @@ function Quiz() {
     }
 
     isSuccess && quizResponse.refetch();
+    isSuccess &&
+      quizResponse.isSuccess &&
+      setQuestionIndex(
+        quizResponse.data.questions[quizResponse.data.questions.length - 1]
+      );
     isSuccess &&
       router.push(router.asPath.split("&question=")[0] + "&question=new");
     editCurrentQuestionResponse.isSuccess && quizResponse.refetch();
@@ -164,7 +172,7 @@ function Quiz() {
   React.useEffect(() => {
     !user.isAdmin && router.push("/");
     if (router.isReady) {
-      if (router.query.question) {
+      if (router.query.question && router.query.question !== "new") {
         router.query.question && setQuestionIndex(`${router.query.question}`);
         router.query.question &&
           !questionResponse.isLoading &&
@@ -172,7 +180,7 @@ function Quiz() {
       }
       !quizResponse.data && quizResponse.refetch();
     }
-    if (!router.query.question) {
+    if (!router.query.question || router.query.question === "new") {
       setOptions([
         {
           label: "",
@@ -248,6 +256,7 @@ function Quiz() {
     <div className="flex   flex-col px-[10%] my-14 ">
       <div className="flex flex-col items-start w-full  gap-4">
         <div className="sec-title p-0 m-0">Quiz : Integraion by parts </div>
+
         <div className="quiz flex gap-4 justify-between w-full">
           {quizResponse.isSuccess &&
             quizResponse.data.questions?.map(
@@ -275,23 +284,15 @@ function Quiz() {
             )}
           <div
             onClick={() => {
-              router.push(router.asPath.split("&question=")[0]);
+              router.push(
+                router.asPath.split("&question=")[0] + "&question=new"
+              );
             }}
             className="ball w-11 h-11 flex items-center justify-center bg-primary aspect-square rounded-full text-light cursor-pointer"
           >
             <BsPlus />
           </div>
-          <div className="ml-auto flex items-center text-2xl gap-3">
-            <input
-              type="number"
-              name=""
-              id=""
-              className="text-input w-16"
-              max={300}
-              maxLength={300}
-            />{" "}
-            <BsStopwatch />
-          </div>
+          <div className="ml-auto flex items-center text-2xl gap-3"></div>
         </div>
         <h4 className="my-5 text-xl text-gray-600">Question 1 of 10</h4>
         {questionResponse.isLoading ? (

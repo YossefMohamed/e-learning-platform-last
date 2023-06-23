@@ -10,7 +10,7 @@ const Logout = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   React.useEffect(() => {
-    localStorage.removeItem("token");
+    localStorage.setItem("token", "");
     dispatch(logout());
     router.push("/");
   }, []);

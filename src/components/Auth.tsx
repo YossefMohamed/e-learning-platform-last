@@ -10,8 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, Rootstate } from "@/redux/store";
 import Spinner from "./Spinner";
 const Auth = ({ children }: any) => {
-  const { loading } = useSelector((state: Rootstate) => state.userState);
-
   const router = useRouter();
   const {
     data,
@@ -23,30 +21,24 @@ const Auth = ({ children }: any) => {
     status,
   } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
-  const { isAuthenticated, token, user } = useSelector(
-    (state: Rootstate) => state.userState
-  );
 
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    dispatch(loadingAction());
-    console.log(localStorage.getItem("token"));
-    if (localStorage.getItem("token")) {
+    if (router.isReady && localStorage.getItem("token")) {
       const token = localStorage.getItem("token") || "";
       !data && Auth(token);
-
-      data && dispatch(stopLoadingAction());
-
-      data && dispatch(addUser({ token: token, user: data }));
-    } else if (
-      router.pathname !== "/login" &&
-      router.pathname !== "/" &&
-      !data
-    ) {
-      dispatch(stopLoadingAction());
+    } else if (router.pathname !== "/login" && router.pathname !== "/") {
       router.push("/login");
+      setLoading(false);
     }
-  }, [router, data]);
+  }, [router]);
 
+  console.log(loading);
+  React.useEffect(() => {
+    const token = localStorage.getItem("token") || "";
+    data && dispatch(addUser({ token: token, user: data }));
+    data && setLoading(false);
+  }, [isSuccess, data]);
   return loading ? <Spinner /> : children;
 };
 

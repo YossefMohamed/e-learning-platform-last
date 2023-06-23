@@ -34,19 +34,21 @@ function Lesson() {
       !lessonResponse.data && lessonResponse.refetch();
     }
   }, [router, lessonResponse]);
-  console.log(lessonResponse.data, "lesson");
   return (
     <LessonLayout>
       <>
         {video && !lessonResponse.isLoading ? (
           lessonResponse.data && (
-            <div className="flex gap-6">
-              <ReactPlayer
-                url={`http://localhost:5000/videos/${lessonResponse.data.video}`}
-                controls
-                width={"70%"}
-                height={"650px"}
-              />
+            <div className="flex gap-6 md:flex-row flex-col">
+              .
+              <div className="md:w-[70%]">
+                <ReactPlayer
+                  url={`http://localhost:5000/videos/${lessonResponse.data.video}`}
+                  controls
+                  width={"100%"}
+                  height={"650px"}
+                />
+              </div>
               <div className="flex-1 border p-4 flex flex-col">
                 <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
                   <div className="group flex-1 flex flex-col gap-4  overflow-y-auto ">

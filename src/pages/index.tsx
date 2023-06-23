@@ -6,10 +6,13 @@ import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 
 export default function Home() {
-  const yearsResponse = useQuery("years", async () => {
+  const coursesResponse = useQuery("courses", async () => {
     const res = await request({
-      url: `/api/years/`,
+      url: `/api/courses/`,
       method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     }).then((res) => {
       return res.data;
     });
@@ -20,9 +23,9 @@ export default function Home() {
   return (
     <>
       <section className="my-10">
-        <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 grid grid-cols-2">
+        <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
           <img className="w-[90%]" src="/math3.png" alt="dashboard image" />
-          <div className="mt-4 md:mt-0">
+          <div className="mt-4 md:mt-0 md:text-left text-center">
             <h2 className="mb-4 text-3xl tracking-tight font-extrabold ">
               Let's create more{" "}
               <span className="text-ttertiary text-4xl font-bold uppercase">
@@ -57,26 +60,26 @@ export default function Home() {
         <div className="w-full h-full absolute -z-10 top-0 right-0 bg-[url('/pattern.png')] opacity-5"></div>
 
         <div className="sec-title">The results speak for themselves</div>
-        <div className="cards flex  w-full justify-around py-10">
-          <div className="card w-[15%] flex flex-col gap-4">
+        <div className="cards flex  w-full justify-around py-10  flex-col gap-6 md:flex-row">
+          <div className="card md:w-[15%] flex flex-col gap-4 ">
             <div className="font-bold text-6xl">78%</div>
             <div className="text-sm">
               of our 2022 students achieved an ATAR above 90
             </div>
           </div>
-          <div className="card w-[15%] flex flex-col gap-4">
+          <div className="card md:w-[15%] flex flex-col gap-4 ">
             <div className="font-bold text-6xl">63%</div>
             <div className="text-sm">
               of our 2022 students achieved an ATAR above 90
             </div>
           </div>
-          <div className="card w-[15%] flex flex-col gap-4">
+          <div className="card md:w-[15%] flex flex-col gap-4 ">
             <div className="font-bold text-6xl">99.95</div>
             <div className="text-sm">
               of our 2022 students achieved an ATAR above 90
             </div>
           </div>
-          <div className="card w-[15%] flex flex-col gap-4">
+          <div className="card md:w-[15%] flex flex-col gap-4 ">
             <div className="font-bold text-6xl">5</div>
             <div className="text-sm">
               of our 2022 students achieved an ATAR above 90
@@ -98,13 +101,17 @@ export default function Home() {
             />
           </svg>
         </a>
-      </section>{" "}
+      </section>
       <section className="h-[100px] bg-tertiary text-light text-4xl font-bold flex justify-center items-center ">
         Learn from the best!
       </section>
       <section className="my-10">
-        <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl flex flex-row-reverse">
-          <img className="w-1/2" src="/math2.png" alt="dashboard image" />
+        <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
+          <img
+            className="md:w-1/2 w-full"
+            src="/math2.png"
+            alt="dashboard image"
+          />
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
               Let's create more tools and ideas that brings us together.
@@ -121,7 +128,7 @@ export default function Home() {
         <div className="w-full h-full absolute -z-10 top-0 right-0 bg-[url('/pattern.png')] opacity-5"></div>
 
         <div className="sec-title">Study online</div>
-        <div className="cards flex  w-full justify-around py-10">
+        <div className="cards flex  w-full justify-around py-10 md:flex-row flex-col gap-6">
           <div className="card  flex flex-col items-center  gap-4 ">
             <div className="font-bold h-full w-[40%]">
               <img
@@ -168,23 +175,25 @@ export default function Home() {
       <section className="text-center flex justify-center flex-col items-center px-[5%] my-10">
         <div className="sec-title">Choose your year</div>
 
-        <div className="flex  flex-wrap gap-8 w-full ">
-          {yearsResponse.isLoading ? (
+        <div className="md:flex  flex-wrap gap-8 w-full ">
+          {coursesResponse.isLoading ? (
             <Spinner />
           ) : (
-            yearsResponse.isSuccess &&
-            yearsResponse.data?.map((year: { name: string; id: string }) => {
-              return (
-                <CourseCard
-                  name={year.name}
-                  link={"/years/" + year.id}
-                  img="/course-bg2.jpg"
-                  key={year.id}
-                />
-              );
-            })
+            coursesResponse.isSuccess &&
+            coursesResponse.data?.map(
+              (course: { name: string; id: string }) => {
+                return (
+                  <CourseCard
+                    name={course.name}
+                    link={"/years/" + course.id}
+                    img="/course-bg2.jpg"
+                    key={course.id}
+                  />
+                );
+              }
+            )
           )}
-          {yearsResponse.isSuccess && !yearsResponse.data?.length && (
+          {coursesResponse.isSuccess && !coursesResponse.data?.length && (
             <div className="alert w-full">No Years available</div>
           )}
         </div>

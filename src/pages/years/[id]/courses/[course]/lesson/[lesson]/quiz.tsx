@@ -54,6 +54,7 @@ function Quiz() {
 
     return res;
   });
+
   const createNewQuizHandler = async () => {
     await createNewQuiz();
   };
@@ -82,7 +83,20 @@ function Quiz() {
             {quizResponse.isSuccess &&
               quizResponse.data?.map(
                 (
-                  { _id, questions }: { _id: string; questions: [string] },
+                  {
+                    _id,
+                    questions,
+                    takenBy,
+                  }: {
+                    _id: string;
+                    questions: [string];
+                    takenBy: [
+                      {
+                        user: string;
+                        score: number;
+                      }
+                    ];
+                  },
                   idx: number
                 ) => {
                   if (!questions.length && user.isAdmin) return;
@@ -99,27 +113,49 @@ function Quiz() {
                             </div>
                             <div className="description py-4 max-h-[100%] overflow-y-auto flex flex-col gap-8">
                               <div className="grade ">
-                                Start your quiz and once you take it the grade
-                                will be appear here
+                                {takenBy.filter(
+                                  ({ user: userArray }: { user: string }) =>
+                                    userArray === user._id
+                                ).length
+                                  ? "You have already taken this quiz"
+                                  : "Start your quiz and once you take it the grade will be appear here"}
                               </div>
-                              <div className="alert flex">_ / 10</div>
+                              <div className="alert flex">
+                                {!takenBy.filter(
+                                  ({ user: userArray }: { user: string }) =>
+                                    userArray === user._id
+                                ).length
+                                  ? "_"
+                                  : takenBy.filter(
+                                      ({ user: userArray }: { user: string }) =>
+                                        userArray === user._id
+                                    )[0].score}{" "}
+                                / {questions.length}
+                              </div>
                               <div className="flex gap-4">
-                                <div
-                                  onClick={() =>
-                                    router.push(
-                                      "/quiz/" + "/create-quiz?quiz=" + _id
-                                    )
-                                  }
-                                  className="btn btn-secondary px-8 "
-                                >
-                                  Edit your quiz
-                                </div>
-                                <Link
-                                  href={`/quiz/${_id}`}
-                                  className="btn btn-primary px-8 "
-                                >
-                                  Start your quiz
-                                </Link>
+                                {user.isAdmin && (
+                                  <div
+                                    onClick={() =>
+                                      router.push(
+                                        "/quiz/" + "/create-quiz?quiz=" + _id
+                                      )
+                                    }
+                                    className="btn btn-secondary px-8 "
+                                  >
+                                    Edit your quiz
+                                  </div>
+                                )}
+                                {!takenBy.filter(
+                                  ({ user: userArray }: { user: string }) =>
+                                    userArray === user._id
+                                ).length && (
+                                  <Link
+                                    href={`/quiz/${_id}`}
+                                    className="btn btn-primary px-8 "
+                                  >
+                                    Start your quiz
+                                  </Link>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -130,7 +166,7 @@ function Quiz() {
                 }
               )}
           </div>
-          {true && (
+          {user.isAdmin && (
             <div className="flex gap-6">
               <div className="flex-1 border p-4 flex flex-col">
                 <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
