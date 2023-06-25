@@ -9,6 +9,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, Rootstate } from "@/redux/store";
 import Spinner from "./Spinner";
+import useSocket from "@/custom-hooks/useSocket";
 const Auth = ({ children }: any) => {
   const router = useRouter();
   const {
@@ -21,6 +22,7 @@ const Auth = ({ children }: any) => {
     status,
   } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
+  const socket = useSocket();
 
   const [loading, setLoading] = React.useState(true);
 
@@ -41,6 +43,7 @@ const Auth = ({ children }: any) => {
     const token = localStorage.getItem("token") || "";
     data && dispatch(addUser({ token: token, user: data }));
     data && setLoading(false);
+    data && socket.emit("login", data._id);
   }, [isSuccess, data]);
   return loading ? <Spinner /> : children;
 };

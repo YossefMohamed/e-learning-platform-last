@@ -1,4 +1,5 @@
 import ChatUser from "@/components/ChatUser";
+import Spinner from "@/components/Spinner";
 import request from "@/endpoints/request";
 import { Rootstate } from "@/redux/store";
 import React from "react";
@@ -9,6 +10,26 @@ const index = () => {
   const [year, setYear] = React.useState("");
 
   const { token } = useSelector((state: Rootstate) => state.userState);
+
+  const usersResponse = useQuery("users", async () => {
+    const token: string = localStorage.getItem("token") || "";
+
+    const res = await request({
+      url: `/api/users/all`,
+      params: {
+        year,
+        name,
+      },
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      return res.data;
+    });
+
+    return res;
+  });
 
   const yearsResponse = useQuery("years", async () => {
     const res = await request({
@@ -23,6 +44,10 @@ const index = () => {
 
     return res;
   });
+
+  React.useEffect(() => {
+    year && usersResponse.refetch();
+  }, [year]);
 
   return (
     <div className=" flex m-6 border h-[90vh]">
@@ -39,7 +64,7 @@ const index = () => {
                 onChange={(e) => setYear(e.target.value)}
               >
                 <option selected value="All years">
-                  All years
+                  All Chats
                 </option>
                 {yearsResponse.data?.map(
                   (year: { name: string; id: string }) => {
@@ -51,10 +76,18 @@ const index = () => {
           )}
         </div>
         <div className="h-full ">
-          <ChatUser />
-          <ChatUser />
-          <ChatUser />
-          <ChatUser />
+          {usersResponse.isLoading ? (
+            <div className="h-full flex items-center">
+              <Spinner />
+            </div>
+          ) : (
+            usersResponse.data.map(() => <ChatUser />)
+          )}
+          {!usersResponse.isLoading && !usersResponse.data.length && (
+            <div className="h-full flex  items-center justify-center">
+              Chats not found
+            </div>
+          )}
         </div>
       </div>
       <div className="flex-1  h-full flex flex-col">

@@ -7,8 +7,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "react-hot-toast";
 import Auth from "@/components/Auth";
 import { Rootstate, store } from "@/redux/store";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import React from "react";
+import { io } from "socket.io-client";
+import useSocket from "@/custom-hooks/useSocket";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -26,6 +29,8 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const socket = useSocket();
+
   return (
     <Layout>
       <Provider store={store}>
