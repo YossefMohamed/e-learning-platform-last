@@ -23,17 +23,20 @@ const Auth = ({ children }: any) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [loading, setLoading] = React.useState(true);
-  React.useEffect(() => {
-    if (router.isReady && localStorage.getItem("token")) {
-      const token = localStorage.getItem("token") || "";
-      !data && Auth(token);
-    } else if (router.pathname !== "/login" && router.pathname !== "/") {
-      router.push("/login");
-      setLoading(false);
-    }
-  }, [router]);
 
-  console.log(loading);
+  React.useEffect(() => {
+    if (router.isReady && typeof window !== "undefined") {
+      if (localStorage.getItem("token")) {
+        const token = localStorage.getItem("token") || "";
+        !data && Auth(token);
+      } else if (router.pathname !== "/login" && router.pathname !== "/") {
+        alert(localStorage.getItem("token"));
+        router.push("/login");
+        setLoading(false);
+      }
+    }
+  }, [router, typeof window]);
+
   React.useEffect(() => {
     const token = localStorage.getItem("token") || "";
     data && dispatch(addUser({ token: token, user: data }));

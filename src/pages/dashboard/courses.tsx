@@ -143,101 +143,106 @@ const index = () => {
         {checkModal && (
           <CheckModal closeModal={closeModal} onSubmit={deleteCourse} />
         )}
-        <div className="relative sm:rounded-lg flex-1 p-10 border flex flex-col gap-5">
-          <div className="flex gap-1 items-center  btn-secondary  ">
-            <BsPen /> Courses
-          </div>
+        <>
           <div className="flex flex-col gap-6 bg-gray-100 p-6 rounded-xl">
             <div className="btn-primary ml-auto" onClick={openModal}>
               Add Course
             </div>
-            <table className="w-full text-sm text-left text-gray-500 ">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Course
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Students
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    lessons
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Year
-                  </th>
+            <div className="overflow-auto">
+              {coursesResponse.isLoading ? (
+                <Spinner />
+              ) : (
+                <table className="w-full text-sm text-left text-gray-500 ">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Course
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Students
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        lessons
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Year
+                      </th>
 
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {coursesResponse.isError ? (
-                  <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 ">
-                    {coursesResponse.error}
-                  </div>
-                ) : (
-                  coursesResponse.isSuccess &&
-                  coursesResponse.data?.map(
-                    (course: {
-                      name: string;
-                      id: string;
-                      year: { name: string };
-                    }) => {
-                      console.log(course);
-                      return (
-                        <tr
-                          className="bg-white border-b  hover:bg-gray-50 "
-                          key={course.id}
-                        >
-                          <th
-                            scope="row"
-                            className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
-                          >
-                            <div className="pl-3">
-                              <div className="text-base font-semibold">
-                                {course.name}
-                              </div>
-                            </div>
-                          </th>
-                          <td className="px-6 py-4">5</td>
-                          <td className="px-6 py-4">
-                            <div className="flex items-center">250</div>
-                          </td>
-                          <td className="px-6 py-4 ">{course.year?.name}</td>
-                          <td className="px-6 py-4 flex gap-2">
-                            <div
-                              className="btn-primary"
-                              onClick={() => {
-                                dispatch(addId(course.id));
-                                openEditModal();
-                              }}
+                      <th scope="col" className="px-6 py-3">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {coursesResponse.isError ? (
+                      <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 ">
+                        {coursesResponse.error}
+                      </div>
+                    ) : (
+                      coursesResponse.isSuccess &&
+                      coursesResponse.data?.map(
+                        (course: {
+                          name: string;
+                          id: string;
+                          year: { name: string };
+                        }) => {
+                          console.log(course);
+                          return (
+                            <tr
+                              className="bg-white border-b  hover:bg-gray-50 "
+                              key={course.id}
                             >
-                              Edit
-                            </div>
-                            <div
-                              className="btn-secondary"
-                              onClick={() => {
-                                dispatch(addId(course.id));
-                                openCheckModal();
-                              }}
-                            >
-                              Delete
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    }
-                  )
-                )}
-              </tbody>
-            </table>
+                              <th
+                                scope="row"
+                                className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
+                              >
+                                <div className="pl-3">
+                                  <div className="text-base font-semibold">
+                                    {course.name}
+                                  </div>
+                                </div>
+                              </th>
+                              <td className="px-6 py-4">5</td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center">250</div>
+                              </td>
+                              <td className="px-6 py-4 ">
+                                {course.year?.name}
+                              </td>
+                              <td className="px-6 py-4 flex gap-2">
+                                <div
+                                  className="btn-primary"
+                                  onClick={() => {
+                                    dispatch(addId(course.id));
+                                    openEditModal();
+                                  }}
+                                >
+                                  Edit
+                                </div>
+                                <div
+                                  className="btn-secondary"
+                                  onClick={() => {
+                                    dispatch(addId(course.id));
+                                    openCheckModal();
+                                  }}
+                                >
+                                  Delete
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      )
+                    )}
+                  </tbody>
+                </table>
+              )}
+            </div>
             {coursesResponse.data?.length === 0 && (
               <div className="alert w-full">no courses found</div>
             )}
           </div>
-        </div>
+        </>
       </>
     </DashboardLayout>
   );

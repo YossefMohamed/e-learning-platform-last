@@ -21,6 +21,7 @@ module.exports = {
         ttertiary: "#293241",
         tmuted: "#999797",
         tinverse: "#fff",
+        danger: "#d32f2f",
       },
     },
   },

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 export const Header = () => {
   const router = useRouter();
   const [navbar, setNavbar] = useState(false);
-  const { isAuthenticated, user, token } = useSelector(
+  const { isAuthenticated, user, token, loading } = useSelector(
     (state: Rootstate) => state.userState
   );
   const [mobile, setMobile] = useState(false);
@@ -80,6 +80,11 @@ export const Header = () => {
 
     <nav className={classStyle}>
       <div className="w-full h-full absolute -z-10 top-0 right-0 bg-[url('/pattern.png')] opacity-5"></div>
+      <div
+        className={`h-1 absolute  top-full left-0 bg-secondary ${
+          loading ? "animation-loading" : "w-full"
+        }`}
+      ></div>
 
       <div className="flex justify-between">
         <Link href="/" className={logoStyle}>
@@ -89,6 +94,7 @@ export const Header = () => {
         <div className={textColor + "hidden md:flex"}>
           <Link href="/">Home</Link>
           <Link href="/years">Years</Link>
+          <Link href="/messages">Messages</Link>
           {user.isAdmin && true && <Link href="/dashboard">Dashboard</Link>}
           {isAuthenticated && <Link href="/logout">Logout</Link>}
           {isAuthenticated ? (

@@ -79,3 +79,18 @@ input[type="number"] {
 .katex-html {
   display: none;
 }
+
+.animation-loading {
+  animation-name: laoding-animation;
+  animation: laoding-animation 2s linear 0.5s 1 normal forwards;
+}
+
+@keyframes laoding-animation {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 70%;
+  }
+}

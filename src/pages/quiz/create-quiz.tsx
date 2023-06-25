@@ -322,7 +322,7 @@ function Quiz() {
                 onDeleteOption={deleteOption}
               />
             </div>
-            <div className="flex group w-full justify-between gap-16">
+            <div className=" flex group w-full justify-between gap-16">
               <div
                 className="btn-primary w-full"
                 onClick={() => {

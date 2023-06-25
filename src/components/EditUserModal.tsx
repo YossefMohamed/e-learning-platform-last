@@ -6,6 +6,7 @@ import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import { Rootstate } from "@/redux/store";
 import { toast } from "react-hot-toast";
+import { BsX } from "react-icons/bs";
 
 const CreateUserModal: React.FC<{
   closeModal: () => void;
@@ -33,7 +34,7 @@ const CreateUserModal: React.FC<{
   const [year, setYear] = React.useState("");
   const [course, setCourse] = React.useState("");
   const { ref, out }: { ref: any; out: boolean } = useOuterClick();
-
+  const { token } = useSelector((state: Rootstate) => state.userState);
   const coursesRespone = useQuery(
     "courses",
     async () => {
@@ -41,6 +42,9 @@ const CreateUserModal: React.FC<{
         const res = await request({
           url: `/api/courses/${year}`,
           method: "get",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         }).then((res) => {
           return res.data;
         });
@@ -64,8 +68,6 @@ const CreateUserModal: React.FC<{
   }, [userResponse]);
 
   const yearsResponse = useQuery("years", async () => {
-    const token: string = localStorage.getItem("token") || "";
-
     const res = await request({
       url: `/api/years/`,
       method: "get",
@@ -120,7 +122,12 @@ const CreateUserModal: React.FC<{
           userResponse.isSuccess && (
             <div className="max-h-full">
               <div className="sec-title p-0 m-0 border-0">Edit User</div>
-
+              <div
+                className="p-3 cursor-pointer absolute top-1 right-1"
+                onClick={closeModal}
+              >
+                <BsX size={20} />
+              </div>
               {userResponse.isLoading ? (
                 <Spinner />
               ) : (
@@ -180,6 +187,7 @@ const CreateUserModal: React.FC<{
                       id="countries"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e) => setCourse(e.target.value)}
+                      disabled={!coursesRespone.data.length}
                     >
                       <option selected disabled>
                         Choose a course
@@ -232,7 +240,7 @@ const CreateUserModal: React.FC<{
                     </select>
                   </div>
 
-                  <button className="btn-primary w-full">Create</button>
+                  <button className="btn-primary w-full">Edit User</button>
                 </div>
               )}
             </div>

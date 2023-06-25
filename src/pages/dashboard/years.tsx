@@ -53,10 +53,14 @@ const index = () => {
     !isLoading && createNewYearMutate(name);
   };
 
+  const { token } = useSelector((state: Rootstate) => state.userState);
   const yearsResponse = useQuery("years", async () => {
     const res = await request({
       url: `/api/years/`,
       method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     }).then((res) => {
       return res.data;
     });
@@ -137,97 +141,121 @@ const index = () => {
         {checkModal && (
           <CheckModal closeModal={closeModal} onSubmit={deleteYear} />
         )}
-        <div className="relative sm:rounded-lg flex-1 p-10 border flex flex-col gap-5">
-          <div className="flex gap-1 items-center  btn-secondary  ">
-            <BsPen /> Years
-          </div>
+        <>
           <div className="flex flex-col gap-6 bg-gray-100 p-6 rounded-xl">
             <div className="btn-primary ml-auto" onClick={openModal}>
               Add new Year
             </div>
-            {yearsResponse.isLoading ? (
-              <Spinner />
-            ) : (
-              <table className="w-full text-sm text-left text-gray-500 ">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Year
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Courses
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Students
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Lessons
-                    </th>
+            <div className="overflow-auto">
+              {yearsResponse.isLoading ? (
+                <Spinner />
+              ) : (
+                <table className="w-full text-sm text-left text-gray-500 ">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Year
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Courses
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Students
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Lessons
+                      </th>
 
-                    <th scope="col" className="px-6 py-3">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {yearsResponse.isError ? (
-                    <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50  ">
-                      {yearsResponse.error?.error[0].message}
-                    </div>
-                  ) : (
-                    yearsResponse.isSuccess &&
-                    yearsResponse.data.map(
-                      (year: { name: string; id: string }) => {
-                        return (
-                          <tr className="bg-white border-b   hover:bg-gray-50 ">
-                            <th
-                              scope="row"
-                              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
-                            >
-                              <div className="pl-3">
-                                <div className="text-base font-semibold">
-                                  {year.name}
+                      <th scope="col" className="px-6 py-3">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {yearsResponse.isError ? (
+                      <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50  ">
+                        {yearsResponse.error?.error[0].message}
+                      </div>
+                    ) : (
+                      yearsResponse.isSuccess &&
+                      yearsResponse.data.map(
+                        (year: {
+                          name: string;
+                          id: string;
+                          courses: [
+                            {
+                              _id: string;
+                              students: [{ _id: string }];
+                              lessons: [{ _id: string }];
+                            }
+                          ];
+                        }) => {
+                          return (
+                            <tr className="bg-white border-b   hover:bg-gray-50 ">
+                              <th
+                                scope="row"
+                                className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
+                              >
+                                <div className="pl-3">
+                                  <div className="text-base font-semibold">
+                                    {year.name}
+                                  </div>
                                 </div>
-                              </div>
-                            </th>
-                            <td className="px-6 py-4">5</td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center">250</div>
-                            </td>
-                            <td className="px-6 py-4 ">360</td>
-                            <td className="px-6 py-4 flex gap-2">
-                              <div
-                                className="btn-primary"
-                                onClick={(data: any) => {
-                                  dispatch(addId(year.id));
-                                  setEditModal(true);
-                                }}
-                              >
-                                Edit
-                              </div>
-                              <div
-                                className="btn-secondary"
-                                onClick={() => {
-                                  dispatch(addId(year.id));
-                                  openCheckModal();
-                                }}
-                              >
-                                Delete
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      }
-                    )
-                  )}
-                </tbody>
-              </table>
-            )}
-            {yearsResponse.data?.length === 0 && (
-              <div className="alert w-full">no years found</div>
-            )}
+                              </th>
+                              <td className="px-6 py-4">
+                                {year.courses.length}
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center">
+                                  {year.courses.reduce(
+                                    (accumulator, currentValue) =>
+                                      accumulator +
+                                      currentValue.students.length,
+                                    0
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 ">
+                                {year.courses.reduce(
+                                  (accumulator, currentValue) =>
+                                    accumulator + currentValue.lessons.length,
+                                  0
+                                )}
+                              </td>
+                              <td className="px-6 py-4 flex gap-2">
+                                <div
+                                  className="btn-primary"
+                                  onClick={(data: any) => {
+                                    dispatch(addId(year.id));
+                                    setEditModal(true);
+                                  }}
+                                >
+                                  Edit
+                                </div>
+                                <div
+                                  className="btn-secondary"
+                                  onClick={() => {
+                                    dispatch(addId(year.id));
+                                    openCheckModal();
+                                  }}
+                                >
+                                  Delete
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        }
+                      )
+                    )}
+                  </tbody>
+                </table>
+              )}
+              {yearsResponse.data?.length === 0 && (
+                <div className="alert w-full">no years found</div>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       </>
     </DashboardLayout>
   );

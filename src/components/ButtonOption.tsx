@@ -58,7 +58,7 @@ function ButtonOption({
       )}
       <button
         key={option.label}
-        className={`flex-1 flex-grow-1 w-0 h-[250px] flex items-center justify-center rounded-xl text-2xl text-light contrast-100 hover:opacity-95 relative p-8 hover:-translate-y-1`}
+        className={`flex-1 flex-grow-1 w-full md:w-0  h-[250px] flex items-center justify-center rounded-xl text-2xl text-light contrast-100 hover:opacity-95 relative p-8 hover:-translate-y-1`}
         style={{
           backgroundColor: colors[idx][0],
           boxShadow: `0px 10px  ${colors[idx][1]}`,

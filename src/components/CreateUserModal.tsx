@@ -4,6 +4,8 @@ import React from "react";
 import { useQuery } from "react-query";
 import Spinner from "./Spinner";
 import { BsX } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { Rootstate } from "@/redux/store";
 
 const CreateUserModal: React.FC<{
   closeModal: () => void;
@@ -18,13 +20,16 @@ const CreateUserModal: React.FC<{
   const [year, setYear] = React.useState("");
   const [course, setCourse] = React.useState("");
   const { ref, out }: { ref: any; out: boolean } = useOuterClick();
-
+  const { token } = useSelector((state: Rootstate) => state.userState);
   const coursesRespone = useQuery(
     "courses",
     async () => {
       const res = await request({
         url: `/api/courses/${year}`,
         method: "get",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       }).then((res) => {
         console.log(res.data);
         return res.data;
@@ -38,6 +43,7 @@ const CreateUserModal: React.FC<{
   );
 
   React.useEffect(() => {
+    year && alert("haha");
     year && coursesRespone.refetch();
   }, [year]);
 
@@ -45,6 +51,9 @@ const CreateUserModal: React.FC<{
     const res = await request({
       url: `/api/years/`,
       method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     }).then((res) => {
       console.log(res.data);
       return res.data;
@@ -176,16 +185,14 @@ const CreateUserModal: React.FC<{
                   id="countries"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   onChange={(e) => setCourse(e.target.value)}
+                  disabled={!yearsResponse.data}
                 >
-                  <option selected disabled>
-                    Choose a course
-                  </option>
-                  {coursesRespone.isSuccess &&
-                    coursesRespone.data?.map(
-                      (course: { name: string; id: string }) => {
-                        return <option value={course.id}>{course.name}</option>;
-                      }
-                    )}
+                  <option selected>Choose a course</option>
+                  {coursesRespone.data?.map(
+                    (course: { name: string; id: string }) => {
+                      return <option value={course.id}>{course.name}</option>;
+                    }
+                  )}
                 </select>
               </div>
 

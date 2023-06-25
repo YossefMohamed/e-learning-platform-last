@@ -3,15 +3,22 @@ import request from "@/endpoints/request";
 import React from "react";
 import Spinner from "@/components/Spinner";
 import { useQuery } from "react-query";
+import { Rootstate } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { BsX } from "react-icons/bs";
 const CreateCourseModal: React.FC<{
   closeModal: () => void;
   onSubmit: (data: { name: string; year: string }) => void;
 }> = ({ closeModal, onSubmit }) => {
   const { ref, out }: { ref: any; out: boolean } = useOuterClick();
+  const { token } = useSelector((state: Rootstate) => state.userState);
   const yearsResponse = useQuery("years", async () => {
     const res = await request({
       url: `/api/years/`,
       method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     }).then((res) => {
       console.log(res.data);
       return res.data;
@@ -33,14 +40,19 @@ const CreateCourseModal: React.FC<{
         id="my-modal"
       />
       <form
-        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 w-1/2 p-5 border  shadow-lg rounded-md bg-white"
+        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/2 flex justify-center flex-col w-full h-full p-5 border  shadow-lg rounded-md bg-white"
         ref={ref}
         onSubmit={(e) => {
           e.preventDefault();
-
           onSubmit({ name, year });
         }}
       >
+        <div
+          className="p-3 cursor-pointer absolute top-1 right-1"
+          onClick={closeModal}
+        >
+          <BsX size={20} />
+        </div>
         {yearsResponse.isLoading ? (
           <Spinner />
         ) : (
