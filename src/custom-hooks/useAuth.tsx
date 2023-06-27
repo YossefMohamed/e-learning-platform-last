@@ -16,5 +16,8 @@ const getCurrentUser = async (token: String) => {
 };
 
 export const useAuth = () => {
-  return useMutation((token: string) => getCurrentUser(token), {});
+  return useMutation((token: string) => getCurrentUser(token), {
+    retry: 10,
+    retryDelay: 1000,
+  });
 };

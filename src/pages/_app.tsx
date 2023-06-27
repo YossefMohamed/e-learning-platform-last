@@ -29,12 +29,10 @@ const queryClient = new QueryClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const socket = useSocket();
-
   return (
-    <Layout>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
           <Header />
           <Auth>
             <Toaster position="top-center" reverseOrder={false} />
@@ -44,8 +42,8 @@ export default function App({ Component, pageProps }: AppProps) {
           </Auth>
 
           <Footer />
-        </QueryClientProvider>
-      </Provider>
-    </Layout>
+        </Layout>
+      </QueryClientProvider>
+    </Provider>
   );
 }
