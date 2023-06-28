@@ -8,7 +8,8 @@ import { useSelector } from "react-redux";
 const ChatUser: React.FC<{
   name: string;
   _id: string;
-}> = ({ name, _id }) => {
+  onSelectChat: (_id: string) => void;
+}> = ({ name, _id, onSelectChat }) => {
   const { token } = useSelector((state: Rootstate) => state.userState);
 
   const {
@@ -29,7 +30,6 @@ const ChatUser: React.FC<{
         Authorization: "Bearer " + token,
       },
     }).then((res) => {
-      console.log(res.data);
       return res.data;
     });
 
@@ -37,11 +37,8 @@ const ChatUser: React.FC<{
   });
 
   React.useEffect(() => {
-    isLoading &&
-      toast.loading(`Create Chat with ${name}`, {
-        duration: 2000,
-      });
     data && toast.success("Chat has been created");
+    data && onSelectChat(data._id);
   }, [data, isLoading]);
 
   return (

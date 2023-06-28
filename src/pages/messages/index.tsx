@@ -4,14 +4,14 @@ import Spinner from "@/components/Spinner";
 import request from "@/endpoints/request";
 import { Rootstate } from "@/redux/store";
 import React from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 
 const index = () => {
   const [year, setYear] = React.useState("All years");
   const [name, setName] = React.useState("");
 
-  const { token } = useSelector((state: Rootstate) => state.userState);
+  const { token, user } = useSelector((state: Rootstate) => state.userState);
 
   const usersResponse = useQuery(
     "users",
@@ -53,7 +53,7 @@ const index = () => {
     return res;
   });
 
-  const chatResponse = useQuery("chats", async () => {
+  const chatsResponse = useQuery("chats", async () => {
     const res = await request({
       url: `/api/chats/`,
       method: "get",
@@ -66,6 +66,25 @@ const index = () => {
 
     return res;
   });
+
+  const chatResponse = useMutation(async (id: string) => {
+    const res = await request({
+      url: `/api/chats/${id}`,
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      return res.data;
+    });
+
+    return res;
+  });
+
+  const onSelectChat = (id: string) => {
+    chatResponse.mutate(id);
+    console.log(chatResponse.data);
+  };
 
   React.useEffect(() => {
     name
@@ -110,7 +129,7 @@ const index = () => {
           )}
         </div>
         <div className="h-full ">
-          {usersResponse.isLoading || chatResponse.isLoading ? (
+          {usersResponse.isLoading || chatsResponse.isLoading ? (
             <div className="h-full flex items-center">
               <Spinner />
             </div>
@@ -118,22 +137,46 @@ const index = () => {
             (name || year !== "All years") &&
             usersResponse.data?.map(
               ({ name, _id }: { name: string; _id: string }) => (
-                <ChatUser name={name} _id={_id} />
+                <ChatUser name={name} _id={_id} onSelectChat={onSelectChat} />
               )
             )
           )}
-          {!chatResponse.isLoading &&
-            chatResponse.data?.map((chat: { _id: string }) => <ChatUser />)}
+          {!chatsResponse.isLoading &&
+            chatsResponse.data?.map(
+              (chat: {
+                _id: string;
+                users: [{ name: string; _id: string }];
+              }) => {
+                return chat.users.map(
+                  ({ name, _id }: { name: string; _id: string }) => {
+                    console.log(_id !== user._id);
+
+                    if (_id !== user._id)
+                      return (
+                        <ChatUser
+                          name={name}
+                          _id={_id}
+                          onSelectChat={onSelectChat}
+                          key={_id}
+                        />
+                      );
+                  }
+                );
+              }
+            )}
           {!usersResponse.isLoading &&
-            !chatResponse.isLoading &&
-            (!usersResponse.data?.length || chatResponse.data?.length) && (
+            !chatsResponse.isLoading &&
+            (!usersResponse.data?.length || chatsResponse.data?.length) && (
               <div className="h-full flex  items-center justify-center">
                 Chats not found
               </div>
             )}
         </div>
       </div>
-      <ChatContent />
+      <ChatContent
+        chatData={chatResponse.data}
+        loading={chatResponse.isLoading}
+      />
     </div>
   );
 };
