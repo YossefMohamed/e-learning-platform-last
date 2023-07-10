@@ -14,14 +14,15 @@ export const Layout = ({ children }: any) => {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css"
-        />
+
         <link rel="icon" type="image/png" href="/favicon.jpg" />
 
         <title>Math with Ezz</title>
       </Head>
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css"
+      />
 
       <div className="min-h-screen flex flex-col">{children}</div>
     </>

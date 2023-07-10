@@ -137,7 +137,12 @@ const index = () => {
             (name || year !== "All years") &&
             usersResponse.data?.map(
               ({ name, _id }: { name: string; _id: string }) => (
-                <ChatUser name={name} _id={_id} onSelectChat={onSelectChat} />
+                <ChatUser
+                  name={name}
+                  _id={_id}
+                  onSelectChat={onSelectChat}
+                  key={_id}
+                />
               )
             )
           )}
@@ -146,6 +151,10 @@ const index = () => {
               (chat: {
                 _id: string;
                 users: [{ name: string; _id: string }];
+                latestMessage: {
+                  readBy: [string];
+                  content: string;
+                };
               }) => {
                 return chat.users.map(
                   ({ name, _id }: { name: string; _id: string }) => {
@@ -158,6 +167,7 @@ const index = () => {
                           _id={_id}
                           onSelectChat={onSelectChat}
                           key={_id}
+                          latestMessage={chat.latestMessage}
                         />
                       );
                   }

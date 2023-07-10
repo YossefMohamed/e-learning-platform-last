@@ -27,7 +27,7 @@ const Auth = ({ children }: any) => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (router.isReady && typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       if (localStorage.getItem("token")) {
         const token = localStorage.getItem("token") || "";
         !data && Auth(token);

@@ -174,7 +174,11 @@ const CreateUserModal: React.FC<{
                       {yearsResponse.isSuccess &&
                         yearsResponse.data?.map(
                           (year: { name: string; id: string }) => {
-                            return <option value={year.id}>{year.name}</option>;
+                            return (
+                              <option value={year.id} key={year.id}>
+                                {year.name}
+                              </option>
+                            );
                           }
                         )}
                     </select>
@@ -187,20 +191,18 @@ const CreateUserModal: React.FC<{
                       id="countries"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                       onChange={(e) => setCourse(e.target.value)}
-                      disabled={!coursesRespone.data.length}
+                      disabled={!yearsResponse.data}
                     >
-                      <option selected disabled>
-                        Choose a course
-                      </option>
-                      {coursesRespone.isSuccess &&
-                        year &&
-                        coursesRespone.data?.map(
-                          (course: { name: string; id: string }) => {
-                            return (
-                              <option value={course.id}>{course.name}</option>
-                            );
-                          }
-                        )}
+                      <option selected>Choose a course</option>
+                      {coursesRespone.data?.map(
+                        (course: { name: string; id: string }) => {
+                          return (
+                            <option value={course.id} key={course.id}>
+                              {course.name}
+                            </option>
+                          );
+                        }
+                      )}
                     </select>
                   </div>
 

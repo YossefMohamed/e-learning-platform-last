@@ -1,12 +1,17 @@
+import useSocket from "@/custom-hooks/useSocket";
+import request from "@/endpoints/request";
 import { Rootstate } from "@/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { BsList, BsPerson } from "react-icons/bs";
 import { FaElementor } from "react-icons/fa";
+import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 
 export const Header = () => {
+  const socket = useSocket();
+
   const router = useRouter();
   const [navbar, setNavbar] = useState(false);
   const { isAuthenticated, user, token, loading } = useSelector(
@@ -21,6 +26,20 @@ export const Header = () => {
     }
   };
 
+  const chatsResponse = useQuery("chats", async () => {
+    const res = await request({
+      url: `/api/chats/`,
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      return res.data;
+    });
+
+    return res;
+  });
+
   useEffect(() => {
     changeBackground();
     window.addEventListener("scroll", changeBackground);
@@ -28,8 +47,16 @@ export const Header = () => {
 
   useEffect(() => {
     setMobile(false);
+    isAuthenticated && chatsResponse.refetch();
   }, [router]);
 
+  console.log(chatsResponse.data);
+
+  React.useEffect(() => {
+    socket.on("new message", (newMessage) => {
+      alert("new message");
+    });
+  });
   let classStyle = !navbar
     ? "nav-container  bg-light  z-[99] py-5 shadow items-center  px-10 relative"
     : "nav-container   py-3 z-[99] shadow-xl bg-primary sticky top-0  items-center relative  px-10";
@@ -94,7 +121,24 @@ export const Header = () => {
         <div className={textColor + "hidden md:flex"}>
           <Link href="/">Home</Link>
           <Link href="/years">Years</Link>
-          <Link href="/messages">Messages</Link>
+          {isAuthenticated && !chatsResponse.isLoading && (
+            <Link href="/messages" className="flex">
+              Messages
+              {chatsResponse.data
+                ?.map(
+                  (chat: {
+                    latestMessage: {
+                      readBy: [string];
+                    };
+                  }) => {
+                    return !chat.latestMessage.readBy.includes(user._id);
+                  }
+                )
+                .includes(true) && (
+                <div className="w-2 h-2 rounded-full bg-red-500"></div>
+              )}
+            </Link>
+          )}
           {user.isAdmin && true && <Link href="/dashboard">Dashboard</Link>}
           {isAuthenticated && <Link href="/logout">Logout</Link>}
           {isAuthenticated ? (

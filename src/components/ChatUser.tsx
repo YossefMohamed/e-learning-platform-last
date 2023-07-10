@@ -8,9 +8,21 @@ import { useSelector } from "react-redux";
 const ChatUser: React.FC<{
   name: string;
   _id: string;
+  latestMessage: {
+    readBy: [string];
+    content: string;
+  };
   onSelectChat: (_id: string) => void;
-}> = ({ name, _id, onSelectChat }) => {
-  const { token } = useSelector((state: Rootstate) => state.userState);
+}> = ({
+  name,
+  _id,
+  onSelectChat,
+  latestMessage = {
+    readBy: [],
+    content: "",
+  },
+}) => {
+  const { user, token } = useSelector((state: Rootstate) => state.userState);
 
   const {
     data,
@@ -43,7 +55,11 @@ const ChatUser: React.FC<{
 
   return (
     <div
-      className="px-5 py-4  border-b  flex items-center   cursor-pointer  hover:bg-slate-100"
+      className={`${
+        latestMessage.readBy.includes(user._id)
+          ? "px-5 py-4  border-b  flex items-center   cursor-pointer  hover:bg-slate-100"
+          : "px-5 py-4  border-b  flex items-center   cursor-pointer  bg-slate-100 hover:bg-inherit"
+      }`}
       onClick={createNewChat}
     >
       <div className="ml-4">
@@ -57,7 +73,7 @@ const ChatUser: React.FC<{
           className="text-xs text-slate-400 -mt-0.5 font-semibold"
           x-text="user.email"
         >
-          is is long ipsum avaliable...
+          {latestMessage.content}
         </p>
       </div>
     </div>
