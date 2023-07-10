@@ -20,6 +20,8 @@ const ChatContent: React.FC<{
 }> = ({ loading, chatData }) => {
   const socket = useSocket();
 
+  console.log(chatData);
+
   const { user, token } = useSelector((state: Rootstate) => state.userState);
 
   const messagesResponse = useQuery(
@@ -82,6 +84,7 @@ const ChatContent: React.FC<{
 
   const onSendButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    alert(chatData._id);
     createNewMessage({
       content: message,
     });
@@ -96,6 +99,7 @@ const ChatContent: React.FC<{
   });
 
   React.useEffect(() => {
+    isSuccess && console.log(data);
     isSuccess && socket.emit("new message", data);
   }, [isSuccess]);
 

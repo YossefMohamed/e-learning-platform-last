@@ -56,7 +56,7 @@ const ChatUser: React.FC<{
   return (
     <div
       className={`${
-        latestMessage.readBy.includes(user._id)
+        latestMessage?.readBy.includes(user._id)
           ? "px-5 py-4  border-b  flex items-center   cursor-pointer  hover:bg-slate-100"
           : "px-5 py-4  border-b  flex items-center   cursor-pointer  bg-slate-100 hover:bg-inherit"
       }`}
@@ -73,7 +73,7 @@ const ChatUser: React.FC<{
           className="text-xs text-slate-400 -mt-0.5 font-semibold"
           x-text="user.email"
         >
-          {latestMessage.content}
+          {latestMessage?.content}
         </p>
       </div>
     </div>

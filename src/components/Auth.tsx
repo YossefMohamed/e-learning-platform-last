@@ -25,19 +25,18 @@ const Auth = ({ children }: any) => {
   const socket = useSocket();
 
   const [loading, setLoading] = React.useState(true);
+  const [client, setClient] = React.useState(false);
 
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (localStorage.getItem("token")) {
-        const token = localStorage.getItem("token") || "";
-        !data && Auth(token);
-      } else if (router.pathname !== "/login" && router.pathname !== "/") {
-        alert(localStorage.getItem("token"));
-        router.push("/login");
-        setLoading(false);
-      }
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token") || "";
+      !data && Auth(token);
+    } else if (router.pathname !== "/login" && router.pathname !== "/") {
+      alert(localStorage.getItem("token"));
+      router.push("/login");
+      setLoading(false);
     }
-  }, [router, typeof window]);
+  }, [router]);
 
   React.useEffect(() => {
     const token = localStorage.getItem("token") || "";

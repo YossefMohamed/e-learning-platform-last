@@ -47,10 +47,8 @@ export const Header = () => {
 
   useEffect(() => {
     setMobile(false);
-    isAuthenticated && chatsResponse.refetch();
+    chatsResponse.refetch();
   }, [router]);
-
-  console.log(chatsResponse.data);
 
   React.useEffect(() => {
     socket.on("new message", (newMessage) => {
@@ -121,7 +119,7 @@ export const Header = () => {
         <div className={textColor + "hidden md:flex"}>
           <Link href="/">Home</Link>
           <Link href="/years">Years</Link>
-          {isAuthenticated && !chatsResponse.isLoading && (
+          {isAuthenticated && (
             <Link href="/messages" className="flex">
               Messages
               {chatsResponse.data
@@ -131,7 +129,7 @@ export const Header = () => {
                       readBy: [string];
                     };
                   }) => {
-                    return !chat.latestMessage.readBy.includes(user._id);
+                    return !chat.latestMessage?.readBy.includes(user._id);
                   }
                 )
                 .includes(true) && (
@@ -182,6 +180,24 @@ export const Header = () => {
           <Link href="/years">Years</Link>
           {user.isAdmin && true && <Link href="/dashboard">Dashboard</Link>}
           {isAuthenticated && <Link href="/logout">Logout</Link>}
+          {isAuthenticated && (
+            <Link href="/messages" className="flex">
+              Messages
+              {chatsResponse.data
+                ?.map(
+                  (chat: {
+                    latestMessage: {
+                      readBy: [string];
+                    };
+                  }) => {
+                    return !chat.latestMessage?.readBy.includes(user._id);
+                  }
+                )
+                .includes(true) && (
+                <div className="w-2 h-2 rounded-full bg-red-500"></div>
+              )}
+            </Link>
+          )}
           {isAuthenticated ? (
             <Link
               href="/profile"
