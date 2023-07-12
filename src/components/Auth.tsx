@@ -4,6 +4,7 @@ import { useAuth } from "@/custom-hooks/useAuth";
 import {
   addUser,
   loading as loadingAction,
+  stopLoading,
   stopLoading as stopLoadingAction,
 } from "@/redux/slices/userSlices";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,9 +31,10 @@ const Auth = ({ children }: any) => {
   React.useEffect(() => {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token") || "";
-      !data && Auth(token);
+      Auth(token);
     } else if (router.pathname !== "/login" && router.pathname !== "/") {
       alert(localStorage.getItem("token"));
+      data && dispatch(stopLoading());
       router.push("/login");
       setLoading(false);
     }
@@ -42,6 +44,7 @@ const Auth = ({ children }: any) => {
     const token = localStorage.getItem("token") || "";
     data && dispatch(addUser({ token: token, user: data }));
     data && setLoading(false);
+    data && dispatch(stopLoading());
     data && socket.emit("login", data._id);
   }, [isSuccess, data]);
   return loading ? <Spinner /> : children;

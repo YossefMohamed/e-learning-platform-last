@@ -57,7 +57,7 @@ export const Header = () => {
   });
   let classStyle = !navbar
     ? "nav-container  bg-light  z-[99] py-5 shadow items-center  px-10 relative"
-    : "nav-container   py-3 z-[99] shadow-xl bg-primary sticky top-0  items-center relative  px-10";
+    : "nav-container   py-3 z-[99] shadow-xl  sticky top-0  items-center relative  px-10 bg-gradient-to-r from-primary to-secondary";
   let textColor = !navbar
     ? "items flex  gap-10 items-center text-md text-tsecondary  font-bold  "
     : "items flex  gap-10 items-center text-md text-light  font-bold ";

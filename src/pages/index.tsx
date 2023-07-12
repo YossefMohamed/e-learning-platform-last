@@ -24,7 +24,7 @@ export default function Home() {
     <>
       <section className="my-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
-          <img className="w-[90%]" src="/math3.png" alt="dashboard image" />
+          <img className="w-[90%]" src="/math2.png" alt="dashboard image" />
           <div className="mt-4 md:mt-0 md:text-left text-center">
             <h2 className="mb-4 text-3xl tracking-tight font-extrabold ">
               Let's create more{" "}
@@ -109,7 +109,7 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
           <img
             className="md:w-1/2 w-full"
-            src="/math2.png"
+            src="/math3.png"
             alt="dashboard image"
           />
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
@@ -130,7 +130,7 @@ export default function Home() {
         <div className="sec-title">Study online</div>
         <div className="cards flex  w-full justify-around py-10 md:flex-row flex-col gap-6">
           <div className="card  flex flex-col items-center  gap-4 ">
-            <div className="font-bold h-full w-[40%]">
+            <div className="font-bold  w-[25%]">
               <img
                 src="/section1.png"
                 alt="section3"
@@ -144,7 +144,7 @@ export default function Home() {
           </div>
 
           <div className="card  flex flex-col items-center  gap-4 ">
-            <div className="font-bold h-full w-[40%]">
+            <div className="font-bold  w-[25%]">
               <img
                 src="/section2.png"
                 alt="section3"
@@ -158,7 +158,7 @@ export default function Home() {
           </div>
 
           <div className="card  flex flex-col items-center  gap-4 ">
-            <div className="font-bold h-full w-[40%]">
+            <div className="font-bold  w-[25%]">
               <img
                 src="/section3.png"
                 alt="section3"
