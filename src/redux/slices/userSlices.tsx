@@ -4,7 +4,14 @@ const initialState: {
   isAuthenticated: boolean;
   loading: boolean;
   token: string;
-  user: any;
+  user: {
+    isAdmin: boolean;
+    _id?: string;
+    id?: string;
+    name?: string;
+    course?: any;
+    year?: any;
+  };
 } = {
   isAuthenticated: false,
   loading: true,

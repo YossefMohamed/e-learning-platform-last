@@ -13,31 +13,25 @@ const index = () => {
 
   const { token, user } = useSelector((state: Rootstate) => state.userState);
 
-  const usersResponse = useQuery(
-    "users",
-    async () => {
-      const token: string = localStorage.getItem("token") || "";
+  const usersResponse = useQuery("users", async () => {
+    const token: string = localStorage.getItem("token") || "";
 
-      const res = await request({
-        url: `/api/users/all`,
-        params: {
-          year,
-          name,
-        },
-        method: "get",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }).then((res) => {
-        return res.data;
-      });
+    const res = await request({
+      url: `/api/users/all`,
+      params: {
+        year,
+        name,
+      },
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      return res.data;
+    });
 
-      return res;
-    },
-    {
-      enabled: false,
-    }
-  );
+    return res;
+  });
 
   const yearsResponse = useQuery("years", async () => {
     const res = await request({
@@ -53,7 +47,8 @@ const index = () => {
     return res;
   });
 
-  const chatsResponse = useQuery("chats", async () => {
+  const chatsResponse = useQuery("allChatss", async () => {
+    const token = localStorage.getItem("token");
     const res = await request({
       url: `/api/chats/`,
       method: "get",
@@ -83,7 +78,6 @@ const index = () => {
 
   const onSelectChat = (id: string) => {
     chatResponse.mutate(id);
-    console.log(chatResponse.data);
   };
 
   React.useEffect(() => {
@@ -99,37 +93,45 @@ const index = () => {
       {/* sidebar 2 */}
       <div className="w-[30%] bg-slate-50 border-r flex flex-col">
         <div className="h-[75px] border-b border-r px-4 flex items-center justify-center space-x-4">
-          <input
-            type="text"
-            className="text-input flex-1"
-            placeholder="Search by name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
-          {yearsResponse.isLoading ? (
-            <Spinner />
+          {user.isAdmin ? (
+            <>
+              <input
+                type="text"
+                className="text-input flex-1"
+                placeholder="Search by name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+              />
+              {yearsResponse.isLoading ? (
+                <Spinner />
+              ) : (
+                <div className="flex-1">
+                  <select
+                    id="years"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                  >
+                    <option selected value="All years">
+                      All Chats
+                    </option>
+                    {yearsResponse.data?.map(
+                      (year: { name: string; id: string }) => {
+                        return <option value={year.id}>{year.name}</option>;
+                      }
+                    )}
+                  </select>
+                </div>
+              )}
+            </>
           ) : (
-            <div className="flex-1">
-              <select
-                id="years"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-              >
-                <option selected value="All years">
-                  All Chats
-                </option>
-                {yearsResponse.data?.map(
-                  (year: { name: string; id: string }) => {
-                    return <option value={year.id}>{year.name}</option>;
-                  }
-                )}
-              </select>
+            <div className="items-start text-slate-600 uppercase font-bold">
+              Chat with your teacher
             </div>
           )}
         </div>
         <div className="h-full ">
-          {usersResponse.isLoading || chatsResponse.isLoading ? (
+          {chatsResponse.isLoading ? (
             <div className="h-full flex items-center">
               <Spinner />
             </div>
@@ -174,9 +176,9 @@ const index = () => {
                 );
               }
             )}
-          {!usersResponse.isLoading &&
-            !chatsResponse.isLoading &&
-            (!usersResponse.data?.length || chatsResponse.data?.length) && (
+          {!chatsResponse.isLoading &&
+            !usersResponse.data?.length &&
+            !chatsResponse.data?.length && (
               <div className="h-full flex  items-center justify-center">
                 Chats not found
               </div>

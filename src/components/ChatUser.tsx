@@ -31,7 +31,7 @@ const ChatUser: React.FC<{
     isSuccess,
     isError,
     error,
-  } = useMutation(async (data: any) => {
+  } = useMutation(async () => {
     const res = await request({
       url: `/api/chats/`,
       method: "post",
@@ -55,19 +55,21 @@ const ChatUser: React.FC<{
 
   return (
     <div
-      className={`${
-        latestMessage?.readBy.includes(user._id)
-          ? "px-5 py-4  border-b  flex items-center   cursor-pointer  hover:bg-slate-100"
-          : "px-5 py-4  border-b  flex items-center   cursor-pointer  bg-slate-100 hover:bg-inherit"
-      }`}
-      onClick={createNewChat}
+      className={`${"px-5 py-4  border-b  flex items-center   cursor-pointer  hover:bg-slate-100"}`}
+      onClick={() => {
+        alert(token);
+        createNewChat();
+      }}
     >
       <div className="ml-4">
         <p
           x-text="user.name"
-          className="text-md font-semibold text-slate-600 m-0 p-0"
+          className="text-xl font-semibold text-slate-600 m-0 p-0 flex items-center gap-3"
         >
           {name}
+          {!latestMessage?.readBy.includes(user._id) && (
+            <span className="w-2 h-2 bg-danger rounded-full"></span>
+          )}
         </p>
         <p
           className="text-xs text-slate-400 -mt-0.5 font-semibold"

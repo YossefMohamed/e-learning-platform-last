@@ -115,6 +115,11 @@ function Quiz() {
                   );
                 }
               )}
+            {!quizResponse.data?.length && (
+              <div className="text-slate-600 text-xl text-center uppercase ">
+                No quizzes avaliable now
+              </div>
+            )}
           </div>
           {user.isAdmin && (
             <div className="flex gap-6">

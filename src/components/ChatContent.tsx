@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Spinner from "./Spinner";
 import { Rootstate } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -20,7 +20,11 @@ const ChatContent: React.FC<{
 }> = ({ loading, chatData }) => {
   const socket = useSocket();
 
-  console.log(chatData);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView(false);
+  };
 
   const { user, token } = useSelector((state: Rootstate) => state.userState);
 
@@ -92,10 +96,9 @@ const ChatContent: React.FC<{
     setMessage("");
   };
 
-  React.useEffect(() => {
-    socket.on("new message", (newMessage) => {
-      setMessages((prev: any) => [...prev, newMessage]);
-    });
+  socket.on("new message", (newMessage) => {
+    setMessages((prev: any) => [...prev, newMessage]);
+    scrollToBottom();
   });
 
   React.useEffect(() => {
@@ -122,63 +125,41 @@ const ChatContent: React.FC<{
     <div className="flex-1  h-full flex flex-col">
       {loading ? (
         <Spinner />
-      ) : (
-        chatData && (
-          <>
-            <div className="h-[75px] border-b flex justify-between items-center w-full px-5 py-2 shadow-sm">
-              <div className="flex items-center">
-                <p className="font-semibold ml-3 text-slate-600">
-                  {toUser.name}
-                </p>
-              </div>
+      ) : chatData ? (
+        <>
+          <div
+            className="h-[75px] border-b flex justify-between items-center w-full px-5 py-2 shadow-sm"
+            ref={messagesEndRef}
+          >
+            <div className="flex items-center">
+              <p className="font-semibold ml-3 text-slate-600">{toUser.name}</p>
             </div>
-            <div className="flex flex-col h-full overflow-y-hidden">
-              <div className="flex-1 px-10 py-4 overflow-y-auto">
-                {/* messages */}
-                {messages?.map(
-                  (messageItem: {
-                    _id: string;
-                    sender: { _id: string };
-                    content: string;
-                  }) => {
-                    console.log(messageItem);
-                    if (messageItem.sender._id === user._id) {
-                      return (
-                        <>
-                          <div className="w-full flex justify-end mt-3">
-                            <div className="w-1/2 ">
-                              <div className="flex items-center justify-end">
-                                <p className="font-semibold mr-3 text-sm text-slate-600">
-                                  Me{" "}
-                                  <span className="text-slate-400 text-xs">
-                                    3:25 PM
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="mt-1 w-full bg-blue-500 p-4 rounded-b-xl rounded-tl-xl">
-                                <p className=" text-sm text-white">
-                                  {messageItem.content}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      );
-                    }
+          </div>
+          <div className="flex flex-col h-full overflow-y-hidden">
+            <div className="flex-1 px-10 py-4 overflow-y-auto">
+              {/* messages */}
+              {messages?.map(
+                (messageItem: {
+                  _id: string;
+                  sender: { _id: string };
+                  content: string;
+                }) => {
+                  console.log(messageItem);
+                  if (messageItem.sender._id === user._id) {
                     return (
                       <>
-                        <div className="w-full flex flex-start overflow-y-auto">
-                          <div className="w-1/2">
-                            <div className="flex items-center">
-                              <p className="font-semibold ml-3 text-sm text-slate-600">
-                                {toUser.name}
+                        <div className="w-full flex justify-end mt-3">
+                          <div className="w-1/2 ">
+                            <div className="flex items-center justify-end">
+                              <p className="font-semibold mr-3 text-sm text-slate-600">
+                                Me{" "}
                                 <span className="text-slate-400 text-xs">
-                                  3:21 PM
+                                  3:25 PM
                                 </span>
                               </p>
                             </div>
-                            <div className="mt-3 w-full bg-slate-50 p-4 rounded-b-xl rounded-tr-xl">
-                              <p className=" text-sm text-slate-500">
+                            <div className="mt-1 w-full bg-blue-500 p-4 rounded-b-xl rounded-tl-xl">
+                              <p className=" text-sm text-white">
                                 {messageItem.content}
                               </p>
                             </div>
@@ -187,36 +168,64 @@ const ChatContent: React.FC<{
                       </>
                     );
                   }
-                )}
-              </div>
-              <div className=" w-full  px-5 py-3">
-                <form
-                  className="h-12 flex justify-between px-3 items-center border border-transparent bg-slate-50 rounded-lg"
-                  onSubmit={onSendButton}
-                >
-                  <input
-                    type="text"
-                    className="text-input"
-                    placeholder="Type your message"
-                    onChange={(e) => setMessage(e.target.value)}
-                    value={message}
-                  />
-                  <div className="flex items-center space-x-4">
-                    <button
-                      className={`btn-primary rounded-none ${
-                        (!message || isLoading) && "bg-gray-400 border-gray-400"
-                      }`}
-                      disabled={!message || isLoading}
-                      onClick={() => console.log(message || isLoading)}
-                    >
-                      Send
-                    </button>
-                  </div>
-                </form>
-              </div>
+                  return (
+                    <>
+                      <div className="w-full flex flex-start overflow-y-auto">
+                        <div className="w-1/2">
+                          <div className="flex items-center">
+                            <p className="font-semibold ml-3 text-sm text-slate-600">
+                              {toUser.name}
+                              <span className="text-slate-400 text-xs">
+                                3:21 PM
+                              </span>
+                            </p>
+                          </div>
+                          <div className="mt-3 w-full bg-slate-50 p-4 rounded-b-xl rounded-tr-xl">
+                            <p className=" text-sm text-slate-500">
+                              {messageItem.content}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                }
+              )}
             </div>
-          </>
-        )
+            <div className=" w-full  px-5 py-3">
+              <form
+                className="h-12 flex justify-between px-3 items-center border border-transparent bg-slate-50 rounded-lg"
+                onSubmit={onSendButton}
+              >
+                <input
+                  type="text"
+                  className="text-input"
+                  placeholder="Type your message"
+                  onChange={(e) => setMessage(e.target.value)}
+                  value={message}
+                />
+                <div className="flex items-center space-x-4">
+                  <button
+                    className={`btn-primary rounded-none ${
+                      (!message || isLoading) && "bg-gray-400 border-gray-400"
+                    }`}
+                    disabled={!message || isLoading}
+                    onClick={() => console.log(message || isLoading)}
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="h-full flex items-center justify-center flex-col gap-4">
+          <img src="/messages.png" className="w-28 h-28" />
+          <span className="text-lg">
+            Select the user to start messaging with
+          </span>
+        </div>
       )}
     </div>
   );
