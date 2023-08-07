@@ -2,7 +2,7 @@ import React from "react";
 
 const Spinner = () => {
   return (
-    <div className="flex flex-1 justify-center items-center  w-full">
+    <div className="flex flex-1 justify-center items-center  w-full h-full">
       <div role="status ">
         <svg
           aria-hidden="true"

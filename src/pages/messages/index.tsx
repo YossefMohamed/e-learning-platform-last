@@ -12,7 +12,6 @@ const index = () => {
   const [name, setName] = React.useState("");
 
   const { token, user } = useSelector((state: Rootstate) => state.userState);
-
   const usersResponse = useQuery("users", async () => {
     const token: string = localStorage.getItem("token") || "";
 
@@ -76,8 +75,10 @@ const index = () => {
     return res;
   });
 
+  const [select, setSelect] = React.useState(false);
   const onSelectChat = (id: string) => {
     chatResponse.mutate(id);
+    setSelect((prev) => !prev);
   };
 
   React.useEffect(() => {
@@ -89,106 +90,114 @@ const index = () => {
   }, [name, year]);
 
   return (
-    <div className=" flex m-6 border h-[90vh]">
+    <div className=" flex m-6 border h-[80vh]">
       {/* sidebar 2 */}
-      <div className="w-[30%] bg-slate-50 border-r flex flex-col">
-        <div className="h-[75px] border-b border-r px-4 flex items-center justify-center space-x-4">
-          {user.isAdmin ? (
-            <>
-              <input
-                type="text"
-                className="text-input flex-1"
-                placeholder="Search by name"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-              />
-              {yearsResponse.isLoading ? (
+      {!select && (
+        <div
+          className={`md:w-[30%] w-[100%] bg-slate-50 border-r flex flex-col`}
+        >
+          <div className="h-[75px] border-b border-r px-4 flex items-center justify-center space-x-4">
+            <input
+              type="text"
+              className="text-input flex-1"
+              placeholder="Search by name"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
+            {user.isAdmin ? (
+              <>
+                {yearsResponse.isLoading ? (
+                  <Spinner />
+                ) : (
+                  <div className="flex-1">
+                    <select
+                      id="years"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                      value={year}
+                      onChange={(e) => setYear(e.target.value)}
+                    >
+                      <option selected value="All years">
+                        All Chats
+                      </option>
+                      {yearsResponse.data?.map(
+                        (year: { name: string; id: string }) => {
+                          return <option value={year.id}>{year.name}</option>;
+                        }
+                      )}
+                    </select>
+                  </div>
+                )}
+              </>
+            ) : null}
+          </div>
+          <div className="h-full ">
+            {chatsResponse.isLoading ? (
+              <div className="h-full flex items-center">
                 <Spinner />
-              ) : (
-                <div className="flex-1">
-                  <select
-                    id="years"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                  >
-                    <option selected value="All years">
-                      All Chats
-                    </option>
-                    {yearsResponse.data?.map(
-                      (year: { name: string; id: string }) => {
-                        return <option value={year.id}>{year.name}</option>;
-                      }
-                    )}
-                  </select>
+              </div>
+            ) : (
+              (name || year !== "All years") &&
+              usersResponse.data?.map(
+                ({ name, _id }: { name: string; _id: string }) => (
+                  <ChatUser
+                    name={name}
+                    _id={_id}
+                    onSelectChat={onSelectChat}
+                    key={_id}
+                    latestMessage={{
+                      readBy: [user._id!],
+                      content: `Start chatting with ${name}`,
+                    }}
+                  />
+                )
+              )
+            )}
+            {!chatsResponse.isLoading &&
+              chatsResponse.data?.map(
+                (chat: {
+                  _id: string;
+                  users: [{ name: string; _id: string }];
+                  latestMessage: {
+                    readBy: [string];
+                    content: string;
+                  };
+                }) => {
+                  return chat.users.map(
+                    ({ name, _id }: { name: string; _id: string }) => {
+                      console.log(_id !== user._id);
+
+                      if (_id !== user._id)
+                        return (
+                          <ChatUser
+                            name={name}
+                            _id={_id}
+                            onSelectChat={onSelectChat}
+                            key={_id}
+                            latestMessage={chat.latestMessage}
+                          />
+                        );
+                    }
+                  );
+                }
+              )}
+            {!chatsResponse.isLoading &&
+              !usersResponse.data?.length &&
+              !chatsResponse.data?.length && (
+                <div className="h-full flex  items-center justify-center">
+                  Chats not found
                 </div>
               )}
-            </>
-          ) : (
-            <div className="items-start text-slate-600 uppercase font-bold">
-              Chat with your teacher
-            </div>
-          )}
+          </div>
         </div>
-        <div className="h-full ">
-          {chatsResponse.isLoading ? (
-            <div className="h-full flex items-center">
-              <Spinner />
-            </div>
-          ) : (
-            (name || year !== "All years") &&
-            usersResponse.data?.map(
-              ({ name, _id }: { name: string; _id: string }) => (
-                <ChatUser
-                  name={name}
-                  _id={_id}
-                  onSelectChat={onSelectChat}
-                  key={_id}
-                />
-              )
-            )
-          )}
-          {!chatsResponse.isLoading &&
-            chatsResponse.data?.map(
-              (chat: {
-                _id: string;
-                users: [{ name: string; _id: string }];
-                latestMessage: {
-                  readBy: [string];
-                  content: string;
-                };
-              }) => {
-                return chat.users.map(
-                  ({ name, _id }: { name: string; _id: string }) => {
-                    console.log(_id !== user._id);
-
-                    if (_id !== user._id)
-                      return (
-                        <ChatUser
-                          name={name}
-                          _id={_id}
-                          onSelectChat={onSelectChat}
-                          key={_id}
-                          latestMessage={chat.latestMessage}
-                        />
-                      );
-                  }
-                );
-              }
-            )}
-          {!chatsResponse.isLoading &&
-            !usersResponse.data?.length &&
-            !chatsResponse.data?.length && (
-              <div className="h-full flex  items-center justify-center">
-                Chats not found
-              </div>
-            )}
-        </div>
-      </div>
-      <ChatContent
-        chatData={chatResponse.data}
-        loading={chatResponse.isLoading}
-      />
+      )}
+      {
+        <ChatContent
+          chatData={chatResponse.data}
+          loading={chatResponse.isLoading}
+          onBack={() => setSelect(false)}
+          select={select}
+        />
+      }
     </div>
   );
 };

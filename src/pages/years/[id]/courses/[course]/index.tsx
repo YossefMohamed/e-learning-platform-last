@@ -87,7 +87,8 @@ function Year() {
   };
 
   React.useEffect(() => {
-    createUnitResponse.isError && toast.error(createUnitResponse.error);
+    createUnitResponse.isError &&
+      toast.error(createUnitResponse.error as string);
     createUnitResponse.isSuccess && toast.success("Unit is created !");
     createUnitResponse.isSuccess && unitsResponse.refetch();
     createUnitResponse.isSuccess && closeModal();
@@ -98,8 +99,7 @@ function Year() {
       if (
         user.course !== router.query.course &&
         user.year !== router.query.year &&
-        !user.isAdmin &&
-        !loading
+        !user.isAdmin
       ) {
         toast.error("You are not a participant in this course");
         router.push(`/years`);
@@ -163,13 +163,14 @@ function Year() {
                 if (lesson.unit.id === id) lessons.push(lesson);
               });
               return (
-                <>
+                <div key={id}>
                   <Unit
                     id={id}
                     name={name}
                     key={id}
                     idx={idx + 1}
                     course={course}
+                    refreshData={unitsResponse.refetch}
                   />
                   {lessons.map((lesson: any) => (
                     <Lesson
@@ -178,7 +179,7 @@ function Year() {
                       key={lesson._id}
                     />
                   ))}
-                </>
+                </div>
               );
             }
           )}

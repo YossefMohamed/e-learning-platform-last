@@ -13,7 +13,7 @@ export const CourseCard = ({
   link: string;
 }) => {
   return (
-    <div className="flex flex-col md:w-[30%] my-4 cursor-pointer max-h-[500px] p-4  shadow-xl hover:shadow-2xl border-2">
+    <div className="flex flex-col md:w-[35%] my-4 cursor-pointer max-h-[500px] p-4  shadow-xl hover:shadow-2xl border-2">
       <div className="flex max-h-[60%] flex-1 relative min-h-[250px]">
         <Image src={img} alt="image course" fill className="h-full w-full" />
       </div>

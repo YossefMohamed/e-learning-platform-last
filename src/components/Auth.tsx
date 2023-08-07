@@ -33,7 +33,7 @@ const Auth = ({ children }: any) => {
       const token = localStorage.getItem("token") || "";
       Auth(token);
     } else if (router.pathname !== "/login" && router.pathname !== "/") {
-      alert(localStorage.getItem("token"));
+      // alert(localStorage.getItem("token"));
       data && dispatch(stopLoading());
       router.push("/login");
       setLoading(false);

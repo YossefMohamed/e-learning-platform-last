@@ -35,7 +35,7 @@ function login() {
         );
       router.push("/");
     } else if (isError) {
-      toast.error(error);
+      toast.error(error as string);
     } else return;
   }, [isSuccess, isError]);
 
@@ -66,7 +66,7 @@ function login() {
             <h1 className=" text-2xl font-bold ">Log in to your account</h1>
             <form className="mt-6" action="#" method="POST">
               <div>
-                <label className="block ">Email Address</label>
+                <label className="block ">Phone number</label>
                 <input
                   type="text"
                   name="phoneNumber"

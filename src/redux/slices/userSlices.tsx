@@ -9,6 +9,7 @@ const initialState: {
     _id?: string;
     id?: string;
     name?: string;
+    phoneNumber?: string;
     course?: any;
     year?: any;
   };

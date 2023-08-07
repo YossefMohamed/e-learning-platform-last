@@ -49,7 +49,6 @@ const ChatUser: React.FC<{
   });
 
   React.useEffect(() => {
-    data && toast.success("Chat has been created");
     data && onSelectChat(data._id);
   }, [data, isLoading]);
 
@@ -57,7 +56,7 @@ const ChatUser: React.FC<{
     <div
       className={`${"px-5 py-4  border-b  flex items-center   cursor-pointer  hover:bg-slate-100"}`}
       onClick={() => {
-        alert(token);
+        // alert(token);
         createNewChat();
       }}
     >
@@ -67,7 +66,7 @@ const ChatUser: React.FC<{
           className="text-xl font-semibold text-slate-600 m-0 p-0 flex items-center gap-3"
         >
           {name}
-          {!latestMessage?.readBy.includes(user._id) && (
+          {Array.from(latestMessage.readBy).includes(user._id || "") && (
             <span className="w-2 h-2 bg-danger rounded-full"></span>
           )}
         </p>

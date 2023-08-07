@@ -1,7 +1,13 @@
 import axios, { AxiosError } from "axios";
 
+interface ErrorResponse {
+  error: {
+    message: string;
+  }[];
+}
+
 const client = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://e-learning-platform-server.onrender.com",
 });
 
 const request = async function (options: any) {
@@ -12,14 +18,14 @@ const request = async function (options: any) {
     return data;
   };
 
-  const onError = (error: AxiosError) => {
+  const onError = (error: AxiosError<ErrorResponse>) => {
     // Error 😨
     if (error.response) {
       /*
        * The request was made and the server responded with a
        * status code that falls out of the range of 2xx
        */
-      return Promise.reject(error.response!.data?.error[0].message);
+      return Promise.reject(error.response.data.error[0].message);
     } else if (error.request) {
       /*
        * The request was made but no response was received, `error.request`

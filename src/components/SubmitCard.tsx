@@ -62,7 +62,7 @@ export const SubmitCard: React.FC<{
   React.useEffect(() => {
     isSuccess && setEdit(false);
     isSuccess && getSubmit();
-    isError && toast.error(error);
+    isError && toast.error(error as string)
   }, [isError, isSuccess, error]);
   return (
     <div className="flex gap-6 mb-6">

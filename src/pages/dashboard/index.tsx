@@ -115,18 +115,18 @@ const index = () => {
   };
 
   React.useEffect(() => {
-    isError && toast.error(error);
+    isError && toast.error(error as string);
     isSuccess && toast.success("User is created !");
     isSuccess && usersResponse.refetch();
     isSuccess && closeModal();
   }, [isError, isSuccess]);
 
   React.useEffect(() => {
-    usersResponse.isError && toast.error(usersResponse.error);
+    usersResponse.isError && toast.error(usersResponse.error as string);
   }, [usersResponse.isError, usersResponse.isSuccess]);
 
   React.useEffect(() => {
-    editUserResponse.isError && toast.error(editUserResponse.error);
+    editUserResponse.isError && toast.error(editUserResponse.error as string);
     editUserResponse.isSuccess && toast.success("User has been edited !");
     editUserResponse.isSuccess && usersResponse.refetch();
     editUserResponse.isSuccess && closeModal();
@@ -155,15 +155,16 @@ const index = () => {
                   <select
                     id="years"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
+                    defaultValue="All years"
                   >
-                    <option selected value="All years">
-                      All years
-                    </option>
+                    <option value="All years">All years</option>
                     {yearsResponse.data?.map(
                       (year: { name: string; id: string }) => {
-                        return <option value={year.id}>{year.name}</option>;
+                        return (
+                          <option value={year.id} key={id}>
+                            {year.name}
+                          </option>
+                        );
                       }
                     )}
                   </select>

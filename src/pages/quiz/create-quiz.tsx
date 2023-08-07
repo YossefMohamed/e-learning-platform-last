@@ -123,7 +123,7 @@ function Quiz() {
     if (!isLoading) {
       console.log(questionIndex && router.query.question !== "new");
       if (questionIndex && router.query.question !== "new") {
-        alert("ss");
+        // alert("ss");
 
         editCurrentQuestionResponse.mutate({
           options,
@@ -214,7 +214,7 @@ function Quiz() {
       setIndex((prev) => ++prev);
       quizResponse.refetch();
     }
-    isError && toast.error(error);
+    isError && toast.error(error as string);
   }, [isError, isSuccess, error]);
 
   React.useEffect(() => {

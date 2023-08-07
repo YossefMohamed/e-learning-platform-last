@@ -17,7 +17,7 @@ const CheckModal: React.FC<{
       />
 
       <div
-        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/4 w-full md:h-fit h-full flex items-center p-5 border  shadow-lg rounded-md bg-white"
+        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/4 w-full  h-[100%] md:h-fit  flex items-center p-5 border  shadow-lg rounded-md bg-white"
         ref={ref}
       >
         <div className="mt-3  flex flex-col gap-4">

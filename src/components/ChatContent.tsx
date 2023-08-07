@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import { useMutation, useQuery } from "react-query";
 import request from "@/endpoints/request";
 import useSocket from "@/custom-hooks/useSocket";
+import { BsArrowLeft, BsBack, BsBackspace } from "react-icons/bs";
 
 const ChatContent: React.FC<{
+  select: boolean;
   loading: boolean;
   chatData: {
     _id: string;
@@ -17,13 +19,15 @@ const ChatContent: React.FC<{
       }
     ];
   };
-}> = ({ loading, chatData }) => {
+  onBack: () => void;
+}> = ({ loading, chatData, onBack, select }) => {
   const socket = useSocket();
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  const bottomEl = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView(false);
+    bottomEl?.current?.scroll({
+      top: bottomEl?.current?.scrollHeight,
+      behavior: "smooth",
+    });
   };
 
   const { user, token } = useSelector((state: Rootstate) => state.userState);
@@ -88,7 +92,7 @@ const ChatContent: React.FC<{
 
   const onSendButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(chatData._id);
+    // alert(chatData._id);
     createNewMessage({
       content: message,
     });
@@ -97,12 +101,12 @@ const ChatContent: React.FC<{
   };
 
   socket.on("new message", (newMessage) => {
-    setMessages((prev: any) => [...prev, newMessage]);
-    scrollToBottom();
+    console.log(newMessage);
+    if (chatData._id === newMessage.chat._id)
+      setMessages((prev: any) => [...prev, newMessage]);
   });
 
   React.useEffect(() => {
-    isSuccess && console.log(data);
     isSuccess && socket.emit("new message", data);
   }, [isSuccess]);
 
@@ -110,6 +114,7 @@ const ChatContent: React.FC<{
     if (!loading && chatData) {
       socket.emit("join room", chatData._id);
       messagesResponse.refetch();
+
       setToUser(
         chatData.users.filter(
           (userChat: { _id: string }) => userChat._id !== user._id
@@ -120,23 +125,35 @@ const ChatContent: React.FC<{
 
   React.useEffect(() => {
     messagesResponse.data && setMessages(messagesResponse.data);
-  }, [messagesResponse.data]);
+    messagesResponse.isSuccess && scrollToBottom();
+  }, [messagesResponse.data, messagesResponse.isSuccess]);
+
+  React.useEffect(() => {
+    messages && scrollToBottom();
+  }, [messages]);
+
   return (
     <div className="flex-1  h-full flex flex-col">
       {loading ? (
         <Spinner />
-      ) : chatData ? (
+      ) : chatData && select ? (
         <>
-          <div
-            className="h-[75px] border-b flex justify-between items-center w-full px-5 py-2 shadow-sm"
-            ref={messagesEndRef}
-          >
-            <div className="flex items-center">
-              <p className="font-semibold ml-3 text-slate-600">{toUser.name}</p>
+          <div className="h-[75px] border-b flex justify-between items-center w-full px-5 py-2 shadow-sm">
+            <div className="flex items-center ">
+              <span className="block  cursor-pointer p-2" onClick={onBack}>
+                <BsArrowLeft />
+              </span>
+              <p className="font-semibold ml-3 uppercase text-slate-600">
+                {toUser.name}
+              </p>
             </div>
           </div>
           <div className="flex flex-col h-full overflow-y-hidden">
-            <div className="flex-1 px-10 py-4 overflow-y-auto">
+            <div
+              className="flex-1 px-10 py-4 overflow-y-auto"
+              id="bottom"
+              ref={bottomEl}
+            >
               {/* messages */}
               {messages?.map(
                 (messageItem: {
@@ -144,10 +161,9 @@ const ChatContent: React.FC<{
                   sender: { _id: string };
                   content: string;
                 }) => {
-                  console.log(messageItem);
                   if (messageItem.sender._id === user._id) {
                     return (
-                      <>
+                      <div key={messageItem._id + Math.random()}>
                         <div className="w-full flex justify-end mt-3">
                           <div className="w-1/2 ">
                             <div className="flex items-center justify-end">
@@ -165,7 +181,7 @@ const ChatContent: React.FC<{
                             </div>
                           </div>
                         </div>
-                      </>
+                      </div>
                     );
                   }
                   return (
@@ -210,7 +226,6 @@ const ChatContent: React.FC<{
                       (!message || isLoading) && "bg-gray-400 border-gray-400"
                     }`}
                     disabled={!message || isLoading}
-                    onClick={() => console.log(message || isLoading)}
                   >
                     Send
                   </button>
@@ -220,7 +235,7 @@ const ChatContent: React.FC<{
           </div>
         </>
       ) : (
-        <div className="h-full flex items-center justify-center flex-col gap-4">
+        <div className="h-full  items-center justify-center flex-col gap-4 hidden md:flex">
           <img src="/messages.png" className="w-28 h-28" />
           <span className="text-lg">
             Select the user to start messaging with

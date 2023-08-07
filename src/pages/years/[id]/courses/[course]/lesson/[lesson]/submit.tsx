@@ -77,7 +77,7 @@ function Submit() {
 
   React.useEffect(() => {
     isSuccess && submitResponse.refetch();
-    isError && toast.error(error);
+    isError && toast.error(error as string);
   }, [isError, isSuccess, error]);
 
   return (

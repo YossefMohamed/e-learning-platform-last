@@ -26,19 +26,25 @@ export const Header = () => {
     }
   };
 
-  const chatsResponse = useQuery("chats", async () => {
-    const res = await request({
-      url: `/api/chats/`,
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }).then((res) => {
-      return res.data;
-    });
+  const chatsResponse = useQuery(
+    "chats",
+    async () => {
+      const res = await request({
+        url: `/api/chats/`,
+        method: "get",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        return res.data;
+      });
 
-    return res;
-  });
+      return res;
+    },
+    {
+      enabled: false,
+    }
+  );
 
   useEffect(() => {
     changeBackground();
@@ -47,12 +53,12 @@ export const Header = () => {
 
   useEffect(() => {
     setMobile(false);
-    chatsResponse.refetch();
+    localStorage.getItem("token") && chatsResponse.refetch();
   }, [router]);
 
   React.useEffect(() => {
     socket.on("new message", (newMessage) => {
-      alert("new message");
+      // alert("new message");
     });
   });
   let classStyle = !navbar

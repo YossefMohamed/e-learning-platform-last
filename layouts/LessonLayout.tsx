@@ -1,16 +1,18 @@
+import React from "react";
 import Spinner from "@/components/Spinner";
 import request from "@/endpoints/request";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { useQuery } from "react-query";
 
-const LessonLayout: React.FC<{
-  children: JSX.Element | JSX.Element[];
-}> = ({ children }) => {
+type LessonLayoutProps = {
+  children: React.ReactNode;
+};
+
+const LessonLayout: React.FC<LessonLayoutProps> = ({ children }) => {
   const router = useRouter();
-  const lessonResponse = useQuery(
+  const lessonQuery = useQuery(
     "lessonInLayout",
     async () => {
       const res = await request({
@@ -19,28 +21,30 @@ const LessonLayout: React.FC<{
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }).then((res) => {
-        return res.data;
       });
-      return res;
+      return res.data;
     },
     {
       enabled: false,
     }
   );
 
+  const { isLoading, isSuccess, data: lessonData } = lessonQuery;
+
   React.useEffect(() => {
-    if (router.isReady) {
-      !lessonResponse.data && lessonResponse.refetch();
-    }
-  }, [router, lessonResponse]);
-  return lessonResponse.isLoading ? (
-    <Spinner />
-  ) : (
-    lessonResponse.isSuccess && (
+    router.isReady && lessonQuery.refetch();
+  }, [router.isReady]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  console.log(isLoading, isSuccess, lessonData);
+  if (isSuccess && lessonData) {
+    return (
       <>
         <Head>
-          <title>{lessonResponse.data.name}</title>
+          <title>{lessonData.name}</title>
         </Head>
         <div className="p-10">
           <nav className="flex" aria-label="Breadcrumb">
@@ -48,9 +52,7 @@ const LessonLayout: React.FC<{
               <li>
                 <div className="flex items-center">
                   <Link
-                    href={`
-                      /years/${lessonResponse.data.year}
-                    `}
+                    href={`/years/${lessonData.year}`}
                     className="text-gray-700 hover:text-gray-900 ml-1 md:ml-2 text-sm font-medium"
                   >
                     Years
@@ -71,14 +73,12 @@ const LessonLayout: React.FC<{
                       clipRule="evenodd"
                     />
                   </svg>
-                  <a
-                    href={`
-                    /years/${lessonResponse.data.course.year}/courses/${lessonResponse.data.course._id}
-                    `}
+                  <Link
+                    href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}`}
                     className="text-gray-700 hover:text-gray-900 ml-1 md:ml-2 text-sm font-medium"
                   >
                     Courses
-                  </a>
+                  </Link>
                 </div>
               </li>
               <li aria-current="page">
@@ -96,68 +96,47 @@ const LessonLayout: React.FC<{
                     />
                   </svg>
                   <span className="text-gray-400 ml-1 md:ml-2 text-sm font-medium">
-                    {lessonResponse.data.name}
+                    {lessonData.name}
                   </span>
                 </div>
               </li>
             </ol>
           </nav>
-          <div className="options my-10 ml-1 font-bold  flex border-b-4 w-full overflow-x-auto">
+          <div className="options my-10 ml-1 font-bold flex border-b-4 w-full overflow-x-auto">
             <Link
-              href={`quiz`}
-              className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
+              href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}`}
+              className="Video cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
             >
               Video
             </Link>
+            {lessonData.extra && (
+              <Link
+                href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}/extra-resources`}
+                className="Video cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
+              >
+                Extra resources
+              </Link>
+            )}
             <Link
-              href="/years/lesson/1/questions"
-              className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
-            >
-              Questions
-            </Link>
-            <Link
-              href="/years/lesson/1/extra-resources"
-              className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
-            >
-              Extra resources
-            </Link>
-            <Link
-              href={
-                "/years/" +
-                router.query.id +
-                "/courses/" +
-                router.query.course +
-                "/lesson/" +
-                router.query.lesson +
-                "/submit"
-              }
-              className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
+              href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}/submit`}
+              className="Videocursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
             >
               Submit
             </Link>
             <Link
-              href={
-                "/years/" +
-                router.query.id +
-                "/courses/" +
-                router.query.course +
-                "/lesson/" +
-                router.query.lesson +
-                "/quiz"
-              }
-              className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
+              href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}/quiz`}
+              className="Video cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
             >
               Quiz
             </Link>
-            <div className="Video  cursor-pointer p-3 px-6 hover:text-light hover:bg-primary">
-              Teachers
-            </div>
           </div>
           {children}
         </div>
       </>
-    )
-  );
+    );
+  }
+
+  return null;
 };
 
 export default LessonLayout;

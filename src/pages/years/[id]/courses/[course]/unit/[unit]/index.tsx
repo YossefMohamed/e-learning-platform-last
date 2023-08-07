@@ -58,7 +58,7 @@ function Add() {
   React.useEffect(() => {
     isSuccess &&
       router.push(`/years/${router.query.id}/courses/${router.query.course}`);
-    isError && toast.error(error);
+    isError && toast.error(error as string);
   }, [isError, isSuccess, error]);
 
   return (

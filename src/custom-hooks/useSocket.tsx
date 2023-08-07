@@ -3,11 +3,8 @@
 import React from "react";
 import { io } from "socket.io-client";
 
-const URL =
-  process.env.NODE_ENV === "production" ? undefined : "http://localhost:4000";
-
 const useSocket = () => {
-  const URL = "http://localhost:5000";
+  const URL = "https://e-learning-platform-server.onrender.com/";
 
   const socket = io(URL);
   return socket;

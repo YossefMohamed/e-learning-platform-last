@@ -43,7 +43,7 @@ const CreateUserModal: React.FC<{
   );
 
   React.useEffect(() => {
-    year && alert("haha");
+    // year && alert("haha");
     year && coursesRespone.refetch();
   }, [year]);
 

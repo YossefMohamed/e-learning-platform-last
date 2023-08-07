@@ -33,15 +33,17 @@ export default function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <Layout>
-          <Header />
-          <Auth>
-            <Toaster position="top-center" reverseOrder={false} />
-            <div className="duration-100	flex-1">
-              <Component {...pageProps} />
-            </div>
-          </Auth>
+          <div className="duration-100	flex-1  md:w-[80%] w-[100%]  m-auto min-h-screen flex flex-col ">
+            <Header />
+            <Auth>
+              <Toaster position="top-center" reverseOrder={false} />
+              <div className="flex-1">
+                <Component {...pageProps} />
+              </div>
+            </Auth>
 
-          <Footer />
+            <Footer />
+          </div>
         </Layout>
       </QueryClientProvider>
     </Provider>

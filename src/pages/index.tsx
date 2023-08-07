@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="my-10">
+      <section className="mt-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
           <img className="w-[90%]" src="/math2.png" alt="dashboard image" />
           <div className="mt-4 md:mt-0 md:text-left text-center">
@@ -56,7 +56,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="text-center relative flex justify-center flex-col items-center px-[10%] mt-10 bg-primary bg-opacity-5">
+
+      <section className="text-center relative flex justify-center flex-col items-center px-[10%]  bg-primary bg-opacity-5">
         <div className="w-full h-full absolute -z-10 top-0 right-0 bg-[url('/pattern.png')] opacity-5"></div>
 
         <div className="sec-title">The results speak for themselves</div>
@@ -102,6 +103,7 @@ export default function Home() {
           </svg>
         </a>
       </section>
+
       <section className="h-[100px] bg-tertiary text-light text-4xl font-bold flex justify-center items-center ">
         Learn from the best!
       </section>

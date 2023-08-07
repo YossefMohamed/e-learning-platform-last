@@ -24,7 +24,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
           </span>
         </Link>
         <Link
-          href={`${router.asPath}/lesson/${id}`}
+          href={`${router.asPath}/lesson/${id}/quiz`}
           className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
         >
           Exam
@@ -33,10 +33,10 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
           </span>
         </Link>
         <Link
-          href={`${router.asPath}/lesson/${id}`}
-          className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
+          href={`${router.asPath}/lesson/${id}/submit`}
+          className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-fit md:py-2 py-3 w-full"
         >
-          Home work
+          assignment
           <span className="font-bold ">
             <BsBook />
           </span>
@@ -44,7 +44,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
 
         {user.isAdmin && (
           <Link
-            href={`${router.asPath}/lesson/${id}`}
+            href={`${router.asPath}/lesson/${id}/edit`}
             className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
           >
             Edit

@@ -64,7 +64,7 @@ const CreateUserModal: React.FC<{
   }, [year]);
 
   React.useEffect(() => {
-    userResponse.isError && toast.error(userResponse.error);
+    userResponse.isError && toast.error(userResponse.error as string);
   }, [userResponse]);
 
   const yearsResponse = useQuery("years", async () => {

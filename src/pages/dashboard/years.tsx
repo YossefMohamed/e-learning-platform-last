@@ -90,13 +90,13 @@ const index = () => {
   };
 
   React.useEffect(() => {
-    isError && toast.error(error);
+    isError && toast.error(error as string);
     isSuccess && toast.success("Year is created !");
     isSuccess && closeModal();
     isSuccess && yearsResponse.refetch();
   }, [isError, isSuccess]);
   React.useEffect(() => {
-    editYearResponse.isError && toast.error(editYearResponse.error);
+    editYearResponse.isError && toast.error(editYearResponse.error as string);
     editYearResponse.isSuccess && toast.success("Year has been edited !");
     editYearResponse.isSuccess && closeModal();
     editYearResponse.isSuccess && yearsResponse.refetch();
@@ -123,7 +123,7 @@ const index = () => {
   };
 
   React.useEffect(() => {
-    deleteResponse.isError && toast.error(deleteResponse.error);
+    deleteResponse.isError && toast.error(deleteResponse.error as string);
     deleteResponse.isSuccess && toast.success("Year has been edited !");
     deleteResponse.isSuccess && closeModal();
     deleteResponse.isSuccess && yearsResponse.refetch();
@@ -174,7 +174,7 @@ const index = () => {
                   <tbody>
                     {yearsResponse.isError ? (
                       <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50  ">
-                        {yearsResponse.error?.error[0].message}
+                        {"Server Error"}
                       </div>
                     ) : (
                       yearsResponse.isSuccess &&

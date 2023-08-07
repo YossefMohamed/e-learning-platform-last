@@ -3,9 +3,12 @@ import React from "react";
 import { BsPersonBadge } from "react-icons/bs";
 import { FaVideo } from "react-icons/fa";
 import ProfileLayout from "../../layouts/ProfileLayout";
+import { Rootstate } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 function Profile() {
   const [modal, setModal] = React.useState(false);
+  const { user } = useSelector((state: Rootstate) => state.userState);
   const closeModal = () => {
     setModal(false);
   };
@@ -23,27 +26,7 @@ function Profile() {
               <input
                 type="text"
                 className="text-input font-bold"
-                value="Yossef Mohamed"
-                disabled
-              ></input>
-            </div>
-
-            <div className="flex flex-col ">
-              <span className="label">Year :</span>
-              <input
-                type="text"
-                className="text-input font-bold"
-                value="Year 11"
-                disabled
-              ></input>
-            </div>
-
-            <div className="flex flex-col ">
-              <span className="label">Course :</span>
-              <input
-                type="text"
-                className="text-input font-bold"
-                value="Maths"
+                value={user.name}
                 disabled
               ></input>
             </div>
@@ -53,7 +36,7 @@ function Profile() {
               <input
                 type="text"
                 className="text-input font-bold"
-                value="01154784154"
+                value={user.phoneNumber}
                 disabled
               ></input>
             </div>
