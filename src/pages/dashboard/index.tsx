@@ -24,7 +24,6 @@ const index = () => {
     setEditModal(false);
   };
   const openModal = () => setModal(true);
-  const openCheckModal = () => setCheckModal(true);
   const dispatch = useDispatch();
   const usersResponse = useQuery("users", async () => {
     const token: string = localStorage.getItem("token") || "";

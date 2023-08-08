@@ -135,7 +135,10 @@ export const Header = () => {
                       readBy: [string];
                     };
                   }) => {
-                    return !chat.latestMessage?.readBy.includes(user._id);
+                    return (
+                      !chat.latestMessage?.readBy.length &&
+                      chat.latestMessage?.readBy.includes(`${user._id}`)
+                    );
                   }
                 )
                 .includes(true) && (
@@ -196,7 +199,10 @@ export const Header = () => {
                       readBy: [string];
                     };
                   }) => {
-                    return !chat.latestMessage?.readBy.includes(user._id);
+                    return (
+                      !chat.latestMessage?.readBy.length &&
+                      chat.latestMessage?.readBy.includes(`${user._id}`)
+                    );
                   }
                 )
                 .includes(true) && (

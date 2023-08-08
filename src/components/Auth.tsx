@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "./Spinner";
 import useSocket from "@/custom-hooks/useSocket";
-import { addUser, stopLoading } from "@/redux/slices/userSlices";
+import { addUser, logout, stopLoading } from "@/redux/slices/userSlices";
 import { AppDispatch } from "@/redux/store";
 import { useAuth } from "@/custom-hooks/useAuth";
 
@@ -26,23 +26,26 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
       checkAuth(token);
     } else if (router.pathname !== "/login" && router.pathname !== "/") {
       router.push("/login");
+      dispatch(logout());
       setLoading(false);
     } else if (router.pathname === "/login" || router.pathname === "/") {
       setLoading(false);
       dispatch(stopLoading());
+      dispatch(logout());
     }
   }, [router, dispatch]);
 
   useEffect(() => {
     if (isError) {
       dispatch(stopLoading());
+      dispatch(logout());
       setLoading(false);
       localStorage.removeItem("token");
     }
   }, [isError, dispatch]);
 
   useEffect(() => {
-    if (data) {
+    if (data && localStorage.getItem("token")) {
       const token = localStorage.getItem("token") || "";
       dispatch(addUser({ token, user: data }));
       setLoading(false);

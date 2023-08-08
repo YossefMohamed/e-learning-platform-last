@@ -48,6 +48,7 @@ export const userSlice = createSlice({
       state.isAuthenticated = false;
       state.loading = false;
       state.token = "";
+      localStorage.removeItem("token");
       state.user = {
         isAdmin: false,
       };
