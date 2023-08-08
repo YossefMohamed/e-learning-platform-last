@@ -15,7 +15,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
       <div className="section-title">{name}</div>
       <div className="icons flex  gap-4 md:flex-row flex-col ">
         <Link
-          href={`${router.asPath}/lesson/${id}`}
+          href={`/lesson/${id}`}
           className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
         >
           Watch
@@ -24,7 +24,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
           </span>
         </Link>
         <Link
-          href={`${router.asPath}/lesson/${id}/quiz`}
+          href={`/lesson/${id}/quiz`}
           className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
         >
           Exam
@@ -33,7 +33,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
           </span>
         </Link>
         <Link
-          href={`${router.asPath}/lesson/${id}/submit`}
+          href={`/lesson/${id}/submit`}
           className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-fit md:py-2 py-3 w-full"
         >
           assignment
@@ -44,7 +44,7 @@ const Lesson = ({ name, id }: { name: string; id: number }) => {
 
         {user.isAdmin && (
           <Link
-            href={`${router.asPath}/lesson/${id}/edit`}
+            href={`/lesson/${id}/edit`}
             className="play  btn-secondary flex items-center gap-1 font-normal md:w-fit w-full md:py-0 py-3"
           >
             Edit

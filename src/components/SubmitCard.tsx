@@ -62,7 +62,7 @@ export const SubmitCard: React.FC<{
   React.useEffect(() => {
     isSuccess && setEdit(false);
     isSuccess && getSubmit();
-    isError && toast.error(error as string)
+    isError && toast.error(error as string);
   }, [isError, isSuccess, error]);
   return (
     <div className="flex gap-6 mb-6">
@@ -88,7 +88,7 @@ export const SubmitCard: React.FC<{
               </div>
               <div className="text-lg">
                 <Link
-                  href={`http://localhost:5000/files/${file}`}
+                  href={`https://e-learning-platform-server.onrender.com/files/${file}`}
                   className="text-primary font-bold underline  ml-auto"
                   target="_blank"
                 >

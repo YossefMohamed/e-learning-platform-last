@@ -49,7 +49,10 @@ function Courses() {
                 <CourseCard
                   name={course.name}
                   link={"/years/" + router.query.id + "/courses/" + course.id}
-                  img={"http://localhost:5000/images/" + course.image}
+                  img={
+                    "https://e-learning-platform-server.onrender.com/images/" +
+                    course.image
+                  }
                   key={course.id}
                 />
               );

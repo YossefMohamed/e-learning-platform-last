@@ -152,7 +152,8 @@ const index = () => {
                 )
               )
             )}
-            {!chatsResponse.isLoading &&
+            {year == "All years" &&
+              !chatsResponse.isLoading &&
               chatsResponse.data?.map(
                 (chat: {
                   _id: string;

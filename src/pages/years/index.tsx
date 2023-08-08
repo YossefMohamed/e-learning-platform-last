@@ -64,7 +64,10 @@ function index() {
                   <CourseCard
                     name={year.name}
                     link={"/years/" + year.id}
-                    img={"http://localhost:5000/images/" + year.image}
+                    img={
+                      "https://e-learning-platform-server.onrender.com/images/" +
+                      year.image
+                    }
                     key={year.id}
                   />
                 );

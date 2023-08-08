@@ -45,7 +45,6 @@ function Add() {
 
   const onSubmit = () => {
     const formData = new FormData();
-
     formData.append("video", video);
     formData.append("assignment", assignment);
     formData.append("file", file);

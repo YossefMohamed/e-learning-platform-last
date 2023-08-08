@@ -111,20 +111,20 @@ const LessonLayout: React.FC<LessonLayoutProps> = ({ children }) => {
             </Link>
             {lessonData.extra && (
               <Link
-                href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}/extra-resources`}
+                href={`/lesson/${lessonData._id}/extra-resources`}
                 className="Video cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
               >
                 Extra resources
               </Link>
             )}
             <Link
-              href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}/submit`}
+              href={`/lesson/${lessonData._id}/submit`}
               className="Videocursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
             >
               Submit
             </Link>
             <Link
-              href={`/years/${lessonData.course.year}/courses/${lessonData.course._id}/lesson/${lessonData._id}/quiz`}
+              href={`/lesson/${lessonData._id}/quiz`}
               className="Video cursor-pointer p-3 px-6 hover:text-light hover:bg-primary"
             >
               Quiz
