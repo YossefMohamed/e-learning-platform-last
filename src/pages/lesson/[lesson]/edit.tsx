@@ -63,6 +63,16 @@ function EditLesson() {
     isError && toast.error(error as string);
   }, [isError, isSuccess, error]);
 
+  React.useEffect(() => {
+    if (lessonResponse.isSuccess) {
+      setName(lessonResponse.data.name);
+      setDescription(lessonResponse.data.description);
+      setExtra(lessonResponse.data.extra);
+    } else {
+      lessonResponse.isError && toast.error(lessonResponse.error as string);
+    }
+  }, [lessonResponse.isError, lessonResponse.isSuccess, lessonResponse.error]);
+
   const onSubmit = async () => {
     editLesson({
       name,
