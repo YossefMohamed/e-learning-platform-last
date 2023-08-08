@@ -19,7 +19,7 @@ const EditYearModal: React.FC<{
       />
 
       <form
-        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/2 flex justify-center flex-col w-full h-full p-5 border  shadow-lg rounded-md bg-white"
+        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/2 flex justify-center flex-col w-full h-[100%] md:h-fit p-5 border  shadow-lg rounded-md bg-white"
         ref={ref}
         onSubmit={(e) => {
           e.preventDefault();

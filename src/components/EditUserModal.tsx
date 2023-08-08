@@ -108,7 +108,7 @@ const CreateUserModal: React.FC<{
       />
 
       <form
-        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2  p-5 border  shadow-lg rounded-md bg-white md:w-1/2 md:h-fit w-full h-full"
+        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2  p-5 border  shadow-lg rounded-md bg-white md:w-1/2 md:h-fit w-full h-[100%]"
         ref={ref}
         onSubmit={(e) => {
           e.preventDefault();

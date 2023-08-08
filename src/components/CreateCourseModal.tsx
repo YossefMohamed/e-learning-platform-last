@@ -8,9 +8,10 @@ import { useSelector } from "react-redux";
 import { BsX } from "react-icons/bs";
 const CreateCourseModal: React.FC<{
   closeModal: () => void;
-  onSubmit: (data: { name: string; year: string }) => void;
+  onSubmit: (data: FormData) => void;
 }> = ({ closeModal, onSubmit }) => {
   const { ref, out }: { ref: any; out: boolean } = useOuterClick();
+
   const { token } = useSelector((state: Rootstate) => state.userState);
   const yearsResponse = useQuery("years", async () => {
     const res = await request({
@@ -20,7 +21,6 @@ const CreateCourseModal: React.FC<{
         Authorization: "Bearer " + token,
       },
     }).then((res) => {
-      console.log(res.data);
       return res.data;
     });
 
@@ -28,6 +28,7 @@ const CreateCourseModal: React.FC<{
   });
   const [name, setName] = React.useState("");
   const [year, setYear] = React.useState("");
+  const [image, setImage] = React.useState<any>("");
 
   React.useEffect(() => {
     out && closeModal();
@@ -40,11 +41,15 @@ const CreateCourseModal: React.FC<{
         id="my-modal"
       />
       <form
-        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/2 flex justify-center flex-col w-full h-full p-5 border  shadow-lg rounded-md bg-white"
+        className="fixed z-[999]  top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 md:w-1/2 flex justify-center flex-col w-full h-[100%] md:h-fit p-5 border  shadow-lg rounded-md bg-white"
         ref={ref}
         onSubmit={(e) => {
           e.preventDefault();
-          onSubmit({ name, year });
+          const formData = new FormData();
+          formData.append("name", name);
+          formData.append("year", year);
+          formData.append("image", image);
+          onSubmit(formData);
         }}
       >
         <div
@@ -80,8 +85,9 @@ const CreateCourseModal: React.FC<{
                   id="years"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                   onChange={(e) => setYear(e.target.value)}
+                  defaultValue={"Choose a year"}
                 >
-                  <option selected disabled>
+                  <option disabled value="Choose a year">
                     Choose a year
                   </option>
 
@@ -95,6 +101,19 @@ const CreateCourseModal: React.FC<{
                     }
                   )}
                 </select>
+              </div>
+              <div>
+                <label className="label">Upload course image</label>
+                <input
+                  className="block w-full text-sm text-gray-900 border  rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none "
+                  id="image"
+                  type="file"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.files) {
+                      setImage(e.target.files[0]);
+                    }
+                  }}
+                />
               </div>
               <button className="btn-primary w-full">Create</button>
             </div>

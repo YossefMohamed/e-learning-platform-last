@@ -58,16 +58,18 @@ function index() {
             <Spinner />
           ) : (
             yearsResponse.isSuccess &&
-            yearsResponse.data?.map((year: { name: string; id: string }) => {
-              return (
-                <CourseCard
-                  name={year.name}
-                  link={"/years/" + year.id}
-                  img="/course-bg2.jpg"
-                  key={year.id}
-                />
-              );
-            })
+            yearsResponse.data?.map(
+              (year: { name: string; id: string; image: string }) => {
+                return (
+                  <CourseCard
+                    name={year.name}
+                    link={"/years/" + year.id}
+                    img={"http://localhost:5000/images/" + year.image}
+                    key={year.id}
+                  />
+                );
+              }
+            )
           )}
         </div>
       </section>

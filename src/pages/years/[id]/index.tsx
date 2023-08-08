@@ -43,16 +43,18 @@ function Courses() {
           <Spinner />
         ) : (
           coursesResponse.isSuccess &&
-          coursesResponse.data?.map((course: { name: string; id: string }) => {
-            return (
-              <CourseCard
-                name={course.name}
-                link={"/years/" + router.query.id + "/courses/" + course.id}
-                img="/course-bg2.jpg"
-                key={course.id}
-              />
-            );
-          })
+          coursesResponse.data?.map(
+            (course: { name: string; id: string; image: string }) => {
+              return (
+                <CourseCard
+                  name={course.name}
+                  link={"/years/" + router.query.id + "/courses/" + course.id}
+                  img={"http://localhost:5000/images/" + course.image}
+                  key={course.id}
+                />
+              );
+            }
+          )
         )}
         {coursesResponse.isSuccess && !coursesResponse.data.length && (
           <div className="alert w-full"> No courses available now</div>

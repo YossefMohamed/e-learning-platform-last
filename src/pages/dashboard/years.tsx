@@ -31,16 +31,15 @@ const index = () => {
     isSuccess,
     isError,
     error,
-  } = useMutation(async (name: string) => {
+  } = useMutation(async (data: FormData) => {
     const token: string = localStorage.getItem("token") || "";
     const res = await request({
       url: `/api/years/`,
       method: "post",
-      data: {
-        name,
-      },
+      data,
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
       },
     }).then((res) => {
       return res.data;
@@ -49,8 +48,8 @@ const index = () => {
     return res;
   });
 
-  const createNewYear = (name: string) => {
-    !isLoading && createNewYearMutate(name);
+  const createNewYear = (data: FormData) => {
+    !isLoading && createNewYearMutate(data);
   };
 
   const { token } = useSelector((state: Rootstate) => state.userState);

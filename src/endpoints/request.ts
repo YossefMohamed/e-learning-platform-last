@@ -7,7 +7,7 @@ interface ErrorResponse {
 }
 
 const client = axios.create({
-  baseURL: "https://e-learning-platform-server.onrender.com",
+  baseURL: "http://localhost:5000",
 });
 
 const request = async function (options: any) {

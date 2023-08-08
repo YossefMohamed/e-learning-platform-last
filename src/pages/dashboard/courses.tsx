@@ -30,15 +30,16 @@ const index = () => {
     isSuccess,
     isError,
     error,
-  } = useMutation(async (data: { name: string; year: string }) => {
+  } = useMutation(async (data: FormData) => {
     const token: string = localStorage.getItem("token") || "";
-
+    console.table(data);
     const res = await request({
       url: `/api/courses/`,
       method: "post",
       data,
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "multipart/form-data",
       },
     }).then((res) => {
       return res.data;
@@ -47,7 +48,7 @@ const index = () => {
     return res;
   });
 
-  const createNewCourse = (data: { name: string; year: string }) => {
+  const createNewCourse = (data: FormData) => {
     !isLoading && createNewYearMutate(data);
   };
 
