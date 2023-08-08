@@ -14,7 +14,7 @@ interface AuthProps {
 const Auth: React.FC<AuthProps> = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { data, isLoading, isError, mutate: checkAuth } = useAuth();
+  const { data, isError, mutate: checkAuth } = useAuth();
   const socket = useSocket();
 
   const [loading, setLoading] = useState(true);
