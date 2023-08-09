@@ -4,6 +4,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout";
 import CreateUserModal from "@/components/CreateUserModal";
 import EditUserModal from "@/components/EditUserModal";
 import CheckModal from "@/components/CheckModal";
+import ParentDashboard from "@/components/ParentDashboard";
 import { useMutation, useQuery } from "react-query";
 import request from "@/endpoints/request";
 import { toast } from "react-hot-toast";
@@ -132,157 +133,161 @@ const index = () => {
   }, [editUserResponse.isError, editUserResponse.isSuccess]);
 
   return (
-    <DashboardLayout>
-      <>
-        {modal && (
-          <CreateUserModal
-            closeModal={closeModal}
-            onSubmit={createNewUserSubmit}
-          />
-        )}
-        {editModal && (
-          <EditUserModal closeModal={closeModal} onSubmit={editUserSubmit} />
-        )}
-        {checkModal && (
-          <CheckModal closeModal={closeModal} onSubmit={console.log} />
-        )}
+      <DashboardLayout>
         <>
-          <div className="flex flex-col gap-6 bg-gray-100 p-6 rounded-xl ">
-            <div className="group flex gap-4">
-              {!yearsResponse.isLoading && (
-                <div className="flex-1">
-                  <select
-                    id="years"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    defaultValue="All years"
-                  >
-                    <option value="All years">All years</option>
-                    {yearsResponse.data?.map(
-                      (year: { name: string; id: string }) => {
-                        return (
-                          <option value={year.id} key={id}>
-                            {year.name}
-                          </option>
-                        );
-                      }
-                    )}
-                  </select>
+          {modal && (
+            <CreateUserModal
+              closeModal={closeModal}
+              onSubmit={createNewUserSubmit}
+            />
+          )}
+          {editModal && (
+            <EditUserModal closeModal={closeModal} onSubmit={editUserSubmit} />
+          )}
+          {checkModal && (
+            <CheckModal closeModal={closeModal} onSubmit={console.log} />
+          )}
+          <>
+            {userType === "parent" ? (
+              <ParentDashboard />
+            ) : (
+              <div className="flex flex-col gap-6 bg-gray-100 p-6 rounded-xl ">
+                <div className="group flex gap-4">
+                  {!yearsResponse.isLoading && (
+                    <div className="flex-1">
+                      <select
+                        id="years"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                        defaultValue="All years"
+                      >
+                        <option value="All years">All years</option>
+                        {yearsResponse.data?.map(
+                          (year: { name: string; id: string }) => {
+                            return (
+                              <option value={year.id} key={id}>
+                                {year.name}
+                              </option>
+                            );
+                          }
+                        )}
+                      </select>
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      name=""
+                      placeholder="Users name"
+                      id=""
+                      className="text-input"
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className="btn-primary ml-auto" onClick={openModal}>
+                    Add User
+                  </div>
                 </div>
-              )}
-              <div className="flex-1">
-                <input
-                  type="text"
-                  name=""
-                  placeholder="Users name"
-                  id=""
-                  className="text-input"
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="btn-primary ml-auto" onClick={openModal}>
-                Add User
-              </div>
-            </div>
-            <div className="overflow-auto">
-              {usersResponse.isLoading ? (
-                <Spinner />
-              ) : (
-                <table className="w-full text-sm text-left  text-gray-500 ">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        Name
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Year
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Course
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Status
-                      </th>
-
-                      <th scope="col" className="px-6 py-3">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {usersResponse.data?.map(
-                      (user: {
-                        name: string;
-                        phoneNumber: string;
-                        year: { name: string };
-                        course: { name: string };
-                        status: string;
-                        id: string;
-                        isAdmin: boolean;
-                      }) => {
-                        return (
-                          <tr
-                            className="bg-white border-b hover:bg-gray-50 "
-                            key={user.id}
-                          >
-                            <th
-                              scope="row"
-                              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
-                            >
-                              <div className="pl-3">
-                                <div className="text-base font-semibold">
-                                  {user.name}{" "}
-                                  {user.isAdmin ? <span>Admin</span> : ""}
-                                </div>
-                                <div className="font-normal text-gray-500">
-                                  {user.phoneNumber}
-                                </div>
-                              </div>
-                            </th>
-                            <td className="px-6 py-4">{user.year?.name}</td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center">
-                                {user.course?.name}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 ">
-                              {user.status === "active" ? (
-                                <span className="text-green-600 font-bold p-1 rounded uppercase">
-                                  {user.status}
-                                </span>
-                              ) : (
-                                <span className="text-yellow-600 font-bold p-1 rounded uppercase">
-                                  {user.status}
-                                </span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 flex gap-2">
-                              <div
-                                className="btn-primary"
-                                onClick={(data: any) => {
-                                  dispatch(addId(user.id));
-                                  setEditModal(true);
-                                }}
+                <div className="overflow-auto">
+                  {usersResponse.isLoading ? (
+                    <Spinner />
+                  ) : (
+                    <table className="w-full text-sm text-left  text-gray-500 ">
+                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                        <tr>
+                          <th scope="col" className="px-6 py-3">
+                            Name
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Year
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Course
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Status
+                          </th>
+  
+                          <th scope="col" className="px-6 py-3">
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+  
+                      <tbody>
+                        {usersResponse.data?.map(
+                          (user: {
+                            name: string;
+                            phoneNumber: string;
+                            year: { name: string };
+                            course: { name: string };
+                            status: string;
+                            id: string;
+                            isAdmin: boolean;
+                          }) => {
+                            return (
+                              <tr
+                                className="bg-white border-b hover:bg-gray-50 "
+                                key={user.id}
                               >
-                                Edit
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      }
-                    )}
-                  </tbody>
-                </table>
-              )}
-              {usersResponse.data?.length === 0 && (
-                <div className="alert w-full">no users found</div>
-              )}
-            </div>
-          </div>
+                                <th
+                                  scope="row"
+                                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "
+                                >
+                                  <div className="pl-3">
+                                    <div className="text-base font-semibold">
+                                      {user.name}{" "}
+                                      {user.isAdmin ? <span>Admin</span> : ""}
+                                    </div>
+                                    <div className="font-normal text-gray-500">
+                                      {user.phoneNumber}
+                                    </div>
+                                  </div>
+                                </th>
+                                <td className="px-6 py-4">{user.year?.name}</td>
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center">
+                                    {user.course?.name}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 ">
+                                  {user.status === "active" ? (
+                                    <span className="text-green-600 font-bold p-1 rounded uppercase">
+                                      {user.status}
+                                    </span>
+                                  ) : (
+                                    <span className="text-yellow-600 font-bold p-1 rounded uppercase">
+                                      {user.status}
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="px-6 py-4 flex gap-2">
+                                  <div
+                                    className="btn-primary"
+                                    onClick={(data: any) => {
+                                      dispatch(addId(user.id));
+                                      setEditModal(true);
+                                    }}
+                                  >
+                                    Edit
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )}
+                      </tbody>
+                    </table>
+                  )}
+                  {usersResponse.data?.length === 0 && (
+                    <div className="alert w-full">no users found</div>
+                  )}
+                </div>
+              </div>
+            )}
+          </>
         </>
-      </>
-    </DashboardLayout>
-  );
+      </DashboardLayout>
+    );
 };
 
 export default index;
