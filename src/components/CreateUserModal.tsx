@@ -76,6 +76,7 @@ const CreateUserModal: React.FC<{
       status,
       year,
       course,
+      userType: isAdmin ? "admin" : "parent",
     });
   };
 
@@ -230,6 +231,9 @@ const CreateUserModal: React.FC<{
                   <option value="true">Admin</option>
                   <option value="false" selected>
                     Student
+                  </option>
+                  <option value="parent">
+                    Parent
                   </option>
                 </select>
               </div>
