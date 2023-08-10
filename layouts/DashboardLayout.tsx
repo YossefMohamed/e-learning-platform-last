@@ -2,7 +2,7 @@ import { Rootstate } from "@/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { BsBook, BsPen, BsPerson } from "react-icons/bs";
+import { BsBook, BsImage, BsPen, BsPerson } from "react-icons/bs";
 import { FaSchool } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
@@ -46,6 +46,14 @@ const DashboardLayout: React.FC<{
           >
             <BsBook />
             Courses
+          </Link>
+
+          <Link
+            href="/dashboard/content-image"
+            className="Users p-4 font-bold flex items-center gap-4 hover:text-tsecondary cursor-pointer "
+          >
+            <BsImage />
+            Image content
           </Link>
         </div>
       )}

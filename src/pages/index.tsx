@@ -26,7 +26,7 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
           <img
             className="w-[90%]"
-            src="https://e-learning-platform-server.onrender.com/images/home1.png"
+            src="http://localhost:5000/images/home1.png"
             alt="dashboard image"
           />
           <div className="mt-4 md:mt-0 md:text-left text-center">
@@ -115,7 +115,7 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
           <img
             className="md:w-1/2 w-full"
-            src="https://e-learning-platform-server.onrender.com/images/home2.png"
+            src="http://localhost:5000/images/home2.png"
             alt="dashboard image"
           />
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
