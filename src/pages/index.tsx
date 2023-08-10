@@ -24,7 +24,11 @@ export default function Home() {
     <>
       <section className="mt-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
-          <img className="w-[90%]" src="/math2.png" alt="dashboard image" />
+          <img
+            className="w-[90%]"
+            src="https://e-learning-platform-server.onrender.com/images/home1.png"
+            alt="dashboard image"
+          />
           <div className="mt-4 md:mt-0 md:text-left text-center">
             <h2 className="mb-4 text-3xl tracking-tight font-extrabold ">
               Let's create more{" "}
@@ -111,7 +115,7 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
           <img
             className="md:w-1/2 w-full"
-            src="/math3.png"
+            src="https://e-learning-platform-server.onrender.com/images/home2.png"
             alt="dashboard image"
           />
           <div className="mt-4 md:mt-0 flex flex-col gap-6">

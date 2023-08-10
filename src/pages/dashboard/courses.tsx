@@ -186,6 +186,8 @@ const index = () => {
                           name: string;
                           id: string;
                           year: { name: string };
+                          students: [any];
+                          lessons: [any];
                         }) => {
                           console.log(course);
                           return (
@@ -203,9 +205,14 @@ const index = () => {
                                   </div>
                                 </div>
                               </th>
-                              <td className="px-6 py-4">5</td>
                               <td className="px-6 py-4">
-                                <div className="flex items-center">250</div>
+                                {" "}
+                                {course.students.length}
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center">
+                                  {course.lessons.length}
+                                </div>
                               </td>
                               <td className="px-6 py-4 ">
                                 {course.year?.name}

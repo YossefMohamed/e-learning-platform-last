@@ -36,7 +36,11 @@ function index() {
     <>
       <section className="my-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex ">
-          <img className="md:w-1/2" src="/math1.png" alt="dashboard image" />
+          <img
+            className="md:w-1/2"
+            src="https://e-learning-platform-server.onrender.com/images/home3.png"
+            alt="dashboard image"
+          />
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
               Let's create more tools and ideas.
