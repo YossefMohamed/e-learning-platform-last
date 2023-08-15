@@ -74,6 +74,7 @@ const ContentImage = () => {
                               formData.append("image", image);
                               uploadContentImage(formData);
                             }}
+                            key={idx}
                           >
                             <tr
                               className="bg-white border-b  hover:bg-gray-50 flex flex-col md:flex-row"
