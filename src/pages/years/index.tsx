@@ -39,7 +39,7 @@ function IndexYear() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex ">
           <div className="md:w-1/2 relative">
             <Image
-              src="https://e-learning-platform-server.onrender.com/images/home3.png"
+              src={`${process.env.url}/images/home1.png`}
               alt="dashboard image"
               fill
             />
@@ -72,10 +72,7 @@ function IndexYear() {
                   <CourseCard
                     name={year.name}
                     link={"/years/" + year.id}
-                    img={
-                      "https://e-learning-platform-server.onrender.com/images/" +
-                      year.image
-                    }
+                    img={`${process.env.url}/images/ ` + year.image}
                     key={year.id}
                   />
                 );

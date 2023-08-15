@@ -27,7 +27,7 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
           <div className="w-[90%] relative">
             <Image
-              src="http://localhost:5000/images/home1.png"
+              src={`${process.env.url}/images/home1.png`}
               alt="dashboard image"
               fill
             />
@@ -119,7 +119,7 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
           <div className="md:w-1/2 w-full relative">
             <Image
-              src="http://localhost:5000/images/home2.png"
+              src={process.env.url + "/images/home2.png"}
               alt="dashboard image"
               fill
             />

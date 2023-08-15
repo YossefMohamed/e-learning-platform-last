@@ -4,7 +4,7 @@ import React from "react";
 import { io } from "socket.io-client";
 
 const useSocket = () => {
-  const URL = "https://e-learning-platform-server.onrender.com/";
+  const URL = process.env.url || "http://localhost:5000";
 
   const socket = io(URL);
   return socket;

@@ -43,7 +43,7 @@ function IndexLesson() {
               .
               <div className="md:w-[70%]">
                 <ReactPlayer
-                  url={`https://e-learning-platform-server.onrender.com/videos/${lessonResponse.data.video}`}
+                  url={`${process.env.url}/videos/${lessonResponse.data.video}`}
                   controls
                   width={"100%"}
                   height={"650px"}
@@ -67,7 +67,7 @@ function IndexLesson() {
                   {lessonResponse.data.file && (
                     <Link
                       target="_blank"
-                      href={`https://e-learning-platform-server.onrender.com/files/${lessonResponse.data.file}`}
+                      href={`${process.env}files/${lessonResponse.data.file}`}
                       className="play  btn-primary flex items-center gap-1 font-normal  w-full justify-between"
                     >
                       Lecture File
@@ -79,7 +79,7 @@ function IndexLesson() {
                   {lessonResponse.data.assignment && (
                     <Link
                       target="_blank"
-                      href={`https://e-learning-platform-server.onrender.com/files/${lessonResponse.data.assignment}`}
+                      href={`${process.env}files/${lessonResponse.data.assignment}`}
                       className="play  btn-primary flex items-center gap-1 font-normal  w-full justify-between"
                     >
                       Home work

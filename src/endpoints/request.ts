@@ -7,7 +7,7 @@ interface ErrorResponse {
 }
 
 const client = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: process.env.url || "http://localhost:5000",
 });
 
 const request = async function (options: any) {

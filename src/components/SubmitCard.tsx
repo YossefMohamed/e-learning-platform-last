@@ -88,7 +88,7 @@ export const SubmitCard: React.FC<{
               </div>
               <div className="text-lg">
                 <Link
-                  href={`https://e-learning-platform-server.onrender.com/files/${file}`}
+                  href={`${process.env.url}/files/${file}`}
                   className="text-primary font-bold underline  ml-auto"
                   target="_blank"
                 >
