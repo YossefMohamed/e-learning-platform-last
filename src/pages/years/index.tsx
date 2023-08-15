@@ -4,6 +4,7 @@ import React from "react";
 import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import Spinner from "@/components/Spinner";
+import Image from "next/image";
 
 function IndexYear() {
   const yearsResponse = useQuery(
@@ -29,21 +30,24 @@ function IndexYear() {
 
   React.useEffect(() => {
     yearsResponse.refetch();
-    console.log({ Authorization: `Bearer ${localStorage.getItem("token")}` });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <section className="my-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex ">
-          <img
-            className="md:w-1/2"
-            src="https://e-learning-platform-server.onrender.com/images/home3.png"
-            alt="dashboard image"
-          />
+          <div className="md:w-1/2 relative">
+            <Image
+              src="https://e-learning-platform-server.onrender.com/images/home3.png"
+              alt="dashboard image"
+              fill
+            />
+          </div>
+
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
-              Let's create more tools and ideas.
+              Lets create more tools and ideas.
             </h2>
             <p className="mb-6 text-tmuted">
               Flowbite helps you connect with friends and communities of people

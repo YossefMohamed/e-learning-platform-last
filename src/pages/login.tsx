@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addUser } from "@/redux/slices/userSlices";
+import Image from "next/image";
 
 function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -37,9 +38,7 @@ function Login() {
     } else if (isError) {
       toast.error(error as string);
     } else return;
-  }, [isSuccess, isError]);
-
-  console.log(data, "login");
+  }, [isSuccess, isError, data, dispatch, error, router]);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -50,12 +49,9 @@ function Login() {
     <>
       <section className="flex flex-col md:flex-row h-screen items-center">
         <div className="hidden overflow-hidden relative lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
-          <img
-            src="/login-bg.png"
-            alt=""
-            className="w-full h-full object-cover"
-          />
-
+          <div className="w-full h-full relative">
+            <Image src="/login-bg.png" alt="" className="object-cover" fill />
+          </div>
           <div className="w-full h-full absolute z-10 top-0 right-0 bg-primary opacity-50"></div>
         </div>
         <div

@@ -89,7 +89,7 @@ const UserDashboard = () => {
   });
   React.useEffect(() => {
     usersResponse.refetch();
-  }, [year, name]);
+  }, [year, name, usersResponse]);
 
   const { id } = useSelector((state: Rootstate) => state.operationsState);
   const editUserResponse = useMutation(async (data: any) => {
@@ -118,18 +118,22 @@ const UserDashboard = () => {
     isSuccess && toast.success("User is created !");
     isSuccess && usersResponse.refetch();
     isSuccess && closeModal();
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, usersResponse, error]);
 
   React.useEffect(() => {
     usersResponse.isError && toast.error(usersResponse.error as string);
-  }, [usersResponse.isError, usersResponse.isSuccess]);
+  }, [usersResponse.isError, usersResponse.isSuccess, usersResponse.error]);
 
   React.useEffect(() => {
     editUserResponse.isError && toast.error(editUserResponse.error as string);
     editUserResponse.isSuccess && toast.success("User has been edited !");
     editUserResponse.isSuccess && usersResponse.refetch();
     editUserResponse.isSuccess && closeModal();
-  }, [editUserResponse.isError, editUserResponse.isSuccess]);
+  }, [
+    editUserResponse.isError,
+    editUserResponse.isSuccess,
+    editUserResponse.error,
+  ]);
 
   return (
     <DashboardLayout>

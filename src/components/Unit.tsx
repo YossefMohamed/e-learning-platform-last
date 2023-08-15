@@ -76,12 +76,12 @@ const Unit = ({
   React.useEffect(() => {
     editUnitResponse.isSuccess && toast.success("Unit is created !");
     editUnitResponse.isSuccess && refreshData();
-  }, [editUnitResponse.isSuccess]);
+  }, [editUnitResponse.isSuccess, refreshData]);
 
   React.useEffect(() => {
     deleteUnitResponse.isSuccess && toast.success("Unit is created !");
     deleteUnitResponse.isSuccess && refreshData();
-  }, [deleteUnitResponse.isSuccess]);
+  }, [deleteUnitResponse.isSuccess, refreshData]);
 
   return (
     <>

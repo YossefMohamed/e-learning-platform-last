@@ -194,9 +194,9 @@ function CreateQuiz() {
         },
       ]);
     }
-  }, [router.query]);
+  }, [router.query, questionResponse, quizResponse, router, user.isAdmin]);
 
-  React.useEffect(() => {
+  const check = () => {
     if (isSuccess) {
       setOptions([
         {
@@ -214,8 +214,12 @@ function CreateQuiz() {
       setIndex((prev) => ++prev);
       quizResponse.refetch();
     }
+  };
+
+  React.useEffect(() => {
+    check();
     isError && toast.error(error as string);
-  }, [isError, isSuccess, error]);
+  }, [isError, isSuccess, error, check]);
 
   React.useEffect(() => {
     if (questionResponse.data && router.query.question !== "new") {

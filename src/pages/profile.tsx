@@ -52,7 +52,11 @@ function Profile() {
     } else {
       editUserResponse.isError && toast.error(editUserResponse.error as string);
     }
-  }, [editUserResponse.isSuccess, editUserResponse.isError]);
+  }, [
+    editUserResponse.isSuccess,
+    editUserResponse.isError,
+    editUserResponse.error,
+  ]);
 
   return (
     <ProfileLayout>

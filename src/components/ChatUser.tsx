@@ -50,7 +50,7 @@ const ChatUser: React.FC<{
 
   React.useEffect(() => {
     data && onSelectChat(data._id);
-  }, [data, isLoading]);
+  }, [data, isLoading, onSelectChat]);
 
   return (
     <div

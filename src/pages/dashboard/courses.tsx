@@ -90,14 +90,19 @@ const CoursesPage = () => {
     isSuccess && toast.success("Year is created !");
     isSuccess && closeModal();
     isSuccess && coursesResponse.refetch();
-  }, [isError, isSuccess, isSuccess]);
+  }, [isError, isSuccess, isSuccess, coursesResponse, error]);
 
   React.useEffect(() => {
     deleteResponse.isError && toast.error(deleteResponse.error as string);
     deleteResponse.isSuccess && toast.success("Course is deleted !");
     deleteResponse.isSuccess && closeModal();
     deleteResponse.isSuccess && coursesResponse.refetch();
-  }, [deleteResponse.isError, deleteResponse.isSuccess]);
+  }, [
+    deleteResponse.isError,
+    deleteResponse.isSuccess,
+    coursesResponse,
+    deleteResponse.error,
+  ]);
 
   const editCourseResponse = useMutation(async (data: any) => {
     const token: string = localStorage.getItem("token") || "";
@@ -123,7 +128,12 @@ const CoursesPage = () => {
     editCourseResponse.isSuccess && toast.success("Course has been updated !");
     editCourseResponse.isSuccess && closeModal();
     editCourseResponse.isSuccess && coursesResponse.refetch();
-  }, [editCourseResponse.isError, editCourseResponse.isSuccess]);
+  }, [
+    editCourseResponse.isError,
+    editCourseResponse.isSuccess,
+    coursesResponse,
+    error,
+  ]);
 
   return (
     <DashboardLayout>

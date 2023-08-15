@@ -73,12 +73,12 @@ function Submit() {
     if (router.isReady && user) {
       !submitResponse.data && submitResponse.refetch();
     }
-  }, [router, submitResponse]);
+  }, [router, submitResponse, user]);
 
   React.useEffect(() => {
     isSuccess && submitResponse.refetch();
     isError && toast.error(error as string);
-  }, [isError, isSuccess, error]);
+  }, [isError, isSuccess, error, submitResponse]);
 
   return (
     <LessonLayout>

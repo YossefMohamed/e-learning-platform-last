@@ -13,7 +13,7 @@ const Logout = () => {
     localStorage.setItem("token", "");
     dispatch(logout());
     router.push("/");
-  }, []);
+  }, [dispatch, router]);
   return (
     <div className="min-h-screen flex items-center">
       <Spinner />

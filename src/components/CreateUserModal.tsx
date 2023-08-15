@@ -45,7 +45,7 @@ const CreateUserModal: React.FC<{
   React.useEffect(() => {
     // year && alert("haha");
     year && coursesRespone.refetch();
-  }, [year]);
+  }, [year, coursesRespone]);
 
   const yearsResponse = useQuery("years", async (year) => {
     const res = await request({
@@ -220,7 +220,7 @@ const CreateUserModal: React.FC<{
                 </select>
               </div>
               <div className="group">
-                <label className="label">Student's Authority</label>
+                <label className="label">Student Authority</label>
 
                 <select
                   id="Authority"

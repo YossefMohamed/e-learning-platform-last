@@ -54,13 +54,8 @@ export const Header = () => {
   useEffect(() => {
     setMobile(false);
     localStorage.getItem("token") && chatsResponse.refetch();
-  }, [router]);
+  }, [router, chatsResponse]);
 
-  React.useEffect(() => {
-    socket.on("new message", (newMessage) => {
-      // alert("new message");
-    });
-  });
   let classStyle = !navbar
     ? "nav-container  bg-light  z-[99] py-5 shadow items-center  px-10 relative"
     : "nav-container   py-3 z-[99] shadow-xl  sticky top-0  items-center relative  px-10 bg-gradient-to-r from-primary to-secondary";

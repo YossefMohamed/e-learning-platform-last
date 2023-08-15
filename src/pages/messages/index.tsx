@@ -87,7 +87,7 @@ const IndexMessages = () => {
       : year
       ? year !== "All years" && usersResponse.refetch()
       : null;
-  }, [name, year]);
+  }, [name, year, usersResponse]);
 
   return (
     <div className=" flex m-6 border h-[80vh]">
@@ -121,7 +121,11 @@ const IndexMessages = () => {
                       </option>
                       {yearsResponse.data?.map(
                         (year: { name: string; id: string }) => {
-                          return <option value={year.id}>{year.name}</option>;
+                          return (
+                            <option value={year.id} key={year.id}>
+                              {year.name}
+                            </option>
+                          );
                         }
                       )}
                     </select>

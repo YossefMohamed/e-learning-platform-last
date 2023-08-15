@@ -69,7 +69,7 @@ function Quiz() {
     isSuccess && quizResponse.refetch();
     isSuccess && toast.success("Quiz created");
     isSuccess && router.push("/quiz/" + "/create-quiz?quiz=" + data._id);
-  }, [isSuccess, error, isError, router]);
+  }, [isSuccess, error, isError, router, data._id]);
 
   React.useEffect(() => {
     if (router.isReady) {

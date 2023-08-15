@@ -58,7 +58,7 @@ function Add() {
     isSuccess &&
       router.push(`/years/${router.query.id}/courses/${router.query.course}`);
     isError && toast.error(error as string);
-  }, [isError, isSuccess, error]);
+  }, [isError, isSuccess, error, router]);
 
   return (
     <div className="p-10 min-h-screen max-h-fit">

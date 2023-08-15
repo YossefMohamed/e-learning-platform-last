@@ -33,7 +33,7 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
       dispatch(stopLoading());
       dispatch(logout());
     }
-  }, [router, dispatch]);
+  }, [router, dispatch, checkAuth]);
 
   useEffect(() => {
     if (isError) {

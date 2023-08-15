@@ -63,14 +63,14 @@ export const SubmitCard: React.FC<{
     isSuccess && setEdit(false);
     isSuccess && getSubmit();
     isError && toast.error(error as string);
-  }, [isError, isSuccess, error]);
+  }, [isError, isSuccess, error, getSubmit]);
   return (
     <div className="flex gap-6 mb-6">
       <div className="flex-1 border p-4 flex flex-col">
         <div className="icons flex flex-col  flex-1 justify-center gap-4 max-h-[650px] ">
           <div className="group flex-1 flex flex-col gap-4  overflow-y-auto ">
             <div className=" m-0 text-xl   border-b-4 py-2 flex gap-4 md:flex-row flex-col ">
-              <span className="font-bold uppercase">{userName}'s work :</span>{" "}
+              <span className="font-bold uppercase">{userName} work :</span>{" "}
               {lessonName}
             </div>
             <div className="description py-4 max-h-[100%] overflow-y-auto flex flex-col gap-8">

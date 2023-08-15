@@ -21,7 +21,7 @@ const useCheckPart = () => {
       toast.error("You are not a participant in this course");
     }
     if (!isAuthenticated) router.push("/login");
-  }, [user, isAuthenticated, router.query]);
+  }, [user, isAuthenticated, router]);
 
   return [loading, part];
 };

@@ -86,13 +86,22 @@ function Year() {
     createUnitResponse.isLoading && toast.loading("Loading....");
   };
 
-  React.useEffect(() => {
+  const afterCreate = () => {
     createUnitResponse.isError &&
       toast.error(createUnitResponse.error as string);
     createUnitResponse.isSuccess && toast.success("Unit is created !");
     createUnitResponse.isSuccess && unitsResponse.refetch();
     createUnitResponse.isSuccess && closeModal();
-  }, [createUnitResponse.isError, createUnitResponse.isSuccess]);
+  };
+
+  React.useEffect(() => {
+    afterCreate();
+  }, [
+    createUnitResponse.isError,
+    createUnitResponse.isSuccess,
+    createUnitResponse.error,
+    afterCreate,
+  ]);
 
   React.useEffect(() => {
     if (router.isReady) {
@@ -108,7 +117,14 @@ function Year() {
         lessonsResponse.refetch();
       }
     }
-  }, [user, isAuthenticated, router.query]);
+  }, [
+    user,
+    isAuthenticated,
+    router.query,
+    router,
+    unitsResponse,
+    lessonsResponse,
+  ]);
 
   return (
     <div className="p-10 relative min-h-screen">

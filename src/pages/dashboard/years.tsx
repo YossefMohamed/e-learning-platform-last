@@ -93,13 +93,18 @@ const YearsDashboard = () => {
     isSuccess && toast.success("Year is created !");
     isSuccess && closeModal();
     isSuccess && yearsResponse.refetch();
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, yearsResponse, error]);
   React.useEffect(() => {
     editYearResponse.isError && toast.error(editYearResponse.error as string);
     editYearResponse.isSuccess && toast.success("Year has been edited !");
     editYearResponse.isSuccess && closeModal();
     editYearResponse.isSuccess && yearsResponse.refetch();
-  }, [editYearResponse.isSuccess, editYearResponse.isError]);
+  }, [
+    editYearResponse.isSuccess,
+    editYearResponse.isError,
+    editYearResponse.error,
+    yearsResponse,
+  ]);
 
   const deleteResponse = useMutation(async () => {
     const token: string = localStorage.getItem("token") || "";
@@ -126,7 +131,12 @@ const YearsDashboard = () => {
     deleteResponse.isSuccess && toast.success("Year has been edited !");
     deleteResponse.isSuccess && closeModal();
     deleteResponse.isSuccess && yearsResponse.refetch();
-  }, [deleteResponse.isSuccess, deleteResponse.isError]);
+  }, [
+    deleteResponse.isSuccess,
+    deleteResponse.isError,
+    deleteResponse.error,
+    yearsResponse,
+  ]);
 
   return (
     <DashboardLayout>
@@ -190,7 +200,10 @@ const YearsDashboard = () => {
                           ];
                         }) => {
                           return (
-                            <tr className="bg-white border-b   hover:bg-gray-50 ">
+                            <tr
+                              key={year.id}
+                              className="bg-white border-b   hover:bg-gray-50 "
+                            >
                               <th
                                 scope="row"
                                 className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap "

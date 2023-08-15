@@ -51,17 +51,18 @@ function EditLesson() {
     }
   );
 
+  const { refetch } = lessonResponse;
   React.useEffect(() => {
     if (router.isReady) {
-      lessonResponse.refetch();
+      refetch();
     }
-  }, [router.isReady]);
+  }, [router.isReady, refetch]);
 
   React.useEffect(() => {
     isSuccess && router.push(`/lesson/${router.query.lesson}`);
     isSuccess && toast.success("Lesson updated successfully");
     isError && toast.error(error as string);
-  }, [isError, isSuccess, error]);
+  }, [isError, isSuccess, error, router]);
 
   React.useEffect(() => {
     if (lessonResponse.isSuccess) {
@@ -71,7 +72,16 @@ function EditLesson() {
     } else {
       lessonResponse.isError && toast.error(lessonResponse.error as string);
     }
-  }, [lessonResponse.isError, lessonResponse.isSuccess, lessonResponse.error]);
+  }, [
+    lessonResponse.isError,
+    lessonResponse.isSuccess,
+
+    lessonResponse.data.description,
+
+    lessonResponse.data.name,
+    lessonResponse.data.extra,
+    lessonResponse.error,
+  ]);
 
   const onSubmit = async () => {
     editLesson({

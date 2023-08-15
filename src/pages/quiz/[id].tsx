@@ -107,7 +107,7 @@ function Quiz() {
     setOptions(newOptions);
   };
 
-  React.useEffect(() => {
+  const checkAnswer = () => {
     if (checkQuestionAnswer.isSuccess) {
       console.log(checkQuestionAnswer.data.score);
       setScores((scores) => [...scores, checkQuestionAnswer.data.score]);
@@ -124,9 +124,19 @@ function Quiz() {
         );
       }
     }
+  };
+
+  React.useEffect(() => {
+    checkAnswer();
     checkQuestionAnswer.isError &&
       toast.error(checkQuestionAnswer.error as string);
-  }, [checkQuestionAnswer.isSuccess, checkQuestionAnswer.isError]);
+  }, [
+    checkQuestionAnswer.isSuccess,
+    checkQuestionAnswer.isError,
+    checkQuestionAnswer.data.score,
+    checkQuestionAnswer.error,
+    checkAnswer,
+  ]);
 
   React.useEffect(() => {
     if (scoreResponse.isSuccess) {
@@ -145,7 +155,7 @@ function Quiz() {
       toast.success("Quiz Completed");
       router.push("/");
     }
-  }, [scoreResponse.isSuccess]);
+  }, [scoreResponse.isSuccess, router, scoreResponse.data]);
 
   React.useEffect(() => {
     if (questionResponse.data) {
@@ -197,7 +207,13 @@ function Quiz() {
         }
       }
     }
-  }, [router.query, quizResponse.isSuccess]);
+  }, [
+    router.query,
+    quizResponse.isSuccess,
+    quizResponse.data,
+    router,
+    user._id,
+  ]);
 
   React.useEffect(() => {
     if (router.isReady) {
@@ -209,7 +225,7 @@ function Quiz() {
     if (questionIndex) {
       questionResponse.refetch();
     }
-  }, [questionIndex]);
+  }, [questionIndex, quizResponse]);
 
   return quizResponse.isLoading ? (
     <div className="flex   flex-col px-[10%] mt-14 ">

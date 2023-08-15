@@ -49,7 +49,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
 
   React.useEffect(() => {
     onDeleteQuiz();
-  }, [deleteQuiz.isSuccess]);
+  }, [deleteQuiz.isSuccess, onDeleteQuiz]);
   return (
     <div className="flex gap-6" key={_id}>
       {closeModal && (

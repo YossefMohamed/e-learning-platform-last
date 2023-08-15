@@ -33,7 +33,7 @@ function Courses() {
     if (router.isReady) {
       coursesResponse.refetch();
     }
-  }, [router.query.id]);
+  }, [router.query.id, coursesResponse, router.isReady]);
   return (
     <section className="px-[5%] my-10">
       <div className="sec-title w-fit">Choose a Course</div>

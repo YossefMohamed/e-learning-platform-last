@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "react-query";
 import request from "@/endpoints/request";
 import useSocket from "@/custom-hooks/useSocket";
 import { BsArrowLeft, BsBack, BsBackspace } from "react-icons/bs";
+import Image from "next/image";
 
 const ChatContent: React.FC<{
   select: boolean;
@@ -108,7 +109,7 @@ const ChatContent: React.FC<{
 
   React.useEffect(() => {
     isSuccess && socket.emit("new message", data);
-  }, [isSuccess]);
+  }, [isSuccess, socket, data]);
 
   React.useEffect(() => {
     if (!loading && chatData) {
@@ -121,7 +122,7 @@ const ChatContent: React.FC<{
         )[0]
       );
     }
-  }, [loading, chatData]);
+  }, [loading, chatData, socket, messagesResponse, user._id]);
 
   React.useEffect(() => {
     messagesResponse.data && setMessages(messagesResponse.data);
@@ -236,7 +237,10 @@ const ChatContent: React.FC<{
         </>
       ) : (
         <div className="h-full  items-center justify-center flex-col gap-4 hidden md:flex">
-          <img src="/messages.png" className="w-28 h-28" />
+          <div className="w-28 h-28 relative">
+            <Image alt="message icon" src="/messages.png" fill={true} />
+          </div>
+
           <span className="text-lg">
             Select the user to start messaging with
           </span>
