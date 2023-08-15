@@ -107,7 +107,7 @@ function Quiz() {
     setOptions(newOptions);
   };
 
-  const checkAnswer = () => {
+  React.useEffect(() => {
     if (checkQuestionAnswer.isSuccess) {
       console.log(checkQuestionAnswer.data.score);
       setScores((scores) => [...scores, checkQuestionAnswer.data.score]);
@@ -124,18 +124,15 @@ function Quiz() {
         );
       }
     }
-  };
 
-  React.useEffect(() => {
-    checkAnswer();
     checkQuestionAnswer.isError &&
       toast.error(checkQuestionAnswer.error as string);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     checkQuestionAnswer.isSuccess,
     checkQuestionAnswer.isError,
     checkQuestionAnswer.data.score,
     checkQuestionAnswer.error,
-    checkAnswer,
   ]);
 
   React.useEffect(() => {
@@ -207,6 +204,7 @@ function Quiz() {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     router.query,
     quizResponse.isSuccess,
@@ -219,6 +217,7 @@ function Quiz() {
     if (router.isReady) {
       !quizResponse.data && !quizResponse.isLoading && quizResponse.refetch();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
   React.useEffect(() => {

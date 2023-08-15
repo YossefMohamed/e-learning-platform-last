@@ -61,6 +61,7 @@ const CreateUserModal: React.FC<{
 
   React.useEffect(() => {
     if (year) coursesRespone.refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year]);
 
   React.useEffect(() => {
@@ -222,7 +223,7 @@ const CreateUserModal: React.FC<{
                     </select>
                   </div>
                   <div className="group">
-                    <label className="label">Student's Authority</label>
+                    <label className="label">Students Authority</label>
 
                     <select
                       id="Authority"

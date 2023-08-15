@@ -196,7 +196,7 @@ function CreateQuiz() {
     }
   }, [router.query, questionResponse, quizResponse, router, user.isAdmin]);
 
-  const check = () => {
+  React.useEffect(() => {
     if (isSuccess) {
       setOptions([
         {
@@ -214,12 +214,9 @@ function CreateQuiz() {
       setIndex((prev) => ++prev);
       quizResponse.refetch();
     }
-  };
-
-  React.useEffect(() => {
-    check();
     isError && toast.error(error as string);
-  }, [isError, isSuccess, error, check]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError, isSuccess, error]);
 
   React.useEffect(() => {
     if (questionResponse.data && router.query.question !== "new") {

@@ -69,6 +69,7 @@ function Quiz() {
     isSuccess && quizResponse.refetch();
     isSuccess && toast.success("Quiz created");
     isSuccess && router.push("/quiz/" + "/create-quiz?quiz=" + data._id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, error, isError, router, data._id]);
 
   React.useEffect(() => {

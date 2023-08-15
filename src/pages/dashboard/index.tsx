@@ -129,6 +129,7 @@ const UserDashboard = () => {
     editUserResponse.isSuccess && toast.success("User has been edited !");
     editUserResponse.isSuccess && usersResponse.refetch();
     editUserResponse.isSuccess && closeModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     editUserResponse.isError,
     editUserResponse.isSuccess,

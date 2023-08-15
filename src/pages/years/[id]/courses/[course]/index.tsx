@@ -86,21 +86,18 @@ function Year() {
     createUnitResponse.isLoading && toast.loading("Loading....");
   };
 
-  const afterCreate = () => {
+  React.useEffect(() => {
     createUnitResponse.isError &&
       toast.error(createUnitResponse.error as string);
     createUnitResponse.isSuccess && toast.success("Unit is created !");
     createUnitResponse.isSuccess && unitsResponse.refetch();
     createUnitResponse.isSuccess && closeModal();
-  };
 
-  React.useEffect(() => {
-    afterCreate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     createUnitResponse.isError,
     createUnitResponse.isSuccess,
     createUnitResponse.error,
-    afterCreate,
   ]);
 
   React.useEffect(() => {

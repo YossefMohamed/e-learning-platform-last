@@ -90,7 +90,8 @@ const CoursesPage = () => {
     isSuccess && toast.success("Year is created !");
     isSuccess && closeModal();
     isSuccess && coursesResponse.refetch();
-  }, [isError, isSuccess, isSuccess, coursesResponse, error]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError, isSuccess, error]);
 
   React.useEffect(() => {
     deleteResponse.isError && toast.error(deleteResponse.error as string);
