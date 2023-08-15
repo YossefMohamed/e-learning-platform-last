@@ -35,7 +35,7 @@ export default function Home() {
 
           <div className="mt-4 md:mt-0 md:text-left text-center">
             <h2 className="mb-4 text-3xl tracking-tight font-extrabold ">
-              Let's create more{" "}
+              Lets create more{" "}
               <span className="text-ttertiary text-4xl font-bold uppercase">
                 tools
               </span>{" "}
@@ -127,7 +127,7 @@ export default function Home() {
 
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
-              Let's create more tools and ideas that brings us together.
+              Lets create more tools and ideas that brings us together.
             </h2>
             <p className="mb-6 text-tmuted">
               Flowbite helps you connect with friends and communities of people
