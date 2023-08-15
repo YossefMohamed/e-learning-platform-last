@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Rootstate } from "@/redux/store";
 import { addId } from "@/redux/slices/operationSlices";
 import EditCourseModal from "@/components/editCourseModal";
-const index = () => {
+const CoursesPage = () => {
   const [modal, setModal] = React.useState(false);
   const [editModal, setEditModal] = React.useState(false);
   const [checkModal, setCheckModal] = React.useState(false);
@@ -256,4 +256,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default CoursesPage;

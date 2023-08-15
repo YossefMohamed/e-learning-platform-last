@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addUser } from "@/redux/slices/userSlices";
 
-function login() {
+function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const {
@@ -109,4 +109,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

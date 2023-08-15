@@ -5,7 +5,7 @@ import request from "@/endpoints/request";
 import { useRouter } from "next/router";
 import Spinner from "@/components/Spinner";
 
-function Lesson() {
+function ExtraResources() {
   const [video, setVideo] = React.useState(false);
 
   React.useEffect(() => {
@@ -76,4 +76,4 @@ function Lesson() {
   );
 }
 
-export default Lesson;
+export default ExtraResources;

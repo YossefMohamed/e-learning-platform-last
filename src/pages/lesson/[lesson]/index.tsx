@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import Spinner from "@/components/Spinner";
 import LessonLayout from "../../../../layouts/LessonLayout";
 
-function Lesson() {
+function IndexLesson() {
   const [video, setVideo] = React.useState(false);
   const router = useRouter();
   const lessonResponse = useQuery(
@@ -100,4 +100,4 @@ function Lesson() {
   );
 }
 
-export default Lesson;
+export default IndexLesson;

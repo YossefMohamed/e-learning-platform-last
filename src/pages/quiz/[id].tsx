@@ -124,7 +124,8 @@ function Quiz() {
         );
       }
     }
-    checkQuestionAnswer.isError && toast.error(checkQuestionAnswer.error);
+    checkQuestionAnswer.isError &&
+      toast.error(checkQuestionAnswer.error as string);
   }, [checkQuestionAnswer.isSuccess, checkQuestionAnswer.isError]);
 
   React.useEffect(() => {

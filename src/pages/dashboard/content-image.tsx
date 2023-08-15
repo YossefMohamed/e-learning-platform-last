@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Rootstate } from "@/redux/store";
 import { addId } from "@/redux/slices/operationSlices";
 import EditCourseModal from "@/components/editCourseModal";
-const index = () => {
+const ContentImage = () => {
   const {
     data,
     isLoading,
@@ -125,4 +125,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ContentImage;

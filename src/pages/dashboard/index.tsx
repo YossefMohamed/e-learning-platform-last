@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addId } from "@/redux/slices/operationSlices";
 import { Rootstate } from "@/redux/store";
 
-const index = () => {
+const UserDashboard = () => {
   const [modal, setModal] = React.useState(false);
   const [editModal, setEditModal] = React.useState(false);
   const [checkModal, setCheckModal] = React.useState(false);
@@ -285,4 +285,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default UserDashboard;

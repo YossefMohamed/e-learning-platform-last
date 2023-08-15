@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import { BsPlus, BsStopwatch } from "react-icons/bs";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
-function Quiz() {
+function CreateQuiz() {
   const { token, user } = useSelector((state: Rootstate) => state.userState);
   const [index, setIndex] = useState(0);
   const [questionIndex, setQuestionIndex] = useState<string | null>(null);
@@ -359,4 +359,4 @@ function Quiz() {
   );
 }
 
-export default Quiz;
+export default CreateQuiz;

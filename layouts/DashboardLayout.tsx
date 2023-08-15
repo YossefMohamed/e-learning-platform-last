@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { BsBook, BsImage, BsPen, BsPerson } from "react-icons/bs";
-import { FaSchool } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const DashboardLayout: React.FC<{

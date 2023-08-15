@@ -5,7 +5,7 @@ import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import Spinner from "@/components/Spinner";
 
-function index() {
+function IndexYear() {
   const yearsResponse = useQuery(
     "years",
     async () => {
@@ -84,4 +84,4 @@ function index() {
   );
 }
 
-export default index;
+export default IndexYear;

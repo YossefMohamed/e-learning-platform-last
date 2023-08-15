@@ -7,7 +7,7 @@ import React from "react";
 import { useMutation, useQuery } from "react-query";
 import { useSelector } from "react-redux";
 
-const index = () => {
+const IndexMessages = () => {
   const [year, setYear] = React.useState("All years");
   const [name, setName] = React.useState("");
 
@@ -203,4 +203,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default IndexMessages;

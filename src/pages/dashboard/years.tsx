@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Rootstate } from "@/redux/store";
 import { addId } from "@/redux/slices/operationSlices";
 
-const index = () => {
+const YearsDashboard = () => {
   const [modal, setModal] = React.useState(false);
   const [checkModal, setCheckModal] = React.useState(false);
   const [editModal, setEditModal] = React.useState(false);
@@ -260,4 +260,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default YearsDashboard;

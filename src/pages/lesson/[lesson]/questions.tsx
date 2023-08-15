@@ -1,7 +1,7 @@
 import React from "react";
 import LessonLayout from "../../../../layouts/LessonLayout";
 
-function Lesson() {
+function Questions() {
   const [video, setVideo] = React.useState(false);
 
   React.useEffect(() => {
@@ -35,4 +35,4 @@ function Lesson() {
   );
 }
 
-export default Lesson;
+export default Questions;
