@@ -8,7 +8,7 @@ import Image from "next/image";
 import { constants } from "@/infrastructure/constants";
 
 export default function Home() {
-  const coursesResponse = useQuery("courses", async () => {
+  const coursesResponse = useQuery("years", async () => {
     const res = await request({
       url: `/api/courses/`,
       method: "get",
@@ -119,10 +119,10 @@ export default function Home() {
       <section className="my-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
           <div className="md:w-1/2 w-full relative">
-            <Image
+            <img
               src={`${constants.url}/images/home2.png`}
               alt="dashboard image"
-              fill
+              className="w-full h-full"
               loading="lazy"
             />
           </div>
