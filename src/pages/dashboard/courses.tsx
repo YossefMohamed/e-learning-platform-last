@@ -85,23 +85,19 @@ const CoursesPage = () => {
     !deleteResponse.isLoading && deleteResponse.mutate();
   };
 
-  React.useEffect(() => {
-    isError && toast.error(error as string);
-    isSuccess && toast.success("Year is created !");
-    isSuccess && closeModal();
-    isSuccess && coursesResponse.refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, isSuccess, error]);
+ if(isSuccess||deleteResponse.isSuccess ||   editCourseResponse.isSuccess){
+  coursesResponse.refetch();
+ }
 
   React.useEffect(() => {
     deleteResponse.isError && toast.error(deleteResponse.error as string);
     deleteResponse.isSuccess && toast.success("Course is deleted !");
     deleteResponse.isSuccess && closeModal();
-    deleteResponse.isSuccess && coursesResponse.refetch();
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [
     deleteResponse.isError,
     deleteResponse.isSuccess,
-    coursesResponse,
     deleteResponse.error,
   ]);
 
@@ -128,7 +124,6 @@ const CoursesPage = () => {
     editCourseResponse.isError && toast.error(error as string);
     editCourseResponse.isSuccess && toast.success("Course has been updated !");
     editCourseResponse.isSuccess && closeModal();
-    editCourseResponse.isSuccess && coursesResponse.refetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
 
   }, [

@@ -25,7 +25,7 @@ const UserDashboard = () => {
   };
   const openModal = () => setModal(true);
   const dispatch = useDispatch();
-  const usersResponse = useQuery("users", async () => {
+  const usersResponse = useQuery("usersDashboard", async () => {
     const token: string = localStorage.getItem("token") || "";
 
     const res = await request({
@@ -89,7 +89,8 @@ const UserDashboard = () => {
   });
   React.useEffect(() => {
     usersResponse.refetch();
-  }, [year, name, usersResponse]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [year, name]);
 
   const { id } = useSelector((state: Rootstate) => state.operationsState);
   const editUserResponse = useMutation(async (data: any) => {
@@ -118,7 +119,9 @@ const UserDashboard = () => {
     isSuccess && toast.success("User is created !");
     isSuccess && usersResponse.refetch();
     isSuccess && closeModal();
-  }, [isError, isSuccess, usersResponse, error]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  }, [isError, isSuccess,  error]);
 
   React.useEffect(() => {
     usersResponse.isError && toast.error(usersResponse.error as string);
