@@ -52,7 +52,7 @@ const CoursesPage = () => {
     !isLoading && createNewYearMutate(data);
   };
 
-  const coursesResponse = useQuery("courses", async () => {
+  const coursesResponse = useQuery("coursesDashboard", async () => {
     const res = await request({
       url: `/api/courses/`,
       method: "get",
@@ -129,10 +129,11 @@ const CoursesPage = () => {
     editCourseResponse.isSuccess && toast.success("Course has been updated !");
     editCourseResponse.isSuccess && closeModal();
     editCourseResponse.isSuccess && coursesResponse.refetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [
     editCourseResponse.isError,
     editCourseResponse.isSuccess,
-    coursesResponse,
     error,
   ]);
 
