@@ -85,9 +85,7 @@ const CoursesPage = () => {
     !deleteResponse.isLoading && deleteResponse.mutate();
   };
 
- if(isSuccess||deleteResponse.isSuccess ||   editCourseResponse.isSuccess){
-  coursesResponse.refetch();
- }
+ 
 
   React.useEffect(() => {
     deleteResponse.isError && toast.error(deleteResponse.error as string);
@@ -131,6 +129,11 @@ const CoursesPage = () => {
     editCourseResponse.isSuccess,
     error,
   ]);
+
+  if(isSuccess||deleteResponse.isSuccess ||   editCourseResponse.isSuccess){
+    coursesResponse.refetch();
+   }
+
 
   return (
     <DashboardLayout>
