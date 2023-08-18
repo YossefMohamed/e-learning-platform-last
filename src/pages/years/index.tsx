@@ -38,13 +38,11 @@ function IndexYear() {
     <>
       <section className="my-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex ">
-          <div className="md:w-1/2 relative">
-            <Image
+            <img
               src={`${constants.url}/images/home1.png`}
               alt="dashboard image"
-              fill
+              className="md:w-1/2 "
             />
-          </div>
 
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
