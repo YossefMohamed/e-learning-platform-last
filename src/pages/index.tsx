@@ -26,13 +26,13 @@ export default function Home() {
     <>
       <section className="mt-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
-          <div className="w-[90%] relative">
-            <Image
+          
+             <img
               src={`${constants.url}/images/home1.png`}
               alt="dashboard image"
-              fill
+              className="md:w-1/2 w-full"
+              loading="lazy"
             />
-          </div>
 
           <div className="mt-4 md:mt-0 md:text-left text-center">
             <h2 className="mb-4 text-3xl tracking-tight font-extrabold ">
@@ -118,14 +118,12 @@ export default function Home() {
       </section>
       <section className="my-10">
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
-          <div className="md:w-1/2 w-full relative">
             <img
               src={`${constants.url}/images/home2.png`}
               alt="dashboard image"
-              className="w-full h-full"
+              className="md:w-1/2 w-full"
               loading="lazy"
             />
-          </div>
 
           <div className="mt-4 md:mt-0 flex flex-col gap-6">
             <h2 className="text-4xl text-primary font-bold ">
@@ -146,9 +144,8 @@ export default function Home() {
         <div className="cards flex  w-full justify-around py-10 md:flex-row flex-col gap-6">
           <div className="card  flex flex-col items-center  gap-4 ">
             <div className="font-bold  w-[25%]">
-              <div className="h-full w-full relative">
-                <Image src="/section1.png" alt="section3" fill />
-              </div>
+            <img src="/section1.png" alt="section3" className="h-full w-full" />
+
             </div>
             <div className="flex flex-col  gap-4">
               <div className="text-2xl font-light">Study Anywhere</div>
@@ -158,9 +155,7 @@ export default function Home() {
 
           <div className="card  flex flex-col items-center  gap-4 ">
             <div className="font-bold  w-[25%]">
-              <div className="h-full w-full relative">
-                <Image src="/section2.png" alt="section3" fill />
-              </div>
+                <img src="/section2.png" alt="section3" className="h-full w-full" />
             </div>
             <div className="flex flex-col  gap-4">
               <div className="text-2xl font-light">Full Online Lessons</div>
@@ -170,9 +165,9 @@ export default function Home() {
 
           <div className="card  flex flex-col items-center  gap-4 ">
             <div className="font-bold  w-[25%]">
-              <div className="h-full w-full relative">
-                <Image src="/section3.png" alt="section3" fill />
-              </div>
+              
+              <img src="/section3.png" alt="section3" className="h-full w-full" />
+
             </div>
             <div className="flex flex-col  gap-4">
               <div className="text-2xl font-light">Earn Certificates</div>
