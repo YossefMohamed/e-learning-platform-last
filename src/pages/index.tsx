@@ -120,9 +120,10 @@ export default function Home() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex flex-row-reverse">
           <div className="md:w-1/2 w-full relative">
             <Image
-              src={constants.url + "/images/home2.png"}
+              src={`${constants.url}/images/home2.png`}
               alt="dashboard image"
               fill
+              loading="lazy"
             />
           </div>
 
