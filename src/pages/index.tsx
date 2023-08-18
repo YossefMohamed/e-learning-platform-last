@@ -30,7 +30,7 @@ export default function Home() {
              <img
               src={`${constants.url}/images/home1.png`}
               alt="dashboard image"
-              className="md:w-1/2 w-full"
+              className="w-[90%]" 
               loading="lazy"
             />
 
