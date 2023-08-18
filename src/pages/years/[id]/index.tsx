@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Spinner from "@/components/Spinner";
 import { Rootstate } from "@/redux/store";
 import { useSelector } from "react-redux";
+import { constants } from "@/infrastructure/constants";
 
 function Courses() {
   const router = useRouter();
@@ -49,7 +50,7 @@ function Courses() {
                 <CourseCard
                   name={course.name}
                   link={"/years/" + router.query.id + "/courses/" + course.id}
-                  img={`${process.env.url}/images/` + course.image}
+                  img={`${constants.url}/images/` + course.image}
                   key={course.id}
                 />
               );

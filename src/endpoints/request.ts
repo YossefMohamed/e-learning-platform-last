@@ -1,3 +1,4 @@
+import { constants } from "@/infrastructure/constants";
 import axios, { AxiosError } from "axios";
 
 interface ErrorResponse {
@@ -7,7 +8,7 @@ interface ErrorResponse {
 }
 
 const client = axios.create({
-  baseURL: process.env.url || "http://localhost:5000",
+  baseURL: constants.url || "http://localhost:5000",
 });
 
 const request = async function (options: any) {

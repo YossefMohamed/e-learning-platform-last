@@ -1,4 +1,5 @@
 import request from "@/endpoints/request";
+import { constants } from "@/infrastructure/constants";
 import { Rootstate } from "@/redux/store";
 import Link from "next/link";
 import React from "react";
@@ -88,7 +89,7 @@ export const SubmitCard: React.FC<{
               </div>
               <div className="text-lg">
                 <Link
-                  href={`${process.env.url}/files/${file}`}
+                  href={`${constants.url}/files/${file}`}
                   className="text-primary font-bold underline  ml-auto"
                   target="_blank"
                 >

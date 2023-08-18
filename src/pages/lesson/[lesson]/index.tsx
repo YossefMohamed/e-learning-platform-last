@@ -8,6 +8,7 @@ import request from "@/endpoints/request";
 import { useRouter } from "next/router";
 import Spinner from "@/components/Spinner";
 import LessonLayout from "../../../../layouts/LessonLayout";
+import { constants } from "@/infrastructure/constants";
 
 function IndexLesson() {
   const [video, setVideo] = React.useState(false);
@@ -43,7 +44,7 @@ function IndexLesson() {
               .
               <div className="md:w-[70%]">
                 <ReactPlayer
-                  url={`${process.env.url}/videos/${lessonResponse.data.video}`}
+                  url={`${constants.url}/videos/${lessonResponse.data.video}`}
                   controls
                   width={"100%"}
                   height={"650px"}
@@ -67,7 +68,7 @@ function IndexLesson() {
                   {lessonResponse.data.file && (
                     <Link
                       target="_blank"
-                      href={`${process.env}files/${lessonResponse.data.file}`}
+                      href={`${constants.url}/files/${lessonResponse.data.file}`}
                       className="play  btn-primary flex items-center gap-1 font-normal  w-full justify-between"
                     >
                       Lecture File
@@ -79,7 +80,7 @@ function IndexLesson() {
                   {lessonResponse.data.assignment && (
                     <Link
                       target="_blank"
-                      href={`${process.env}files/${lessonResponse.data.assignment}`}
+                      href={`${constants.url}/files/${lessonResponse.data.assignment}`}
                       className="play  btn-primary flex items-center gap-1 font-normal  w-full justify-between"
                     >
                       Home work

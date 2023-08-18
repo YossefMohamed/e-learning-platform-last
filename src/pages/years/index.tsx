@@ -5,6 +5,7 @@ import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import Spinner from "@/components/Spinner";
 import Image from "next/image";
+import { constants } from "@/infrastructure/constants";
 
 function IndexYear() {
   const yearsResponse = useQuery(
@@ -39,7 +40,7 @@ function IndexYear() {
         <div className="gap-8 items-center  px-4 mx-auto max-w-screen-xl md:flex ">
           <div className="md:w-1/2 relative">
             <Image
-              src={`${process.env.url}/images/home1.png`}
+              src={`${constants.url}/images/home1.png`}
               alt="dashboard image"
               fill
             />
@@ -72,7 +73,7 @@ function IndexYear() {
                   <CourseCard
                     name={year.name}
                     link={"/years/" + year.id}
-                    img={`${process.env.url}/images/ ` + year.image}
+                    img={`${constants.url}/images/ ` + year.image}
                     key={year.id}
                   />
                 );
