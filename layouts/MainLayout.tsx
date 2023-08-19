@@ -4,10 +4,11 @@ import Head from "next/head";
 import React from "react";
 import { useSelector } from "react-redux";
 export const Layout = ({ children }: any) => {
-  const socket = useSocket();
   const { user } = useSelector((state: Rootstate) => state.userState);
 
   React.useEffect(() => {
+  const socket = useSocket();
+    
     socket.emit("setup", user._id);
   }, []);
   return (
