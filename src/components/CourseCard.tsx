@@ -41,7 +41,7 @@ export const CourseCard = ({
           <Image src={imagePath} alt="image course" fill className="h-full w-full" />
         )}
         {!loading &&!imageExists && (
-          <Image src="/course-bg.jpg" alt="image course" fill className="h-full w-full" />
+          <Image src={imagePath} alt="image course" fill className="h-full w-full" />
         )}
       </div>
       <div className="flex flex-col mt-5 gap-6 flex-1 ">
