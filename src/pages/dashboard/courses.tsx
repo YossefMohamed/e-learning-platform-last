@@ -52,19 +52,19 @@ const CoursesPage = () => {
     !isLoading && createNewYearMutate(data);
   };
 
+    const { token } = useSelector((state: Rootstate) => state.userState);
+
   const coursesResponse = useQuery("coursesDashboard", async () => {
-        const token: string = localStorage.getItem("token") || "";
 
     const res = await request({
       url: `/api/courses/`,
       method: "get",
-       headers: {
+        headers: {
         Authorization: "Bearer " + token,
       },
     }).then((res) => {
       return res.data;
     });
-
     return res;
   });
   const { id } = useSelector((state: Rootstate) => state.operationsState);
