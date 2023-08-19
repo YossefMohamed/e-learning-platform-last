@@ -1,4 +1,3 @@
-import useSocket from "@/custom-hooks/useSocket";
 import request from "@/endpoints/request";
 import { Rootstate } from "@/redux/store";
 import Link from "next/link";
@@ -10,7 +9,6 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 
 export const Header = () => {
-  const socket = useSocket();
 
   const router = useRouter();
   const [navbar, setNavbar] = useState(false);
