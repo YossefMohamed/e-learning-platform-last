@@ -50,17 +50,15 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
       dispatch(addUser({ token, user: data }));
       setLoading(false);
       dispatch(stopLoading());
-      socket.emit("login", data._id);
     }
-  }, [data, dispatch, socket]);
-
-  useEffect(()=>{
-       if (data && localStorage.getItem("token") && !isDone) {
-
+    if (data && localStorage.getItem("token") && !isDone) {
       socket.emit("login", data._id);
          setIsDone(true);
     }
-  },[]}
+  }, [data, dispatch, socket]);
+
+
+
   return loading ? <Spinner /> : <>{children}</>;
 };
 
