@@ -14,7 +14,7 @@ const CourseCard = ({
 }) => {
   const [imagePath, setImagePath] = useState(img);
   const [imageExists, setImageExists] = useState(true);
-
+  const [loading , setLoading] = useState(true)
   useEffect(() => {
     // Get the image path from the server.
     const getImagePath = async () => {
@@ -22,17 +22,20 @@ const CourseCard = ({
       if (response.status === 200) {
         setImagePath(response.url);
         setImageExists(true);
+        setLoading(false)
       } else {
         setImagePath(`${constants.url}/images/courseDefault.jpg`);
         setImageExists(false);
+        setLoading(false)
+
       }
     };
 
     getImagePath();
-  }, [img]);
+  }, []);
 
   return (
-    <div className="flex flex-col md:w-[33%] my-4 cursor-pointer max-h-[500px] p-4 shadow-xl hover:shadow-2xl border-2">
+    !loading && <div className="flex flex-col md:w-[33%] my-4 cursor-pointer max-h-[500px] p-4 shadow-xl hover:shadow-2xl border-2">
       <div className="flex max-h-[60%] flex-1 relative min-h-[250px]">
         {imageExists && (
           <Image src={imagePath} alt="image course" fill className="h-full w-full" />
