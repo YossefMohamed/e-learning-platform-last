@@ -5,7 +5,7 @@ import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import Image from "next/image";
 import { constants } from "@/infrastructure/constants";
-import CourseCard from "@/components/CourseCard";
+import {CourseCard} from "@/components/CourseCard";
 
 export default function Home() {
   const coursesResponse = useQuery("years", async () => {
