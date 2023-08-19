@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const CourseCard = ({
+export const CourseCard = ({
   img = `${constants.url}/images/courseDefault.jpg`,
   name,
   link,
@@ -53,4 +53,3 @@ const CourseCard = ({
   );
 };
 
-export default CourseCard;
