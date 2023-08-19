@@ -56,6 +56,9 @@ const CoursesPage = () => {
     const res = await request({
       url: `/api/courses/`,
       method: "get",
+       headers: {
+        Authorization: "Bearer " + token,
+      },
     }).then((res) => {
       return res.data;
     });
