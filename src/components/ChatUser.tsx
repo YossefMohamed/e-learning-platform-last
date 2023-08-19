@@ -66,8 +66,8 @@ const ChatUser: React.FC<{
           className="text-xl font-semibold text-slate-600 m-0 p-0 flex items-center gap-3"
         >
           {name}
-          {latestMessage.readBy.length &&
-            latestMessage.readBy.includes(`${user._id}`) && (
+          {latestMessage.readBy.length && user._id &&
+            !latestMessage.readBy.includes(user._id) && (
               <span className="w-2 h-2 bg-danger rounded-full"></span>
             )}
         </p>

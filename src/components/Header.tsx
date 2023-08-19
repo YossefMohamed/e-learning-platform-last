@@ -131,8 +131,8 @@ export const Header = () => {
                     };
                   }) => {
                     return (
-                      !chat.latestMessage?.readBy.length &&
-                      chat.latestMessage?.readBy.includes(`${user._id}`)
+                      !chat.latestMessage?.readBy.length && user._id &&
+                      !chat.latestMessage?.readBy.includes(user._id)
                     );
                   }
                 ).includes(true) && (
