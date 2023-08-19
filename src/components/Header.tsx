@@ -119,7 +119,7 @@ export const Header = () => {
 
         <div className={textColor + "hidden md:flex"}>
           <Link href="/">Home</Link>
-          <Link href="/years">Years</Link>
+          <Link href="/years">Courses</Link>
           {isAuthenticated && (
             <Link href="/messages" className="flex">
               Messages
@@ -135,8 +135,7 @@ export const Header = () => {
                       chat.latestMessage?.readBy.includes(`${user._id}`)
                     );
                   }
-                )
-                .includes(true) && (
+                ).includes(true) && (
                 <div className="w-2 h-2 rounded-full bg-red-500"></div>
               )}
             </Link>

@@ -1,11 +1,9 @@
-import { CourseCard } from "@/components/CourseCard";
-import Link from "next/link";
 import React from "react";
 import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import Spinner from "@/components/Spinner";
-import Image from "next/image";
 import { constants } from "@/infrastructure/constants";
+import CourseCard from "@/components/CourseCard";
 
 function IndexYear() {
   const yearsResponse = useQuery(
