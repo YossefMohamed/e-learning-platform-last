@@ -53,6 +53,8 @@ const CoursesPage = () => {
   };
 
   const coursesResponse = useQuery("coursesDashboard", async () => {
+        const token: string = localStorage.getItem("token") || "";
+
     const res = await request({
       url: `/api/courses/`,
       method: "get",
