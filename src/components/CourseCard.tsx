@@ -35,7 +35,7 @@ export const CourseCard = ({
   }, []);
 
   return (
-     <div className="flex flex-col md:w-[33%] my-4 cursor-pointer max-h-[500px] p-4 shadow-xl hover:shadow-2xl border-2">
+     <div className="flex flex-col md:w-[31%] my-4 cursor-pointer max-h-[500px] p-4 shadow-xl hover:shadow-2xl border-2">
       <div className="flex max-h-[60%] flex-1 relative min-h-[250px]">
         {!loading &&imageExists && (
           <Image src={imagePath} alt="image course" fill className="h-full w-full" />
