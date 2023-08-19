@@ -22,7 +22,7 @@ const ChatContent: React.FC<{
   };
   onBack: () => void;
 }> = ({ loading, chatData, onBack, select }) => {
-  const socket = useState(useSocket());
+  const [socket] = React.useState<any>(useSocket());
   const bottomEl = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     bottomEl?.current?.scroll({
