@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "./Spinner";
-import useSocket from "@/custom-hooks/useSocket";
 import { addUser, logout, stopLoading } from "@/redux/slices/userSlices";
 import { AppDispatch } from "@/redux/store";
 import { useAuth } from "@/custom-hooks/useAuth";
@@ -15,10 +14,8 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { data, isError, mutate: checkAuth } = useAuth();
-  const socket = useSocket();
 
   const [loading, setLoading] = useState(true);
- const [isDone , setIsDone]=useState(false)
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -51,13 +48,7 @@ const Auth: React.FC<AuthProps> = ({ children }) => {
       setLoading(false);
       dispatch(stopLoading());
     }
-    if (data && localStorage.getItem("token") && !isDone) {
-      socket.emit("login", data._id);
-         setIsDone(true);
-    }
-  }, [data, dispatch, socket]);
-
-
+  }, [data, dispatch]);
 
   return loading ? <Spinner /> : <>{children}</>;
 };

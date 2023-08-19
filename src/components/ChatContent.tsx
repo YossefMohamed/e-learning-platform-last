@@ -22,7 +22,7 @@ const ChatContent: React.FC<{
   };
   onBack: () => void;
 }> = ({ loading, chatData, onBack, select }) => {
-  const socket = useSocket();
+  const socket = useState(useSocket());
   const bottomEl = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     bottomEl?.current?.scroll({
@@ -101,7 +101,7 @@ const ChatContent: React.FC<{
     setMessage("");
   };
 
-  socket.on("new message", (newMessage) => {
+  socket.on("new message", (newMessage: any) => {
     console.log(newMessage);
     if (chatData._id === newMessage.chat._id)
       setMessages((prev: any) => [...prev, newMessage]);
@@ -132,6 +132,11 @@ const ChatContent: React.FC<{
   React.useEffect(() => {
     messages && scrollToBottom();
   }, [messages]);
+
+  React.useEffect(() => {
+    socket.emit("setup", user._id);
+    socket.emit("login", user._id);
+  }, []);
 
   return (
     <div className="flex-1  h-full flex flex-col">

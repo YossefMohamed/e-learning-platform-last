@@ -9,7 +9,6 @@ import Auth from "@/components/Auth";
 import { Rootstate, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import React from "react";
-import { io } from "socket.io-client";
 
 const queryClient = new QueryClient({
   defaultOptions: {
