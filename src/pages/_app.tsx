@@ -10,7 +10,6 @@ import { Rootstate, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import React from "react";
 import { io } from "socket.io-client";
-import useSocket from "@/custom-hooks/useSocket";
 
 const queryClient = new QueryClient({
   defaultOptions: {
