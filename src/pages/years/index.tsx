@@ -56,7 +56,7 @@ function IndexYear() {
       </section>
 
       <section className="px-[5%] my-10">
-        <div className="sec-title w-fit">Choose Your Year</div>
+        <div className="sec-title w-fit">Choose Your Course</div>
 
         <div className="md:flex  flex-wrap gap-8 w-full ">
           {yearsResponse.isLoading ? (
