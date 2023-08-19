@@ -3,7 +3,7 @@ import request from "@/endpoints/request";
 import { useQuery } from "react-query";
 import Spinner from "@/components/Spinner";
 import { constants } from "@/infrastructure/constants";
-import CourseCard from "@/components/CourseCard";
+import {CourseCard} from "@/components/CourseCard";
 
 function IndexYear() {
   const yearsResponse = useQuery(
