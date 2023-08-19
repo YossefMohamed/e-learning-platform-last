@@ -8,19 +8,7 @@ import { constants } from "@/infrastructure/constants";
 import {CourseCard} from "@/components/CourseCard";
 
 export default function Home() {
-  const coursesResponse = useQuery("years", async () => {
-    const res = await request({
-      url: `/api/courses/`,
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }).then((res) => {
-      return res.data;
-    });
 
-    return res;
-  });
 
   return (
     <>
@@ -176,32 +164,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="text-center flex justify-center flex-col items-center px-[5%] my-10">
-        <div className="sec-title">Choose your year</div>
-
-        <div className="md:flex  flex-wrap gap-8 w-full ">
-          {coursesResponse.isLoading ? (
-            <Spinner />
-          ) : (
-            coursesResponse.isSuccess &&
-            coursesResponse.data?.map(
-              (course: { name: string; id: string }) => {
-                return (
-                  <CourseCard
-                    name={course.name}
-                    link={"/years/" + course.id}
-                    img="/course-bg2.jpg"
-                    key={course.id}
-                  />
-                );
-              }
-            )
-          )}
-          {coursesResponse.isSuccess && !coursesResponse.data?.length && (
-            <div className="alert w-full">No Years available</div>
-          )}
-        </div>
-      </section>
+   
     </>
   );
 }
