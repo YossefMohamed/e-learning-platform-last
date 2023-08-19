@@ -47,12 +47,12 @@ export const Header = () => {
   useEffect(() => {
     changeBackground();
     window.addEventListener("scroll", changeBackground);
-  });
+  },[]);
 
   useEffect(() => {
     setMobile(false);
     localStorage.getItem("token") && chatsResponse.refetch();
-  }, [router, chatsResponse]);
+  }, [router,]);
 
   let classStyle = !navbar
     ? "nav-container  bg-light  z-[99] py-5 shadow items-center  px-10 relative"
